@@ -47,7 +47,7 @@ spec:
               key: NEXT_PUBLIC_SUPABASE_ANON_KEY
         - name: NODE_ENV
           value: "production"
-        - name: PROD_URL
+        - name: NEXT_PUBLIC_PROD_URL
           value: "https://cscloud7-103.lnu.se"
         ports:
           - containerPort: 3000

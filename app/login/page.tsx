@@ -10,7 +10,7 @@ export default function Login({
   searchParams: { message: string }
 }) {
 
-  const url = process.env.PROD_URL || 'http://localhost:3000'
+  const url = process.env.NEXT_PUBLIC_PROD_URL || 'http://localhost:3000'
 
   const signIn = async () => {
     'use server'
