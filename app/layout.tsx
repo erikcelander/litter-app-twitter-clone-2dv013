@@ -10,7 +10,7 @@ import { Nav } from '@/components/Nav'
 const prod_URL = process.env.PROD_URL || ''
 
 export const metadata = {
-  metadataBase: new URL(prod_URL),
+ // metadataBase: new URL(prod_URL),
   title: 'Litter',
   description: 'Your purr-fect source of daily, pawsome mews',
 }
