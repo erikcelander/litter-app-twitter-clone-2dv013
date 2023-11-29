@@ -14,6 +14,9 @@ export default function Login({
       ? `${process.env.PROD_URL}`
       : 'http://localhost:3000'
 
+
+  console.log(process.env.NODE_ENV)    
+  console.log(url)   
   const signIn = async () => {
     'use server'
 
@@ -23,7 +26,7 @@ export default function Login({
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'gitlab',
       options: {
-        redirectTo: `${url}/auth/callback`,
+        redirectTo: `${process.env.PROD_URL}/auth/callback`,
       },
     })
 

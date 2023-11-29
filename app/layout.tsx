@@ -4,7 +4,7 @@ import { Nav } from '@/components/Nav'
 
 const defaultUrl =
   process.env.NODE_ENV === 'production'
-    ? `https://${process.env.PROD_URL}`
+    ? `${process.env.PROD_URL}`
     : 'http://localhost:3000'
 
 export const metadata = {
