@@ -28,9 +28,10 @@ export async function GET(request: Request) {
     )
 
     const { error } = await supabase.auth.exchangeCodeForSession(code)
+    console.log(error)
 
     if (!error) {
-      return NextResponse.redirect(`https://cscloud7-103.lnu.se`)
+      return NextResponse.redirect(`${origin}`)
     }
   }
 
