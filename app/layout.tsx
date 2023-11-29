@@ -7,10 +7,10 @@ import { Nav } from '@/components/Nav'
 //     ? `${process.env.PROD_URL}`
 //     : 'http://localhost:3000'
 
-const prod_URL = process.env.PROD_URL || ''
+const url = process.env.PROD_URL || 'http://localhost:3000'
 
 export const metadata = {
- // metadataBase: new URL(prod_URL),
+  metadataBase: new URL(url),
   title: 'Litter',
   description: 'Your purr-fect source of daily, pawsome mews',
 }

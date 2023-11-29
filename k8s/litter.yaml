@@ -48,7 +48,7 @@ spec:
         - name: NODE_ENV
           value: "production"
         - name: PROD_URL
-          value: "https://194.47.177.103"
+          value: "https://cscloud7-103.lnu.se"
         ports:
           - containerPort: 3000
             name: litter-http
