@@ -31,12 +31,13 @@ export async function GET(request: Request) {
     const { error } = response
     console.log('response', response)
     console.log('error', error)
+    console.log('origin', origin)
 
     if (!error) {
-      return NextResponse.redirect(`${origin}`)
+      return NextResponse.redirect(`https://cscloud7-103.lnu.se`)
     }
   }
 
   // return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/auth/auth-code-error`)
+  return NextResponse.redirect(`https://cscloud7-103.lnu.se/auth/auth-code-error`)
 }
