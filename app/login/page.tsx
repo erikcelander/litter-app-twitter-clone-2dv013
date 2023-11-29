@@ -10,8 +10,7 @@ export default function Login({
   searchParams: { message: string }
 }) {
 
-  // const url = process.env.NEXT_PUBLIC_PROD_URL || 'http://localhost:3000'
-  const url = process.env.NEXT_PUBLIC_PROD_URL || 'https://cscloud7-103.lnu.se'
+  const url = 'https://cscloud7-103.lnu.se'
   const signIn = async () => {
     'use server'
 
