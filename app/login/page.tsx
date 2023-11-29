@@ -11,7 +11,7 @@ export default function Login({
 }) {
   const url =
     process.env.NODE_ENV === 'production'
-      ? `https://${process.env.PROD_URL}`
+      ? `${process.env.PROD_URL}`
       : 'http://localhost:3000'
 
   const signIn = async () => {

@@ -45,6 +45,8 @@ spec:
             secretKeyRef:
               name: supabase-anon-key
               key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        - name: NODE_ENV
+          value: "production"
         - name: PROD_URL
           value: "https://194.47.177.103"
         ports:
