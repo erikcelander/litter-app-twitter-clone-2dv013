@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: litter
-        image: [your-image-path]  # Update this with your project's image path
+        image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application/litter-application:latest
         env:
         - name: PORT
           value: "3000"
