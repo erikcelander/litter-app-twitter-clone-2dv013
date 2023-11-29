@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service.name: litter
+  name: litter
+spec:
+  ports:
+    - name: "litter-port"
+      port: 8888
+      targetPort: litter-http
+  selector:
+    deployment.name: litter
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: litter
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment.name: litter
+  template:
+    metadata:
+      labels:
+        deployment.name: litter
+    spec:
+      containers:
+      - name: litter
+        image: [your-image-path]  # Update this with your project's image path
+        env:
+        - name: PORT
+          value: "3000"
+        ports:
+          - containerPort: 3000
+            name: litter-http
+      imagePullSecrets:
+      - name: regcred
