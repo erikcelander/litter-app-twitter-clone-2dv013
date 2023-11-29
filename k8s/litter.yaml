@@ -46,7 +46,10 @@ spec:
               name: supabase-anon-key
               key: NEXT_PUBLIC_SUPABASE_ANON_KEY
         - name: NEXT_PUBLIC_LITTER_URL
-          value: "https://cscloud7-103.lnu.se"
+          valueFrom:
+            secretKeyRef:
+              name: litter-url
+              key: NEXT_PUBLIC_LITTER_URL
         ports:
           - containerPort: 3000
             name: litter-http

@@ -3,9 +3,8 @@ import { NextResponse } from 'next/server'
 import { type CookieOptions, createServerClient } from '@supabase/ssr'
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
+  const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/'
 
   if (code) {
     const cookieStore = cookies()
@@ -29,15 +28,13 @@ export async function GET(request: Request) {
 
     const response = await supabase.auth.exchangeCodeForSession(code)
     const { error } = response
-    console.log('response', response)
-    console.log('error', error)
-    console.log('origin', origin)
+
 
     if (!error) {
-      return NextResponse.redirect(`https://cscloud7-103.lnu.se`)
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}`)
     }
   }
 
   // return the user to an error page with instructions
-  return NextResponse.redirect(`https://cscloud7-103.lnu.se/auth/auth-code-error`)
+  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/auth/auth-code-error`)
 }
