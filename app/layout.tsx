@@ -2,10 +2,10 @@ import { GeistSans } from 'geist/font/sans'
 import './globals.css'
 import { Nav } from '@/components/Nav'
 
-const url = 'https://cscloud7-103.lnu.se'
+// const url = 'https://cscloud7-103.lnu.se'
 
 export const metadata = {
-  metadataBase: new URL(url),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_LITTER_URL || ''),
   title: 'Litter',
   description: 'Your purr-fect source of daily, pawsome mews',
 }

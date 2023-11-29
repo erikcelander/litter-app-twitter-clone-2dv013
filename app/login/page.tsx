@@ -10,7 +10,6 @@ export default function Login({
   searchParams: { message: string }
 }) {
 
-  const url = 'https://cscloud7-103.lnu.se'
   const signIn = async () => {
     'use server'
 
@@ -20,7 +19,7 @@ export default function Login({
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'gitlab',
       options: {
-        redirectTo: `${url}/auth/callback`,
+        redirectTo: `${process.env.NEXT_PUBLIC_LITTER_URL}/auth/callback`,
       },
     })
 
