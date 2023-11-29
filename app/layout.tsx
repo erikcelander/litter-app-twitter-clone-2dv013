@@ -2,7 +2,7 @@ import { GeistSans } from 'geist/font/sans'
 import './globals.css'
 import { Nav } from '@/components/Nav'
 
-const url = process.env.NEXT_PUBLIC_PROD_URL || 'http://localhost:3000'
+const url = 'https://cscloud7-103.lnu.se'
 
 export const metadata = {
   metadataBase: new URL(url),
