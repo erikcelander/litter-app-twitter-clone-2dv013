@@ -11,14 +11,14 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) {
-    redirect('/login')
-  }
+  // if (!user) {
+  //   redirect('/login')
+  // }
   
 
   return (
     <div className=''>
-     {user.email}
+     {user ? user.email : "no user"}
     </div>
   )
 }
