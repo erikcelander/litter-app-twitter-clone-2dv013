@@ -4,9 +4,9 @@ metadata:
   name: k8s-web-application
 build:
   artifacts:
-    - image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application/litter-application:staging-${PROJECT_VERSION}
+    - image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application/litter-application
       docker:
-        dockerfile: Dockerfile.productio
+        dockerfile: Dockerfile.production
 manifests:
   rawYaml:
     - k8s/ingress.yaml
