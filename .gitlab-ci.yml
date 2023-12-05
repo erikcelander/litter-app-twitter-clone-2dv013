@@ -1,7 +1,7 @@
 stages:
   - build
-  - deploy_to_staging
-  - deploy_to_production
+  - staging
+  - deploy
 
 build:
   stage: build
@@ -18,10 +18,9 @@ build:
     # Build and push the staging image with project version as the tag
     - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}/litter-application:staging-${PROJECT_VERSION}"
 
-deploy_to_staging:
-  stage: deploy_to_staging
+staging:
+  stage: staging
   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
-  when: manual
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
@@ -31,8 +30,8 @@ deploy_to_staging:
     - kubectl get pods -n staging
     - kubectl get services -n staging
 
-deploy_to_production:
-  stage: deploy_to_production
+deploy:
+  stage: deploy
   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
   when: manual
   script:
