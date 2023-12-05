@@ -1,3 +1,7 @@
+before_script:
+  - apt-get update -qy
+  - apt-get install -y jq
+
 stages:
   - build
   - deploy_to_staging
@@ -9,8 +13,7 @@ build:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
   script:
-    # Extract project version from package.json
-    - PROJECT_VERSION=$(cat package.json | grep '"version":' | sed 's/[^0-9.]//g')
+    - PROJECT_VERSION=$(jq -r '.version' package.json)
 
     # Build and push the production image with project version as the tag
     - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}/litter-application:production-${PROJECT_VERSION}"
