@@ -25,6 +25,7 @@ deploy_to_staging:
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
+    - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
     - skaffold deploy --profile staging --images ${CI_REGISTRY_IMAGE}/litter-application:staging-${PROJECT_VERSION}
     - kubectl get deployments -n staging
     - kubectl get pods -n staging
@@ -37,6 +38,7 @@ deploy_to_production:
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
+    - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
     - skaffold deploy --profile production --images ${CI_REGISTRY_IMAGE}/litter-application:production-${PROJECT_VERSION}
     - kubectl get deployments
     - kubectl get pods
