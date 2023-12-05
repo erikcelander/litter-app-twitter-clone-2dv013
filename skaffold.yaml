@@ -14,11 +14,22 @@ manifests:
 deploy:
   kubectl: {}
 
-# Production profile
-# A slightly modyfied ingress configuration needed in production.
 profiles:
+# Staging profile
+- name: staging
+  patches:
+    - op: replace 
+      path: /manifests/rawYaml/0  # JSON Pointer to ingress.yaml
+      value: k8s/ingress.staging.yaml  # Pointing to a staging-specific ingress.yaml
+    - op: replace
+      path: /manifests/rawYaml/1  # JSON Pointer to litter.yaml
+      value: k8s/litter.staging.yaml  # Pointing to a staging-specific litter.yaml
+
+# Production profile
 - name: production
   patches:
-  - op: replace 
-    path: /manifests/rawYaml/0  # JSON Pointer to ingress.yaml
-    value: k8s/ingress.production.yaml  # The value for the ingressClassName field is added in this one
+    - op: replace 
+      path: /manifests/rawYaml/0  # JSON Pointer to ingress.yaml
+      value: k8s/ingress.production.yaml  # The value for the ingressClassName field is added in this one
+
+
