@@ -4,9 +4,9 @@ metadata:
   name: k8s-web-application
 build:
   artifacts:
-    - image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application/litter-application
+    - image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application/litter-application:staging-${PROJECT_VERSION}
       docker:
-        dockerfile: Dockerfile.production
+        dockerfile: Dockerfile.productio
 manifests:
   rawYaml:
     - k8s/ingress.yaml
@@ -31,5 +31,3 @@ profiles:
     - op: replace 
       path: /manifests/rawYaml/0  # JSON Pointer to ingress.yaml
       value: k8s/ingress.production.yaml  # The value for the ingressClassName field is added in this one
-
-

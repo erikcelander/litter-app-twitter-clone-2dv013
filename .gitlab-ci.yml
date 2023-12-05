@@ -9,10 +9,14 @@ build:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
   script:
-    # Build and push the production image
-    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}/litter-application:production-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
-    # Build and push the staging image
-    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}/litter-application:staging-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
+    # Extract project version from package.json
+    - PROJECT_VERSION=$(jq -r '.version' package.json)
+
+    # Build and push the production image with project version as the tag
+    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}/litter-application:production-${PROJECT_VERSION}"
+
+    # Build and push the staging image with project version as the tag
+    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}/litter-application:staging-${PROJECT_VERSION}"
 
 deploy_to_staging:
   stage: deploy_to_staging
@@ -21,7 +25,7 @@ deploy_to_staging:
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
-    - skaffold deploy --profile staging --images ${CI_REGISTRY_IMAGE}/litter-application:staging-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}
+    - skaffold deploy --profile staging --images ${CI_REGISTRY_IMAGE}/litter-application:staging-${PROJECT_VERSION}
     - kubectl get deployments -n staging
     - kubectl get pods -n staging
     - kubectl get services -n staging
@@ -33,7 +37,7 @@ deploy_to_production:
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
-    - skaffold deploy --profile production --images ${CI_REGISTRY_IMAGE}/litter-application:production-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}
+    - skaffold deploy --profile production --images ${CI_REGISTRY_IMAGE}/litter-application:production-${PROJECT_VERSION}
     - kubectl get deployments
     - kubectl get pods
     - kubectl get services
