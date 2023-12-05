@@ -1,17 +1,19 @@
 stages:
   - build
-  # - test
   - deploy_to_staging
   - deploy_to_production
 
 build:
   stage: build
   image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    name: node:latest
     entrypoint: [""]
   script:
+    - npm install
+    - npm run build
     - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}/litter-application:${CI_COMMIT_TAG:-latest}"
 
+# The test stage is commented out, but you can include it if you have tests to run
 # test:
 #   stage: test
 #   image: <your-test-image>
@@ -23,6 +25,8 @@ deploy_to_staging:
   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
   when: manual
   script:
+    - export BASE_PATH=/staging
+    - npm run build
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
     - skaffold deploy --profile staging --images ${CI_REGISTRY_IMAGE}/litter-application:${CI_COMMIT_TAG:-latest}
@@ -35,35 +39,11 @@ deploy_to_production:
   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
   when: manual
   script:
+    - export BASE_PATH=/
+    - npm run build
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
     - skaffold deploy --profile production --images ${CI_REGISTRY_IMAGE}/litter-application:${CI_COMMIT_TAG:-latest}
     - kubectl get deployments
     - kubectl get pods
     - kubectl get services
-
-
-
-# stages:
-#   - build
-#   - deploy
-
-# build:
-#   stage: build
-#   image:
-#     name: gcr.io/kaniko-project/executor:v1.9.0-debug
-#     entrypoint: [""]
-#   script:
-#   - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}/litter-application:${CI_COMMIT_TAG:-latest}"
-
-# deploy:
-#   stage: deploy
-#   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
-#   when: manual
-#   script:
-#     - kubectl config use-context $K8S_CONTEXT
-#     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
-#     - skaffold deploy --profile production --images ${CI_REGISTRY_IMAGE}/litter-application:${CI_COMMIT_TAG:-latest}
-#     - kubectl get deployments
-#     - kubectl get pods
-#     - kubectl get services
