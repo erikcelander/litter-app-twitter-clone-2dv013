@@ -2,6 +2,7 @@ stages:
   - build
   - build_staging
   - staging
+  - e2e_test
   - deploy
 
 build:
@@ -39,6 +40,15 @@ staging:
     - kubectl get services -n staging
   only:
     - staging # This job will only run on the staging branch
+
+e2e_test:
+  stage: e2e_test
+  image: cypress/browsers:latest
+  script:
+    - npm install
+    - npm run cypress:run
+  only:
+    - staging
 
 deploy:
   stage: deploy
