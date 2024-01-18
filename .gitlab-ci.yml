@@ -24,11 +24,12 @@ staging:
     - kubectl get deployments -n staging
     - kubectl get pods -n staging
     - kubectl get services -n staging
+  only:
+    - staging # This job will only run on the staging branch
 
 deploy:
   stage: deploy
   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
-  when: manual
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
@@ -37,3 +38,5 @@ deploy:
     - kubectl get deployments
     - kubectl get pods
     - kubectl get services
+  only:
+    - main # This job will only run on the main branch
