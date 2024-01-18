@@ -4,8 +4,8 @@ import { redirect } from 'next/navigation'
 
 
 export default async function Index() {
-  // const cookieStore = cookies()
-  // const supabase = createClient(cookieStore)
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
 
   // const {
   //   data: { user },
