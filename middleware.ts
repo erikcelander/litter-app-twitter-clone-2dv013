@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/_next/")) {
-    return true;
+    return NextResponse.next()
 }
 
   let response = NextResponse.next({
