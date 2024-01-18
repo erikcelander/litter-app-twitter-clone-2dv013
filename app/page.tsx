@@ -16,7 +16,7 @@ export default async function Index() {
 
   return (
     <div className=''>
-      {process.env.NEXT_PUBLIC_LITTER_URL}
+      MAIN BRANCH
     </div>
   )
 }
