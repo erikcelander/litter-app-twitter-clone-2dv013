@@ -7,7 +7,8 @@ metadata:
 spec:
   ingressClassName: nginx  # Assuming you're using NGINX Ingress in production
   rules:
-    - http:
+    - host: cscloud7-103.lnu.se
+      http:
         paths:
           - path: /
             pathType: Prefix
