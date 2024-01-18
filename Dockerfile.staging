@@ -16,6 +16,8 @@ COPY . .
 # Set environment variable for the build
 ENV BUILD_ENV staging
 
+ENV NEXT_PUBLIC_LITTER_URL https://qa-cscloud7-103.lnu.se
+
 # Build the Next.js application with staging configuration
 RUN npm run build
 
