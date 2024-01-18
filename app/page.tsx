@@ -16,7 +16,7 @@ export default async function Index() {
 
   return (
     <div className=''>
-      MAIN BRANCH
+      STAGING BRANCH
     </div>
   )
 }
