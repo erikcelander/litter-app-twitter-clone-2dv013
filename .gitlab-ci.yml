@@ -12,6 +12,8 @@ build:
   script:
     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
     - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}/litter-application:production-${PROJECT_VERSION}"
+  only:
+    - main
 
 build_staging:
   stage: build_staging    
@@ -21,6 +23,8 @@ build_staging:
   script:
     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
     - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}/litter-application:staging-${PROJECT_VERSION}"
+  only:
+    - staging
 
 staging:
   stage: staging
