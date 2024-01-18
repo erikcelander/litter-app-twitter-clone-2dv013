@@ -2,7 +2,8 @@ import { GeistSans } from 'geist/font/sans'
 import './globals.css'
 import { Nav } from '@/components/Nav'
 
-const url = 'https://cscloud7-103.lnu.se'
+// Use environment variable for the URL
+const url = process.env.NEXT_PUBLIC_LITTER_URL || 'somethingwentwrong';
 
 export const metadata = {
   metadataBase: new URL(url),

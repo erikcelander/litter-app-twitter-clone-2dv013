@@ -3,8 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "cross-env NODE_ENV=production next build",
+    "build:staging": "cross-env NODE_ENV=staging next build",
+    "start": "cross-env NODE_ENV=production next start",
+    "start:staging": "cross-env NODE_ENV=staging next start"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
@@ -29,6 +31,7 @@
     "@types/node": "20.3.1",
     "@types/react": "18.2.8",
     "@types/react-dom": "18.2.5",
+    "cross-env": "^7.0.3",
     "encoding": "^0.1.13"
   }
 }
