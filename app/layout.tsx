@@ -1,6 +1,6 @@
 import { GeistSans } from 'geist/font/sans'
 import './globals.css'
-import { Nav } from '@/components/Nav'
+import { Nav } from '@/components/nav'
 
 // Use environment variable for the URL
 const url = process.env.NEXT_PUBLIC_LITTER_URL || 'somethingwentwrong';
