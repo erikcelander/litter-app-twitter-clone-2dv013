@@ -16,7 +16,6 @@
 # production
 /build
 
-cypress.env.json
 
 # misc
 .DS_Store
