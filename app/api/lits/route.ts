@@ -1,7 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { createClient } from '@/lib/supabase/server'
+
+
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const slug = searchParams.get('lit')
+
+  if (!slug) {
+    return new Response('Not Found', { status: 404 })
+  }
+
+  try {
+    const cookieStore = cookies()
+    const supabase = createClient(cookieStore)
+
+    const { data: lit, error } = await supabase.from('lits').select('*').eq('id', slug).single()
+
+    if (error) throw error
+
+   
+    return NextResponse.json(lit)
+  } catch (error: any) {
+    console.error(error)
+    return new Response(error.message, { status: 500 })
+  }
+}
 
 interface LitData {
   content: string

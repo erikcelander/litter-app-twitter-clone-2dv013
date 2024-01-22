@@ -1,20 +1,19 @@
 import { Lit } from '@/components/lit'
-import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
+
+type LitProps = {
+  id: string
+  user_id: string
+  username: string
+  full_name: string
+  avatar_url: string
+  content: string
+  created_at: string
+}
 
 async function getLit(slug: string) {
-  try {
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
-    const { data: lit, error } = await supabase.from('lits').select('*').eq('id', slug).single()
-
-    if (error) throw error
-
-    return lit
-  } catch (error: any) {
-    console.error(error)
-    return <div>error displaying lit</div>
-  }
+  const response = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits?lit=${slug}`)
+  const data = await response.json()
+  return data as LitProps
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -22,8 +21,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div>
-      <div>My Lit: {params.slug}</div>
-      
+      <Lit username={lit.username} name={lit.full_name} avatarUrl={lit.avatar_url} content={lit.content} />
     </div>
   )
 }
