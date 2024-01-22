@@ -11,7 +11,7 @@ type LitProps = {
 }
 
 async function getLit(slug: string) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits?lit=${slug}`)
+  const response = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits?lit=${slug}`, {cache: 'no-store'})
   const data = await response.json()
   return data as LitProps
 }
