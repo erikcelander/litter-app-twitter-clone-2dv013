@@ -1,7 +1,7 @@
 //import { ModeToggle } from './mode-toggle'
 import Image from 'next/image'
 import litter from '@/public/litter.svg'
-import AuthButton from './AuthButton'
+import AuthButton from './auth-button'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
