@@ -12,7 +12,7 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (user) console.log(user)
+  if (user) {console.log(user)}  else console.log('no user')
 
   return (
     <div className=''>
