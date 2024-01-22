@@ -50,6 +50,16 @@ spec:
             secretKeyRef:
               name: litter-url
               key: NEXT_PUBLIC_LITTER_URL
+        - name: NEXT_PUBLIC_TEST_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: test-email
+              key: NEXT_PUBLIC_TEST_EMAIL
+        - name: NEXT_PUBLIC_TEST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: test-password
+              key: NEXT_PUBLIC_TEST_PASSWORD
         ports:
           - containerPort: 3000
             name: litter-http
