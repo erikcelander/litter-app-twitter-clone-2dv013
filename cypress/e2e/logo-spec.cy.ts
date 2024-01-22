@@ -1,6 +1,6 @@
 describe('litter logo text test', () => {
   it('passes', () => {
-    cy.visit('https://qa-cscloud7-103.lnu.se')
+    cy.visit(Cypress.env('dev_url'))
     
     cy.get('.flex > .text-center').contains('litter')
   })
