@@ -1,10 +1,6 @@
 describe('litter auth test', () => {
     it('passes', () => {
-      cy.visit(Cypress.env('staging_url') + Cypress.env('login_path'))
-      
-      cy.get('.animate-in > .inline-flex').click()
-
-      cy.wait(3000)
+      cy.login()
 
       cy.get('form > .inline-flex').contains("Logout")
 

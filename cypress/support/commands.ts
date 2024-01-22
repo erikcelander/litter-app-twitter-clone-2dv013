@@ -35,3 +35,24 @@
 //     }
 //   }
 // }
+
+declare namespace Cypress {
+  interface Chainable<Subject> {
+    login(): Chainable<Subject>
+  }
+  interface Chainable<Subject> {
+    loginStaging(): Chainable<Subject>
+  }
+}
+
+Cypress.Commands.add('loginStaging', () => {
+  cy.visit(Cypress.env('staging_url') + Cypress.env('login_path'))
+  cy.get('.animate-in > .inline-flex').click()
+  cy.wait(3000)
+})
+
+Cypress.Commands.add('login', () => {
+  cy.visit(Cypress.env('dev_url') + Cypress.env('login_path'))
+  cy.get('.animate-in > .inline-flex').click()
+  cy.wait(3000)
+})
