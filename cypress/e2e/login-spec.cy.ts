@@ -1,6 +1,6 @@
 describe('litter auth test', () => {
     it('passes', () => {
-      cy.visit(Cypress.env('dev_url') + Cypress.env('login_path'))
+      cy.visit(Cypress.env('staging_url') + Cypress.env('login_path'))
       
       cy.get('.animate-in > .inline-flex').click()
 
