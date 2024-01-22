@@ -10,5 +10,6 @@ describe('litter auth test', () => {
 
       cy.get('.space-y-2 > .font-medium').contains("What's happening?")
       cy.get('.justify-end > .inline-flex').contains('Post')
+      
     })
   })
