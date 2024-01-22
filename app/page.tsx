@@ -12,8 +12,7 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser()
 
-
-  console.log(process.env.NEXT_PUBLIC_LITTER_URL)
+  if (user) console.log(user)
 
   return (
     <div className=''>
