@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div>
-      {user && <Profile userProfile={user} />}
+      {user && <Profile user={user} />}
     </div>
   );
 };

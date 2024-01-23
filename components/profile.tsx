@@ -1,23 +1,10 @@
-// components/Profile.tsx
+import { UserProfile, ProfileHeader } from '@/components/profile-header';
 
-export interface UserProfile {
-  id: string;
-  avatar_url: string | null;
-  first_name: string | null;
-  last_name: string | null;
-  email: string | null;
-  username: string | null;
-  created_at: Date | null;
-}
-
-const Profile = ({ userProfile }: { userProfile: UserProfile }) => {
-  if (!userProfile) {
-    return <div>User not found</div>;
-  }
-
+const Profile = ({ user }: { user: UserProfile }) => {
   return (
     <div>
-      <h1>Profile: {userProfile.username}</h1>
+      <ProfileHeader user={user} />
+      {/* TODO: dynamically map over a users lits after fetching all */}
     </div>
   );
 };
