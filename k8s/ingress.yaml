@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: ingress
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod" 
 spec:
   ingressClassName: nginx
   rules:
@@ -16,7 +15,3 @@ spec:
                 name: litter
                 port:
                   number: 8888
-  tls:  # TLS config
-    - hosts:
-        - "cscloud7-103.lnu.se"
-      secretName: prod-tls-secret

@@ -10,7 +10,7 @@ spec:
   tls:
   - hosts:
     - qa-cscloud7-103.lnu.se
-    secretName: staging-tls-secret2
+    secretName: staging-tls-secret
   rules:
   - host: qa-cscloud7-103.lnu.se
     http:
