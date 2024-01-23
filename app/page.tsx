@@ -12,8 +12,6 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser()
 
- // if (user) console.log(user)
-
   return (
     <div className=''>
       {user && <SubmitLit />}
