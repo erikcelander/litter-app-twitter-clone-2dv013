@@ -11,9 +11,14 @@ type LitProps = {
 }
 
 async function getLit(slug: string) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits?lit=${slug}`, {cache: 'no-store'})
-  const data = await response.json()
-  return data as LitProps
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits?lit=${slug}`)
+    const data = await response.json()
+    return data as LitProps
+  } catch (error: any) {
+    console.error(error)
+  }
+ 
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -21,7 +26,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div>
-      <Lit username={lit.username} name={lit.full_name} avatarUrl={lit.avatar_url} content={lit.content} />
+     {lit && <Lit username={lit.username} name={lit.full_name} avatarUrl={lit.avatar_url} content={lit.content} />} 
     </div>
   )
 }
