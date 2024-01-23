@@ -20,7 +20,10 @@ export async function GET(request: NextRequest) {
 
     if (error) throw error
 
-   
+   if (!lit) {
+      return new Response('Not Found', { status: 404 })
+    }
+    
     return NextResponse.json(lit)
   } catch (error: any) {
     console.error(error)
