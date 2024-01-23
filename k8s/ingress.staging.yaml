@@ -4,11 +4,15 @@ metadata:
   name: ingress-staging
   namespace: staging
   annotations:
-  #  cert-manager.io/cluster-issuer: "letsencrypt-prod" 
+    cert-manager.io/issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - qa-cscloud7-103.lnu.se
+    secretName: staging-tls-secret2
   rules:
-  - host: "qa-cscloud7-103.lnu.se"
+  - host: qa-cscloud7-103.lnu.se
     http:
       paths:
       - path: /
@@ -18,7 +22,3 @@ spec:
             name: litter-staging
             port:
               number: 8888
-  # tls:  # TLS config
-  #   - hosts:
-  #       - "qa-cscloud7-103.lnu.se"
-  #     secretName: staging-tls-secret
