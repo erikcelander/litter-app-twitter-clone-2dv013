@@ -1,6 +1,6 @@
 describe('litter auth test', () => {
     it('passes', () => {
-      cy.login()
+      cy.loginStaging()
 
       cy.get('form > .inline-flex').contains("Logout")
 
