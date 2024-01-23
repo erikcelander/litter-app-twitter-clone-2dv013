@@ -19,4 +19,4 @@ spec:
   tls:  # TLS config
     - hosts:
         - "cscloud7-103.lnu.se"
-      secretName: staging-tls-secret
+      secretName: prod-tls-secret
