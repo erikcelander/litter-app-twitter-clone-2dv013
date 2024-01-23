@@ -13,7 +13,7 @@ export default async function Index() {
   } = await supabase.auth.getUser()
 
 
-  console.log(user)
+  if (user) console.log(user)
   return (
     <div className=''>
       {user && <SubmitLit />}
