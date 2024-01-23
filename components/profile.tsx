@@ -1,10 +1,11 @@
 import { UserProfile, ProfileHeader } from '@/components/profile-header';
+import Feed from '@/components/feed'
 
-const Profile = ({ user }: { user: UserProfile }) => {
+const Profile = ({ user, lits }: { user: UserProfile, lits: any[] }) => {
   return (
     <div>
       <ProfileHeader user={user} />
-      {/* TODO: dynamically map over a users lits after fetching all */}
+      <Feed lits={lits}/>
     </div>
   );
 };

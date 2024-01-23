@@ -1,4 +1,6 @@
 import Profile from '@/components/profile';
+import { cookies } from 'next/headers'
+import { createClient } from '@/lib/supabase/server'
 
 async function fetchUserProfile(slug: string) {
   try {
@@ -11,13 +13,28 @@ async function fetchUserProfile(slug: string) {
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
 
-  console.log("Received slug:", params.slug);
   const user = await fetchUserProfile(params.slug);
+
+  let lits = []
+  try {
+    const { data, error } = await supabase
+      .from('lits')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+
+    if (error) throw error
+    lits = data
+  } catch (error) {
+    console.error('Error fetching lits:', error)
+  }
 
   return (
     <div>
-      {user && <Profile user={user} />}
+      {user && <Profile user={user} lits={lits} />}
     </div>
   );
 };

@@ -1,22 +1,32 @@
+import Feed from '@/components/feed'
 import { SubmitLit } from '@/components/submit-lit'
-import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-
+import { createClient } from '@/lib/supabase/server'
 
 export default async function Index() {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    data: { session },
+  } = await supabase.auth.getSession()
 
+  let lits
+  try {
+    const { data, error } = await supabase
+      .from('lits')
+      .select('*')
+      .order('created_at', { ascending: false })
 
-  if (user) console.log(user)
+    if (error) throw error
+    lits = data
+  } catch (error) {
+    console.error('Error fetching lits:', error)
+  }
+
   return (
     <div className=''>
-      {user && <SubmitLit />}
+      {session && <SubmitLit />}
+      {lits && <Feed lits={lits} />}
     </div>
   )
 }
