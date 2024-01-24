@@ -9,13 +9,13 @@ import { createBrowserClient } from '@supabase/ssr'
 
 
 export default function Feed({ lits, userId }: { lits: any[], userId?: string }) {
-  // const supabase = createClient();
+  const supabase = createClient();
   const router = useRouter();
 
-  const supabase =  createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  // const supabase =  createBrowserClient(
+  //   process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  //   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  // )
 
   useEffect(() => {
     const channel = supabase
@@ -27,7 +27,7 @@ export default function Feed({ lits, userId }: { lits: any[], userId?: string })
             event: "*",
             schema: "public",
             table: "lits", 
-          //  filter: `user_id.eq.${userId}`
+            filter: `user_id.eq.${userId}`
           }
         : {
             event: "*",
@@ -35,7 +35,8 @@ export default function Feed({ lits, userId }: { lits: any[], userId?: string })
             table: "lits", 
           },
       () => {
-        router.refresh();
+        console.log("Change received!")
+        //router.refresh();
       }
     )
     .subscribe();
@@ -52,7 +53,7 @@ export default function Feed({ lits, userId }: { lits: any[], userId?: string })
           key={lit.id}
           username={lit.username}
           name={lit.full_name}
-          avatarUrl={lit.avatarUrl}
+          avatarUrl={lit.avatar_url}
           content={lit.content}
         />
       ))}
