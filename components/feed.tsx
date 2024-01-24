@@ -5,17 +5,11 @@ import { Lit } from '@/components/lit';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
-import { createBrowserClient } from '@supabase/ssr'
 
 
 export default function Feed({ lits, userId }: { lits: any[], userId?: string }) {
   const supabase = createClient();
   const router = useRouter();
-
-  // const supabase =  createBrowserClient(
-  //   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  //   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  // )
 
   useEffect(() => {
     const channel = supabase
@@ -35,8 +29,7 @@ export default function Feed({ lits, userId }: { lits: any[], userId?: string })
             table: "lits", 
           },
       () => {
-        console.log("Change received!")
-        //router.refresh();
+        router.refresh();
       }
     )
     .subscribe();
