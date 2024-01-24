@@ -1,12 +1,11 @@
-import { createClient } from '@/lib/supabase/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Button } from './ui/button'
 
 export default async function AuthButton() {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const supabase = createSupabaseServer()
 
   const {
     data: { user },
@@ -15,17 +14,14 @@ export default async function AuthButton() {
   const signOut = async () => {
     'use server'
 
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+    const supabase = createSupabaseServer()
     await supabase.auth.signOut()
     return redirect('/login')
   }
 
   return user ? (
     <form action={signOut}>
-      <Button className='text-foreground hover:bg-primary/70'>
-        Logout
-      </Button>
+      <Button className='text-foreground hover:bg-primary/70'>Logout</Button>
     </form>
   ) : (
     <Button asChild className='text-foreground hover:bg-primary/70'>

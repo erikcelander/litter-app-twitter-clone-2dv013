@@ -1,22 +1,22 @@
-import Profile from '@/components/profile';
+import Profile from '@/components/profile'
 import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
 
 async function fetchUserProfile(slug: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/profile?user=${slug}`);
-    const profileData = await response.json();
-    return profileData;
+    const response = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/profile?user=${slug}`)
+    const profileData = await response.json()
+    return profileData
   } catch (error) {
-    console.error('Error fetching profile:', error);
+    console.error('Error fetching profile:', error)
   }
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const supabase = createSupabaseServer()
 
-  const user = await fetchUserProfile(params.slug);
+
+  const user = await fetchUserProfile(params.slug)
 
   let lits = []
   try {
@@ -32,11 +32,5 @@ export default async function Page({ params }: { params: { slug: string } }) {
     console.error('Error fetching lits:', error)
   }
 
-  return (
-    <div>
-      {user && <Profile user={user} lits={lits} />}
-    </div>
-  );
-};
-
-
+  return <div>{user && <Profile user={user} lits={lits} />}</div>
+}

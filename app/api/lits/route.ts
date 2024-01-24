@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
-
-
+import { createSupabaseServer } from '@/lib/supabase/server'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -13,17 +11,17 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+    const supabase = createSupabaseServer()
+
 
     const { data: lit, error } = await supabase.from('lits').select('*').eq('id', slug).single()
 
     if (error) throw error
 
-   if (!lit) {
+    if (!lit) {
       return new Response('Not Found', { status: 404 })
     }
-    
+
     return NextResponse.json(lit)
   } catch (error: any) {
     console.error(error)
@@ -36,8 +34,8 @@ interface LitData {
 }
 
 export async function POST(request: NextRequest) {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const supabase = createSupabaseServer()
+
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -66,7 +64,7 @@ export async function POST(request: NextRequest) {
         content: litData.content,
       },
     ])
-    
+
     if (error) throw error
 
     return NextResponse.json(data)

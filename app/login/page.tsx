@@ -1,20 +1,15 @@
 import Link from 'next/link'
 import { headers, cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string }
-}) {
-
+export default function Login({ searchParams }: { searchParams: { message: string } }) {
   const signIn = async () => {
     'use server'
 
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+    const supabase = createSupabaseServer()
+
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'gitlab',
@@ -22,7 +17,6 @@ export default function Login({
         redirectTo: `${process.env.NEXT_PUBLIC_LITTER_URL}/auth/callback`,
       },
     })
-
 
     if (error) {
       return redirect('/login?message=Could not authenticate user')
