@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { Lit } from '@/components/lit';
 import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from '@/database.types';
 import { createClient } from '@/lib/supabase/client';
 
 export default function Feed({ lits, userId }: { lits: any[], userId?: string }) {
   const [updatedLits, setLits] = useState<any[]>(lits);
-  const supabase = createClient();
+  const supabase = createClientComponentClient<Database>();
   const router = useRouter();
 
   useEffect(() => {
