@@ -11,27 +11,27 @@ export default function Feed({ lits, userId }: { lits: any[]; userId?: string })
   const supabase = createSupabaseBrowser()
   const router = useRouter()
 
-  useEffect(() => {
-    const channel = supabase
-      .channel('realtime feed prod')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'lits',
-        },
-        (payload) => {
-          console.log('New payload:', payload) // Debugging line
-          setLits((current) => [payload.new, ...current])
-        }
-      )
-      .subscribe()
+  // useEffect(() => {
+  //   const channel = supabase
+  //     .channel('realtime feed prod')
+  //     .on(
+  //       'postgres_changes',
+  //       {
+  //         event: '*',
+  //         schema: 'public',
+  //         table: 'lits',
+  //       },
+  //       (payload) => {
+  //         console.log('New payload:', payload) // Debugging line
+  //         setLits((current) => [payload.new, ...current])
+  //       }
+  //     )
+  //     .subscribe()
 
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [supabase, router])
+  //   return () => {
+  //     supabase.removeChannel(channel)
+  //   }
+  // }, [supabase, router])
 
   return (
     <div>
