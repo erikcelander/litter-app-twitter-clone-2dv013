@@ -26,7 +26,7 @@ export default async function Index() {
   return (
     <div className=''>
       {session && <SubmitLit />}
-      {lits && <Feed lits={lits} />}
+      {/*lits && <Feed lits={lits} />*/}
     </div>
   )
 }

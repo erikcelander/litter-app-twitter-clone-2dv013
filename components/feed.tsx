@@ -7,9 +7,9 @@ import { Database } from '@/lib/types/supabase'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 
 export default function Feed({ lits, userId }: { lits: any[]; userId?: string }) {
-  const [updatedLits, setLits] = useState<any[]>(lits)
-  const supabase = createSupabaseBrowser()
-  const router = useRouter()
+  // const [updatedLits, setLits] = useState<any[]>(lits)
+  // const supabase = createSupabaseBrowser()
+  // const router = useRouter()
 
   // useEffect(() => {
   //   const channel = supabase
@@ -35,7 +35,7 @@ export default function Feed({ lits, userId }: { lits: any[]; userId?: string })
 
   return (
     <div>
-      {updatedLits.map((lit: any) => (
+      {lits.map((lit: any) => (
         <Lit
           key={lit.id}
           username={lit.username}

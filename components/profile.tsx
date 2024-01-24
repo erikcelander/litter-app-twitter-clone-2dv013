@@ -5,7 +5,7 @@ const Profile = ({ user, lits }: { user: UserProfile, lits: any[] }) => {
   return (
     <div>
       <ProfileHeader user={user} />
-      <Feed lits={lits}/>
+     {/*} <Feed lits={lits}/> {*/}
     </div>
   );
 };
