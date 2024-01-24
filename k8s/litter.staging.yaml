@@ -20,7 +20,7 @@ metadata:
   name: litter-staging
   namespace: staging
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       deployment.name: litter-staging
@@ -38,12 +38,12 @@ spec:
         - name: NEXT_PUBLIC_SUPABASE_URL
           valueFrom:
             secretKeyRef:
-              name: supabase-url-dev
+              name: supabase-url
               key: NEXT_PUBLIC_SUPABASE_URL
         - name: NEXT_PUBLIC_SUPABASE_ANON_KEY
           valueFrom:
             secretKeyRef:
-              name: supabase-anon-key-dev
+              name: supabase-anon-key
               key: NEXT_PUBLIC_SUPABASE_ANON_KEY
         - name: NEXT_PUBLIC_LITTER_URL
           valueFrom:
