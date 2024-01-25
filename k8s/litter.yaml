@@ -53,12 +53,12 @@ spec:
         - name: NEXT_PUBLIC_TEST_EMAIL
           valueFrom:
             secretKeyRef:
-              name: test-credentials
+              name: test-email
               key: NEXT_PUBLIC_TEST_EMAIL
         - name: NEXT_PUBLIC_TEST_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: test-credentials
+              name: test-password
               key: NEXT_PUBLIC_TEST_PASSWORD
         ports:
           - containerPort: 3000
