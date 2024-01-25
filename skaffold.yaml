@@ -6,7 +6,7 @@ build:
   artifacts:
     - image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application
       docker:
-        dockerfile: Dockerfile.staging
+        dockerfile: Dockerfile.production
 manifests:
   rawYaml:
     - k8s/ingress.yaml
