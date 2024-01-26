@@ -13,7 +13,7 @@ export default function Login() {
     await supabase.auth.signInWithOAuth({
       provider: 'gitlab',
       options: {
-        redirectTo: `${location.origin}/auth/callback?next=${location.pathname}`,
+        redirectTo: `${location.origin}/auth/callback`,
       },
     })
   }

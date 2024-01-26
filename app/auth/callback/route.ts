@@ -26,16 +26,16 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 export async function GET(request: Request) {
-	const requestUrl = new URL(request.url);
-	const isAuth = cookies().get("supabase-auth-token");
+	// const requestUrl = new URL(request.url);
+	// const isAuth = cookies().get("supabase-auth-token");
 
-	if (isAuth) {
-		return NextResponse.redirect(requestUrl.origin);
-	}
+	// if (isAuth) {
+	// 	return NextResponse.redirect(requestUrl.origin);
+	// }
 
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get("code");
-	const next = searchParams.get("next") ?? "/";
+	// const next = searchParams.get("next") ?? "/";
 
 	if (code) {
 		const cookieStore = cookies();
@@ -60,16 +60,16 @@ export async function GET(request: Request) {
 		const { error } = await supabase.auth.exchangeCodeForSession(code);
 
 		if (!error) {
-    // return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}`)
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}`)
 
-			return NextResponse.redirect(requestUrl.origin + next);
+			// return NextResponse.redirect(requestUrl.origin + next);
 		}
 	} else {
 		console.log("no code?");
 	}
 
 	// return the user to an error page with instructions
-	return NextResponse.redirect(requestUrl.origin + "/auth/error");
-//  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/auth/auth-code-error`)
+	// return NextResponse.redirect(requestUrl.origin + "/auth/error");
+ return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/auth/auth-code-error`)
 
 }
