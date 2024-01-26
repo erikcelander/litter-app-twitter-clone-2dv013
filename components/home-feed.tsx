@@ -15,7 +15,7 @@ export default function HomeFeed({}) {
   const { data: lits } = useQuery(getAllLits(supabase))
   
 
-
+  console.log(lits)
   return (
     <div>
       {lits &&  <Feed lits={lits}/>}
