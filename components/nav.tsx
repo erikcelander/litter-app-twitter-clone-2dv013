@@ -3,13 +3,15 @@ import Image from 'next/image'
 import litter from '@/public/litter.svg'
 import Link from 'next/link'
 import Login from '@/components/login'
-// import Logout from '@/components/logout'
+import Logout from '@/components/logout'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import  createSupabaseBrowser  from '@/lib/supabase/client'
+import {createSupabaseServer} from '@/lib/supabase/server'
 
-export function Nav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
-  // const supabase = createSupabaseBrowser()
-  //  const { data: session, isLoading, isError } = useQuery(getSession(supabase))
+export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
+  const supabase = createSupabaseServer()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
   return (
     <div
@@ -24,8 +26,7 @@ export function Nav({ className, ...props }: React.HTMLAttributes<HTMLElement>) 
       </div>
 
       <div className='flex-initial pl-40'>
-        <Login />
-        {/* <RenderAuth /> */}
+        {session ? <Logout/> : <Login />}
       </div>
     </div>
   )
