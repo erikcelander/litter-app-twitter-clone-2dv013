@@ -1,6 +1,6 @@
 'use server'
-import { Button } from '@/components/ui/button';
-import { signIn } from '@/app/actions/sign-in';
+import { Button } from '@/components/ui/button'
+import { signInForTest } from '@/app/actions/sign-in'
 import { redirect } from 'next/navigation'
 
 export default async function Login() {
@@ -9,7 +9,7 @@ export default async function Login() {
   return (
     <div className='flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2'>
       <form
-        action={signIn}
+        action={signInForTest}
         className='animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground'
       >
         <Button type='submit' className='text-foreground hover:bg-primary/70'>
@@ -17,5 +17,5 @@ export default async function Login() {
         </Button>
       </form>
     </div>
-  );
+  )
 }

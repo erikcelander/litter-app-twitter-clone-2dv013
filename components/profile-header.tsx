@@ -11,8 +11,8 @@ export interface UserProfile {
   created_at: Date | null;
 }
 
-export function ProfileHeader({ user }: { user: UserProfile }) {
-  const fullName = `${user.first_name} ${user.last_name}`;
+export function ProfileHeader({  profile }: { profile: UserProfile }) {
+  const fullName = `${profile.first_name} ${profile.last_name}`;
   const initials = fullName.split(' ').map(name => name[0]).join('');
 
   return (
@@ -22,13 +22,13 @@ export function ProfileHeader({ user }: { user: UserProfile }) {
       <div className="flex flex-col flex-grow items-center justify-center w-full" style={{ height: '200px' }}>
         <div className="pb-5">
           <Avatar className="w-23 h-23">
-            {user.avatar_url ? <AvatarImage alt={fullName} src={user.avatar_url} /> : <AvatarFallback>{initials}</AvatarFallback>}
+            {profile.avatar_url ? <AvatarImage alt={fullName} src={profile.avatar_url} /> : <AvatarFallback>{initials}</AvatarFallback>}
           </Avatar>
         </div>
 
         <div className="flex flex-col justify-center ml-4">
           <span className="text-white  text-lg">{fullName}</span>
-          <span className="text-gray-400">@{user.username}</span>
+          <span className="text-gray-400">@{profile.username}</span>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ export function ProfileHeader({ user }: { user: UserProfile }) {
         <div className="text-center flex flex-col justify-between  p-6 pt-0" >
 
           <div className="">
-            <span className="text-gray-500  text-sm ">Joined {user.created_at ? new Date(user.created_at).toLocaleDateString() : ''}</span>
+            <span className="text-gray-500  text-sm ">  Joined {profile.created_at ? new Date(profile.created_at).toLocaleDateString('en-GB') : ''}</span>
             <div className="flex space-x-4">
 
               <span>3 following</span>

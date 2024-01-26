@@ -3,9 +3,8 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { createSupabaseServer } from '@/lib/supabase/server'
 
-export const signIn = async () => {
+export const signInForTest = async () => {
   const supabase = createSupabaseServer()
-
 
   const email = process.env.NEXT_PUBLIC_TEST_EMAIL as string
   const password = process.env.NEXT_PUBLIC_TEST_PASSWORD as string
@@ -21,3 +20,6 @@ export const signIn = async () => {
     redirect('/')
   }
 }
+
+
+

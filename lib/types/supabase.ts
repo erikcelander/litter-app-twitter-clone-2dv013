@@ -1,3 +1,8 @@
+import { SupabaseClient } from '@supabase/supabase-js'
+
+export type TypedSupabaseClient = SupabaseClient<Database>
+
+
 export type Json =
   | string
   | number
@@ -5,6 +10,8 @@ export type Json =
   | null
   | { [key: string]: Json | undefined }
   | Json[]
+
+  
 
 export interface Database {
   public: {
