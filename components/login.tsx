@@ -1,10 +1,11 @@
-"use client"
+// "use client"
 import { Button } from './ui/button'
-import { createSupabaseBrowser } from '@/lib/supabase/client'
+// import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { createSupabaseServer } from '@/lib/supabase/server'
 import { GitlabIcon } from 'lucide-react'
 
 export default async function Login() {
-  const supabase = createSupabaseBrowser()
+  const supabase = createSupabaseServer()
 
   const signIn = async () => {
     await supabase.auth.signInWithOAuth({
