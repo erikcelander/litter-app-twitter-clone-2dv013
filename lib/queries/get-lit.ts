@@ -1,6 +1,6 @@
-// import { TypedSupabaseClient } from '@/lib/types/supabase'
+import { TypedSupabaseClient } from '@/lib/types/supabase'
 
-// export function getLitById(client: TypedSupabaseClient, id: string) {
-//   return client
-//   .from('lits').select('*').eq('id', id).throwOnError().single()
-// }
+export function getLitById(client: TypedSupabaseClient, id: string) {
+  return client
+  .from('lits').select('*').eq('id', id).throwOnError().single()
+}
