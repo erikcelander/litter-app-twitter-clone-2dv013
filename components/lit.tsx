@@ -1,5 +1,6 @@
 // 'use client'
-// import { createSupabaseBrowser } from '@/lib/supabase/client'
+// import createSupabaseBrowser from '@/lib/supabase/client'
+
 // import { getLitById } from '@/lib/queries/get-lit'
 // import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 // import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar'

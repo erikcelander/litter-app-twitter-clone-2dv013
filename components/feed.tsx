@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/lib/types/supabase'
-import { createSupabaseBrowser } from '@/lib/supabase/client'
+import createSupabaseBrowser from '@/lib/supabase/client'
 
 export default function Feed({ lits, userId }: { lits: any[]; userId?: string }) {
   // const [updatedLits, setLits] = useState<any[]>(lits)
