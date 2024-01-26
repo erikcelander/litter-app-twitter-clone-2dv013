@@ -18,10 +18,8 @@ export default async function Login() {
   }
 
   return (
-    <form action={signIn}>
-      <Button className='text-foreground hover:bg-primary/70'>
+      <Button onClick={signIn}  className='text-foreground hover:bg-primary/70'>
         Login &nbsp; <GitlabIcon />
       </Button>
-    </form>
   )
 }
