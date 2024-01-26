@@ -59,7 +59,7 @@ export async function GET(request: Request) {
 
     if (!error) {
       console.log(process.env.NEXT_PUBLIC_LITTER_URL)
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}`)
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/`)
 
       // return NextResponse.redirect(requestUrl.origin + next);
     } else {
