@@ -9,7 +9,7 @@ export const createSupabaseServer = () => {
 
   console.log("supabase key env: " + key)
   console.log("supabase url env: " + url)
-  return createServerClient(url, key, {
+  return createServerClient<Database>(url, key, {
     cookies: {
       get(name: string) {
         return cookieStore.get(name)?.value

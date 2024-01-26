@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import LitComponent from '@/components/lit-component'
+// import LitComponent from '@/components/lit-component'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/lib/types/supabase'
@@ -35,12 +35,13 @@ export default function Feed({ lits, userId }: { lits: any[]; userId?: string })
 
   return (
     <div>
-      {lits.map((lit: any) => (
+      feed
+      {/* {lits.map((lit: any) => (
         <LitComponent
           key={lit.id}
           lit={lit}
         />
-      ))}
+      ))} */}
     </div>
   )
 }
