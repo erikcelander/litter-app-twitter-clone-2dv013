@@ -58,10 +58,10 @@ export function SubmitLit() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full space-y-6'>
         <div className='flex space-x-3'>
-          <Avatar>
+          {/* <Avatar>
             <AvatarImage alt='User avatar' src='/placeholder.svg?height=40&width=40' />
             <AvatarFallback>U</AvatarFallback>
-          </Avatar>
+          </Avatar> */}
           <div className='flex-1'>
             <FormItem>
               <FormLabel>What's happening?</FormLabel>
