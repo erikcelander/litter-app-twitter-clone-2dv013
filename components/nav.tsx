@@ -1,4 +1,3 @@
-// 'use client'
 //import { ModeToggle } from './mode-toggle'
 import Image from 'next/image'
 import litter from '@/public/litter.svg'
@@ -9,7 +8,7 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import  createSupabaseBrowser  from '@/lib/supabase/client'
 
 export function Nav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
-  const supabase = createSupabaseBrowser()
+  // const supabase = createSupabaseBrowser()
   //  const { data: session, isLoading, isError } = useQuery(getSession(supabase))
 
   return (
@@ -25,7 +24,6 @@ export function Nav({ className, ...props }: React.HTMLAttributes<HTMLElement>) 
       </div>
 
       <div className='flex-initial pl-40'>
-        test
         <Login />
         {/* <RenderAuth /> */}
       </div>

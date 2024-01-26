@@ -1,11 +1,12 @@
-"use client"
+'use client'
 import { Button } from './ui/button'
 import createSupabaseBrowser from '@/lib/supabase/client'
+import { sign } from 'crypto'
 
-// import { createSupabaseServer } from '@/lib/supabase/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
 import { GitlabIcon } from 'lucide-react'
 
-export default async function Login() {
+export default function Login() {
   const supabase = createSupabaseBrowser()
 
   const signIn = async () => {
@@ -18,8 +19,8 @@ export default async function Login() {
   }
 
   return (
-      <Button onClick={signIn}  className='text-foreground hover:bg-primary/70'>
-        Login &nbsp; <GitlabIcon />
-      </Button>
+    <Button onClick={signIn} className='text-foreground hover:bg-primary/70'>
+      Login &nbsp; <GitlabIcon />
+    </Button>
   )
 }
