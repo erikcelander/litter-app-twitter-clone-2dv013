@@ -13,6 +13,9 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
     data: { session },
   } = await supabase.auth.getSession()
 
+  if (session )console.log(session) 
+  if (!session) console.log('no session')
+
   return (
     <div
       className={` flex justify-between items-center h-16 px-4 border-b border-b-background/10`}
@@ -32,16 +35,3 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
   )
 }
 
-// const RenderAuth = () => {
-// 	const { data, isFetching } = useUser();
-
-// 	if (isFetching) {
-// 		return <></>;
-// 	}
-
-// 	if (data?.user?.id) {
-// 		return <Logout />;
-// 	} else {
-// 		return <Login />;
-// 	}
-// }
