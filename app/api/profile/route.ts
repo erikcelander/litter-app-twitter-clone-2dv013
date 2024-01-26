@@ -1,32 +1,34 @@
-// // api/profile/[slug].ts
-// import { NextRequest, NextResponse } from 'next/server'
-// import { createSupabaseServer } from '@/lib/supabase/server'
-// import { cookies } from 'next/headers'
+// api/profile/[slug].ts
+import { NextRequest, NextResponse } from 'next/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 
-// export async function GET(request: NextRequest) {
-//   const { searchParams } = new URL(request.url)
+export async function GET(request: NextRequest) {
+  console.log(request.url)
 
-//   const slug = searchParams.get('user')
-//   console.log('api:' + slug)
+  // const { searchParams } = new URL(request.url)
 
-//   if (!slug) {
-//     return new Response('Not found', { status: 404 })
-//   }
+  // const slug = searchParams.get('user')
+  // console.log('api:' + slug)
 
-//   try {
-//     const supabase = createSupabaseServer()
+  // if (!slug) {
+  //   return new Response('Not found', { status: 404 })
+  // }
 
-//     const { data: profile, error } = await supabase
-//       .from('profiles')
-//       .select('*')
-//       .eq('username', slug)
-//       .single()
+  // try {
+  //   const supabase = createSupabaseServer()
 
-//     if (error) throw error
+  //   const { data: profile, error } = await supabase
+  //     .from('profiles')
+  //     .select('*')
+  //     .eq('username', slug)
+  //     .single()
 
-//     return NextResponse.json(profile)
-//   } catch (error: any) {
-//     console.error(error)
-//     return new Response(error.message, { status: 500 })
-//   }
-// }
+  //   if (error) throw error
+
+  //   return NextResponse.json(profile)
+  // } catch (error: any) {
+  //   console.error(error)
+  //   return new Response(error.message, { status: 500 })
+  // }
+}
