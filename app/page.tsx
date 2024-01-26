@@ -1,16 +1,16 @@
 // import Feed from '@/components/feed'
-// import { SubmitLit } from '@/components/submit-lit'
+import { SubmitLit } from '@/components/submit-lit'
 
 import { createSupabaseServer } from '@/lib/supabase/server'
 
 
 export default async function Index() {
-//   const supabase = createSupabaseServer()
-//   const {
-//     data: { session },
-//   } = await supabase.auth.getSession()
+  const supabase = createSupabaseServer()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-//  if (session) console.log(session)
+ if (session) console.log(session)
 
   // let lits
   // try {
@@ -27,8 +27,7 @@ export default async function Index() {
 
   return (
     <div className=''>
-      front page
-      {/* {session && <SubmitLit />} */}
+      {session && <SubmitLit />}
       {/*lits && <Feed lits={lits} />*/}
     </div>
   )
