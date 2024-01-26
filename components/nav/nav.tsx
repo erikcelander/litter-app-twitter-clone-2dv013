@@ -2,10 +2,10 @@
 import Image from 'next/image'
 import litter from '@/public/litter.svg'
 import Link from 'next/link'
-import Login from '@/components/login'
-import Logout from '@/components/logout'
+import Login from '@/components/nav/login'
+import Logout from '@/components/nav/logout'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import {createSupabaseServer} from '@/lib/supabase/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
 
 export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const supabase = createSupabaseServer()
@@ -13,7 +13,7 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
     data: { session },
   } = await supabase.auth.getSession()
 
-  if (session )console.log(session) 
+  if (session) console.log(session)
   if (!session) console.log('no session')
 
   return (
@@ -28,10 +28,7 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
         </Link>
       </div>
 
-      <div className='flex-initial pl-40'>
-        {session ? <Logout/> : <Login />}
-      </div>
+      <div className='flex-initial pl-40'>{session ? <Logout /> : <Login />}</div>
     </div>
   )
 }
-

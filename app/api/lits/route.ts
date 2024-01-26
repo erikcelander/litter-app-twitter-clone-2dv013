@@ -1,34 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 import { createSupabaseServer } from '@/lib/supabase/server'
-
-export async function GET(request: NextRequest) {
-  console.log(request.url)
-  // const { searchParams } = new URL(request.url)
-  // const slug = searchParams.get('lit')
-
-  // if (!slug) {
-  //   return new Response('Not Found', { status: 404 })
-  // }
-
-  // try {
-  //   const supabase = createSupabaseServer()
-
-
-  //   const { data: lit, error } = await supabase.from('lits').select('*').eq('id', slug).single()
-
-  //   if (error) throw error
-
-  //   if (!lit) {
-  //     return new Response('Not Found', { status: 404 })
-  //   }
-
-  //   return NextResponse.json(lit)
-  // } catch (error: any) {
-  //   console.error(error)
-  //   return new Response(error.message, { status: 500 })
-  // }
-}
 
 interface LitData {
   content: string

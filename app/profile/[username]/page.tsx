@@ -1,4 +1,4 @@
-import Profile from '@/components/profile'
+import Profile from '@/components/profile/profile'
 import { cookies } from 'next/headers'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'

@@ -1,6 +1,6 @@
 import { GeistSans } from 'geist/font/sans'
 import './globals.css'
-import { Nav } from '@/components/nav'
+import { Nav } from '@/components/nav/nav'
 import { ReactQueryClientProvider } from '@/components/query-provider'
 
 // Use environment variable for the URL

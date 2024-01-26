@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import LitComponent from '@/components/lit-component'
+import LitComponent from '@/components/feed/lit-component'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/lib/types/supabase'
@@ -13,12 +13,7 @@ export default function HomeFeed({}) {
   const supabase = createSupabaseBrowser()
 
   const { data: lits } = useQuery(getAllLits(supabase))
-  
 
   console.log(lits)
-  return (
-    <div>
-      {lits &&  <Feed lits={lits}/>}
-    </div>
-  )
+  return <div>{lits && <Feed lits={lits} />}</div>
 }

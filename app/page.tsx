@@ -1,10 +1,10 @@
 // import Feed from '@/components/feed'
-import { SubmitLit } from '@/components/submit-lit'
+import { SubmitLit } from '@/components/feed/submit-lit'
 import { getAllLits } from '@/lib/queries/get-all-lits'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import HomeFeed from '@/components/home-feed'
+import HomeFeed from '@/components/feed/home-feed'
 
 export default async function Index() {
   const supabase = createSupabaseServer()

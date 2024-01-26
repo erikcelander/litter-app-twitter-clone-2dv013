@@ -6,7 +6,7 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
-import LitComponent from '@/components/lit-component'
+import LitComponent from '@/components/feed/lit-component'
 
 export default function Lit({ id }: { id: string }) {
   const supabase = createSupabaseBrowser()
