@@ -15,6 +15,10 @@ COPY . .
 
 ENV NEXT_PUBLIC_LITTER_URL https://qa-cscloud7-103.lnu.se
 
+ARG NEXT_PUBLIC_SUPABASE_URL
+
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+
 # Build the Next.js application with staging configuration
 RUN npm run build
 
