@@ -38,8 +38,7 @@ staging:
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl config get-contexts
-    - kubectl delete secret regcred || true
-    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
+
     - kubectl delete secret regcred -n staging || true
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --namespace=staging --dry-run=client -o yaml | kubectl apply -f -
     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
