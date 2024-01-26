@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 //import { ModeToggle } from './mode-toggle'
 import Image from 'next/image'
 import litter from '@/public/litter.svg'
