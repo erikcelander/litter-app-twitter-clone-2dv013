@@ -1,8 +1,10 @@
 // import Feed from '@/components/feed'
 import { SubmitLit } from '@/components/submit-lit'
-
+import { getAllLits } from '@/lib/queries/get-all-lits'
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
+import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createSupabaseServer } from '@/lib/supabase/server'
-
+import HomeFeed from '@/components/home-feed'
 
 export default async function Index() {
   const supabase = createSupabaseServer()
@@ -10,25 +12,16 @@ export default async function Index() {
     data: { session },
   } = await supabase.auth.getSession()
 
-//  if (session) console.log(session)
+  const queryClient = new QueryClient()
 
-  // let lits
-  // try {
-  //   const { data, error } = await supabase
-  //     .from('lits')
-  //     .select('*')
-  //     .order('created_at', { ascending: false })
-
-  //   if (error) throw error
-  //   lits = data
-  // } catch (error) {
-  //   console.error('Error fetching lits:', error)
-  // }
+  await prefetchQuery(queryClient, getAllLits(supabase))
 
   return (
-    <div className=''>
+    <div>
       {session && <SubmitLit />}
-      {/*lits && <Feed lits={lits} />*/}
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <HomeFeed />
+      </HydrationBoundary>
     </div>
   )
 }

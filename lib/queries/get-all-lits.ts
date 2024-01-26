@@ -1,9 +1,8 @@
 import { TypedSupabaseClient } from '@/lib/types/supabase'
 
-export function getLitsByUsername(client: TypedSupabaseClient, username: string) {
+export function getAllLits(client: TypedSupabaseClient) {
   return client
   .from('lits')
   .select('*')
-  .eq('username', username)
   .throwOnError()
 }
