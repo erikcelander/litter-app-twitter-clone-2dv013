@@ -5,24 +5,23 @@ import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createSupabaseServer } from '@/lib/supabase/server'
 // import { getLitById } from '@/lib/queries/get-lit'
 // import Lit from '@/components/lit'
-// import { getProfileByUsername } from '@/lib/queries/get-profile'
+import { getProfileByUsername } from '@/lib/queries/get-profile'
 // import { getLitsByUsername } from '@/lib/queries/get-lits-by-user'
 
 export default async function Page({ params }: { params: { username: string } }) {
 
-//  const queryClient = new QueryClient()
-//  const supabase = createSupabaseServer()
+ const queryClient = new QueryClient()
+ const supabase = createSupabaseServer()
 
-//  await prefetchQuery(queryClient, getProfileByUsername(supabase, params.username))
+ await prefetchQuery(queryClient, getProfileByUsername(supabase, params.username))
 // // await prefetchQuery(queryClient, getLitsByUsername(supabase, params.username))
 
 
   return (
     <div>
-      profile: {params.username}
-    {/* <HydrationBoundary state={dehydrate(queryClient)}>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <Profile username={params.username} />
-    </HydrationBoundary> */}
+    </HydrationBoundary>
   </div>
   )
 
