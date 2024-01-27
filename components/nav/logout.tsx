@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '../ui/button'
-import createSupabaseBrowser from '@/lib/supabase/client'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { GitlabIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 

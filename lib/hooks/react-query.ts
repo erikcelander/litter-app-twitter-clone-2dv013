@@ -1,5 +1,5 @@
-// import { useQuery } from '@tanstack/react-query'
-// import { createSupabaseBrowser } from '../supabase/client'
+import { useQuery } from '@tanstack/react-query'
+import { createSupabaseBrowser } from '../supabase/client'
 
 // export function useUserProfile(userId: string) {
 //   const supabase = createSupabaseBrowser()
@@ -18,22 +18,16 @@
 //   })
 // }
 
-// export function useLits(limit = 10) {
-//   const supabase = createSupabaseBrowser()
+export function useLits() {
+  const supabase = createSupabaseBrowser()
 
-//   return useQuery({
-//     queryKey: ['lits', limit],
-//     queryFn: async () => {
-//       const { data, error } = await supabase.from('lits').select('*').limit(limit)
-
-//       if (error) {
-//         throw new Error(error.message)
-//       }
-
-//       return data
-//     },
-//   })
-// }
+  return useQuery({
+    queryKey: ['lits'],
+    queryFn: async () => {
+        return [] as any[]
+    },
+  })
+}
 
 // export function useUser() {
 //   const supabase = createSupabaseBrowser();

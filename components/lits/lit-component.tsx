@@ -1,9 +1,10 @@
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator"
 import Link from 'next/link';
+import { Lit } from "../home/submit-lit";
 
 
-export default function LitComponent({ lit }: { lit: any }) {
+export default function LitComponent({ lit }: { lit: Lit }) {
   return (
     <div className="flex gap-4 p-4  text-white rounded-lg max-w-md mx-auto">
     <Link className='hover:cursor-pointer' href={`/profile/${lit?.username}`}>

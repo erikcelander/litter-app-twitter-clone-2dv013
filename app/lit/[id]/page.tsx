@@ -2,7 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { getLitById } from '@/lib/queries/get-lit'
-import Lit from '@/components/feed/lit'
+import Lit from '@/components/lits/lit'
 
 export default async function Page({ params }: { params: { id: string } }) {
 

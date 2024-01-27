@@ -5,35 +5,35 @@ import { useMemo } from 'react'
 
 let client: TypedSupabaseClient | undefined
 
-function getSupabaseBrowserClient() {
-  if (client) {
-    return client
-  }
+// function getSupabaseBrowserClient() {
+//   if (client) {
+//     return client
+//   }
 
-	const url = process.env.NEXT_PUBLIC_SUPABASE_URL! as string
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! as string
-
-  client = createBrowserClient<Database>(
-    url,
-    key
-  )
-
-  return client
-}
-
-function createSupabaseBrowser() {
-  return useMemo(getSupabaseBrowserClient, [])
-}
-
-export default createSupabaseBrowser
-
-
-// export const createSupabaseBrowser = () => {
 // 	const url = process.env.NEXT_PUBLIC_SUPABASE_URL! as string
 //   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! as string
 
-//   return createBrowserClient<Database>(
-// 		url,
-// 		key,
-// 	);
+//   client = createBrowserClient<Database>(
+//     url,
+//     key
+//   )
+
+//   return client
 // }
+
+// function createSupabaseBrowser() {
+//   return useMemo(getSupabaseBrowserClient, [])
+// }
+
+// export default createSupabaseBrowser
+
+
+export const createSupabaseBrowser = () => {
+	const url = process.env.NEXT_PUBLIC_SUPABASE_URL! as string
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! as string
+
+  return createBrowserClient<Database>(
+		url,
+		key,
+	);
+}

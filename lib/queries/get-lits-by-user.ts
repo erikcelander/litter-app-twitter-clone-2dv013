@@ -5,5 +5,6 @@ export function getLitsByUsername(client: TypedSupabaseClient, username: string)
   .from('lits')
   .select('*')
   .eq('username', username)
+  .order('created_at', { ascending: false })
   .throwOnError()
 }

@@ -13,7 +13,7 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
     data: { session },
   } = await supabase.auth.getSession()
 
-  if (session) console.log(session)
+  if (session) console.log(session.user.email + ' is authenticated')
   if (!session) console.log('no session')
 
   return (

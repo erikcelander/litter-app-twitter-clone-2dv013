@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '../ui/button'
-import createSupabaseBrowser from '@/lib/supabase/client'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { sign } from 'crypto'
 
 import { createSupabaseServer } from '@/lib/supabase/server'
