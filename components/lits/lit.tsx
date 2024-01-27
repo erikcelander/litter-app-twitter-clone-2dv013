@@ -12,7 +12,6 @@ import { Lit as LitType } from '@/components/home/submit-lit'
 export default function Lit({ id }: { id: string }) {
   const supabase = createSupabaseBrowser()
   const { data: lit } = useQuery(getLitById(supabase, id))
-  console.log(lit)
 
   return (
     <div>
