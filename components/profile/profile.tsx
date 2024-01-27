@@ -7,14 +7,16 @@ import ProfileFeed from './profile-feed'
 import {ProfileHeader, UserProfile} from './profile-header'
 
 
-const Profile = ({ username }: { username: string }) => {
+const Profile =  ({  profileUsername, currentUserID }: { profileUsername: string, currentUserID: string }) => {
   const supabase = createSupabaseBrowser()
-  const { data: profile } = useQuery(getProfileByUsername(supabase, username))
+  const { data: profile } = useQuery(getProfileByUsername(supabase, profileUsername))
+
+ 
 
   return (
     <div>
-      <ProfileHeader profile={profile as UserProfile} />
-      <ProfileFeed username={username} />
+      <ProfileHeader profile={profile as UserProfile} currentUserID={currentUserID} />
+      <ProfileFeed username={profileUsername} />
     </div>
   )
 }

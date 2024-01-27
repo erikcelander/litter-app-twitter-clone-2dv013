@@ -79,8 +79,8 @@ export function CreateLit({ user }: { user: User }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(PostLit)} className='w-full space-y-6'>
-        <div className='flex space-x-3'>
+      <form onSubmit={form.handleSubmit(PostLit)} className='w-full '>
+        <div className='flex space-x-3 pt-5'>
           <Avatar>
             <AvatarImage alt='User avatar' src={avatarUrl} />
             <AvatarFallback>{fullName ? fullName.charAt(0) : 'U'}</AvatarFallback>
@@ -90,8 +90,8 @@ export function CreateLit({ user }: { user: User }) {
               <FormLabel>What's happening?</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder='Share your thoughts...'
-                  className='resize-none w-full rounded-md border p-2'
+                  placeholder={`Share your thoughts (as long as it's in 42 characters or less)...`}
+                  className='resize-none  p-2 text-black'
                   {...form.register('content')}
                 />
               </FormControl>
@@ -99,11 +99,11 @@ export function CreateLit({ user }: { user: User }) {
             </FormItem>
           </div>
         </div>
-        <div className='flex justify-end mt-2'>
+        <div className='flex justify-end mt-2 mb-2 '>
           <Button type='submit' className='bg-[#F6AE28] text-black'>
             Post
           </Button>
-        </div>
+        </div  >
       </form>
     </Form>
   )

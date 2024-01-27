@@ -1,5 +1,11 @@
+'use client'
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { FollowButton } from "./follow";
+import { createSupabaseBrowser } from "@/lib/supabase/client";
+import { UnfollowButton } from "./unfollow";
+import { useQuery } from "@tanstack/react-query";
+import { checkIfUserFollows } from "@/lib/queries/check-follow";
 
 export interface UserProfile {
   id: string;
@@ -11,29 +17,52 @@ export interface UserProfile {
   created_at: Date | null;
 }
 
-export function ProfileHeader({ profile }: { profile: UserProfile }) {
+const getUser = async () => {
+  const supabase = createSupabaseBrowser();
+  const { data: user } = await supabase.auth.getUser();
+
+  return user;
+}
+
+export function ProfileHeader({ profile, currentUserID }: { profile: UserProfile, currentUserID: string }) {
+  // const supabase = createSupabaseBrowser();
+  // const user = await getUser();
+
+  // console.log('user i profile header', user)
+
+    const { data: ifFollowing, error, isLoading } = useQuery({
+      queryKey: ['followStatus', currentUserID, profile.username],
+      queryFn: () => checkIfUserFollows(currentUserID, profile.username || '')
+    })
+
+
+    console.log(ifFollowing)
+
+
+
+
+
   const fullName = `${profile.first_name} ${profile.last_name}`;
-  const initials = fullName.split(' ').map(name => name[0]).join('');
+
 
   return (
     <div className="p-4 rounded-lg w-full mx-auto flex flex-row items-center justify-center" style={{ height: '200px', width: '600px' }}>
 
 
       <div className="flex flex-col flex-grow items-center justify-center w-full" style={{ height: '200px' }}>
-        {/* <div className="pb-5"> */}
-          <div className="" style={{height: '80px', width: '80px'}} >
-            <Avatar className="" style={{height: '80px', width: '80px'}}>
+
+        <div className="" style={{ height: '80px', width: '80px' }} >
+          <Avatar className="" style={{ height: '80px', width: '80px' }}>
 
 
-              <AvatarImage style={{height: '80px', width: '80px'}} alt={`@${profile.username}`} src={profile.avatar_url!} />
-              <AvatarFallback style={{height: '80px', width: '80px', fontSize: '32px'}} >{fullName ? fullName.charAt(0) : "U"}</AvatarFallback>
+            <AvatarImage style={{ height: '80px', width: '80px' }} alt={`@${profile.username}`} src={profile.avatar_url!} />
+            <AvatarFallback style={{ height: '80px', width: '80px', fontSize: '32px' }} >{fullName ? fullName.charAt(0) : "U"}</AvatarFallback>
 
 
-            </Avatar>
-          </div>
+          </Avatar>
+        </div>
 
 
-        {/* </div> */}
 
         <div className="flex flex-col justify-center ml-4 pt-5">
           <span className="text-white  text-lg">{fullName}</span>
@@ -46,7 +75,14 @@ export function ProfileHeader({ profile }: { profile: UserProfile }) {
       <div className="flex flex-col flex-grow items-center justify-center w-full  text-gray-400" style={{ height: '200px' }}>
         <div className="flex flex-grow items-center justify-center flex-col pt-6 ">
 
-          <Button className="text-black">Follow</Button>
+          {
+            currentUserID && profile.id && currentUserID !== profile.id && (
+              ifFollowing
+                ? <UnfollowButton profileUserID={profile.id} currentUserID={currentUserID} />
+                : <FollowButton profileUserID={profile.id} currentUserID={currentUserID} />
+            )
+          }
+
 
         </div>
         <div className="text-center flex flex-col justify-between  p-6 pt-0" >
