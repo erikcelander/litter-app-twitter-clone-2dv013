@@ -1,11 +1,11 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
-import { toast } from '@/components/ui/use-toast'
-import { User } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation'
 
 export function FollowButton({ currentUserID, profileUserID }: { currentUserID: string, profileUserID: string }) {
   const supabase = createSupabaseBrowser();
+  const router = useRouter()
 
   const handleFollow = async () => {
     try {
@@ -16,13 +16,10 @@ export function FollowButton({ currentUserID, profileUserID }: { currentUserID: 
 
       if (error) throw error
 
+      router.refresh()
 
     } catch (error: any) {
       console.log(error)
-      toast({
-        title: 'Error',
-        description: error.message,
-      });
     }
   }
 

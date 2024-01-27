@@ -17,19 +17,8 @@ export interface UserProfile {
   created_at: Date | null;
 }
 
-const getUser = async () => {
-  const supabase = createSupabaseBrowser();
-  const { data: user } = await supabase.auth.getUser();
-
-  return user;
-}
 
 export function ProfileHeader({ profile, currentUserID }: { profile: UserProfile, currentUserID: string }) {
-  // const supabase = createSupabaseBrowser();
-  // const user = await getUser();
-
-  // console.log('user i profile header', user)
-
     const { data: ifFollowing, error, isLoading } = useQuery({
       queryKey: ['followStatus', currentUserID, profile.username],
       queryFn: () => checkIfUserFollows(currentUserID, profile.username || '')
@@ -39,11 +28,7 @@ export function ProfileHeader({ profile, currentUserID }: { profile: UserProfile
     console.log(ifFollowing)
 
 
-
-
-
   const fullName = `${profile.first_name} ${profile.last_name}`;
-
 
   return (
     <div className="p-4 rounded-lg w-full mx-auto flex flex-row items-center justify-center" style={{ height: '200px', width: '600px' }}>
