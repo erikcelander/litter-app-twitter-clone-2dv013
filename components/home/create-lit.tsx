@@ -32,19 +32,9 @@ export type LitData = {
   content: string,
 }
 
-export type Lit = {
-  user_id: string,
-  username: string,
-  full_name: string,
-  avatar_url: string,
-  content: string,
-  created_at: string,
-  id: string
-}
 
-export function SubmitLit({ user }: { user: User }) {
+export function CreateLit({ user }: { user: User }) {
   const supabase = createSupabaseBrowser();
-  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof LitFormSchema>>({
     resolver: zodResolver(LitFormSchema),
@@ -58,7 +48,7 @@ export function SubmitLit({ user }: { user: User }) {
 
 
 
-  const onSubmit = async (formData: z.infer<typeof LitFormSchema>) => {
+  const PostLit = async (formData: z.infer<typeof LitFormSchema>) => {
     try {
       if (formData.content.length > 42) {
         throw new Error('Lit content exceeds 42 characters');
@@ -78,15 +68,6 @@ export function SubmitLit({ user }: { user: User }) {
 
       if (error) throw error
 
-      // queryClient.setQueryData(['lits'], (oldLits: Lit[]) => {
-      //   if (Array.isArray(oldLits)) {
-      //     return [...oldLits, lit];
-      //   }
-      //   return [lit];
-      // });
-
-
-
 
       form.reset();
     } catch (error: any) {
@@ -101,7 +82,7 @@ export function SubmitLit({ user }: { user: User }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full space-y-6'>
+      <form onSubmit={form.handleSubmit(PostLit)} className='w-full space-y-6'>
         <div className='flex space-x-3'>
           <Avatar>
             <AvatarImage alt='User avatar' src={avatarUrl} />

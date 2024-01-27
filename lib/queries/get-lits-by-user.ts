@@ -1,7 +1,13 @@
 import { TypedSupabaseClient } from '@/lib/types/supabase'
 
-export function getLitsByUsername(client: TypedSupabaseClient, username: string) {
-  return client
+import { createSupabaseBrowser } from '../supabase/client';
+ 
+
+
+export async function getLitsByUsername(username: string): Promise<any> {
+  const supabase = createSupabaseBrowser();
+
+  return supabase
   .from('lits')
   .select('*')
   .eq('username', username)

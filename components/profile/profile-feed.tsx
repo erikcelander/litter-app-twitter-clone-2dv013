@@ -4,28 +4,29 @@ import { createSupabaseBrowser } from '@/lib/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
 import LitComponent from '../lits/lit-component';
 import { useQuery } from '@tanstack/react-query';
-import { getLits } from '@/lib/queries/qet-lits';
 import { Lit } from '@/lib/types';
+import { getLitsByUsername } from '@/lib/queries/get-lits-by-user';
 import { QueryData } from '@/lib/types';
 
-
-
-export default function HomeFeed() {
-
+export default function ProfileFeed({ username }: { username: string }) {
   const supabase = createSupabaseBrowser();
   const queryClient = useQueryClient();
 
-  const { data: res, error, isLoading } = useQuery({ queryKey: ['lits'], queryFn: getLits })
+  const { data: res, error, isLoading } = useQuery({ queryKey: [`${username}-lits`, username], queryFn: () => getLitsByUsername(username) })
   let lits = res.data
+
 
   useEffect(() => {
     const channel = supabase
-      .channel("realtime-lits")
+      .channel(`${username}-lits`)
       .on("postgres_changes", {
         event: "INSERT",
         schema: "public",
         table: "lits",
+        filter: `username=eq.${username}`, 
       }, (payload) => {
+
+
         const lit = {
           id: payload.new.id,
           user_id: payload.new.user_id,
@@ -36,7 +37,7 @@ export default function HomeFeed() {
           created_at: payload.new.created_at,
         } as Lit
 
-        queryClient.setQueryData<QueryData>(['lits'], (prevLits: QueryData | undefined) => {
+        queryClient.setQueryData<QueryData>([`${username}-lits`, username], (prevLits: QueryData | undefined) => {
           const oldData = prevLits?.data || [];
           return { data: [lit, ...oldData] };
         });
@@ -48,7 +49,6 @@ export default function HomeFeed() {
       channel.unsubscribe();
     };
   }, [supabase, queryClient]);
-
 
 
   if (isLoading) return <div>Loading...</div>;

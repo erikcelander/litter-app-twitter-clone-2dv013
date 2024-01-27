@@ -2,7 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { getLitById } from '@/lib/queries/get-lit'
-import Lit from '@/components/lits/lit'
+import LitWrapper from '@/components/lits/lit'
 
 export default async function Page({ params }: { params: { id: string } }) {
 
@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <div>
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Lit id={params.id} />
+      <LitWrapper id={params.id} />
     </HydrationBoundary>
     </div>
   )

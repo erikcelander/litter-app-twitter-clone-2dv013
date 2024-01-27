@@ -1,8 +1,7 @@
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator"
 import Link from 'next/link';
-import { Lit } from "../home/submit-lit";
-
+import { Lit } from "@/lib/types";
 
 export default function LitComponent({ lit }: { lit: Lit }) {
   return (
