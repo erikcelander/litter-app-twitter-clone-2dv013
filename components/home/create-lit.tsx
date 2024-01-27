@@ -41,11 +41,8 @@ export function CreateLit({ user }: { user: User }) {
   })
 
   const username = user.email?.split('@')[0]
-  const fullName = user.user_metadata?.full_name
+  const fullName = user.email === 'test@test.com' ? 'Test Testsson' : user.user_metadata?.full_name;
   const avatarUrl = user.user_metadata?.avatar_url
-
-
-
 
 
   const PostLit = async (formData: z.infer<typeof LitFormSchema>) => {
