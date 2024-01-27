@@ -1,10 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import LitComponent from '@/components/feed/lit-component'
-import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/lib/types/supabase'
-import createSupabaseBrowser from '@/lib/supabase/client'
+
 
 export default function Feed({ lits, userId }: { lits: any[]; userId?: string }) {
   return (
@@ -15,6 +12,12 @@ export default function Feed({ lits, userId }: { lits: any[]; userId?: string })
     </div>
   )
 }
+
+
+// import { useRouter } from 'next/navigation'
+// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+// import { Database } from '@/lib/types/supabase'
+// import createSupabaseBrowser from '@/lib/supabase/client'
 
 // const [updatedLits, setLits] = useState<any[]>(lits)
 // const supabase = createSupabaseBrowser()

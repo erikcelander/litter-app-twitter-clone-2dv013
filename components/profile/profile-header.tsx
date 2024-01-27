@@ -11,7 +11,7 @@ export interface UserProfile {
   created_at: Date | null;
 }
 
-export function ProfileHeader({  profile }: { profile: UserProfile }) {
+export function ProfileHeader({ profile }: { profile: UserProfile }) {
   const fullName = `${profile.first_name} ${profile.last_name}`;
   const initials = fullName.split(' ').map(name => name[0]).join('');
 
@@ -20,13 +20,22 @@ export function ProfileHeader({  profile }: { profile: UserProfile }) {
 
 
       <div className="flex flex-col flex-grow items-center justify-center w-full" style={{ height: '200px' }}>
-        <div className="pb-5">
-          <Avatar className="w-23 h-23">
-            {profile.avatar_url ? <AvatarImage alt={fullName} src={profile.avatar_url} /> : <AvatarFallback>{initials}</AvatarFallback>}
-          </Avatar>
-        </div>
+        {/* <div className="pb-5"> */}
+          <div className="" style={{height: '80px', width: '80px'}} >
+            <Avatar className="" style={{height: '80px', width: '80px'}}>
 
-        <div className="flex flex-col justify-center ml-4">
+
+              <AvatarImage style={{height: '80px', width: '80px'}} alt={`@${profile.username}`} src={profile.avatar_url!} />
+              <AvatarFallback style={{height: '80px', width: '80px', fontSize: '32px'}} >{fullName ? fullName.charAt(0) : "U"}</AvatarFallback>
+
+
+            </Avatar>
+          </div>
+
+
+        {/* </div> */}
+
+        <div className="flex flex-col justify-center ml-4 pt-5">
           <span className="text-white  text-lg">{fullName}</span>
           <span className="text-gray-400">@{profile.username}</span>
         </div>
@@ -36,7 +45,7 @@ export function ProfileHeader({  profile }: { profile: UserProfile }) {
 
       <div className="flex flex-col flex-grow items-center justify-center w-full  text-gray-400" style={{ height: '200px' }}>
         <div className="flex flex-grow items-center justify-center flex-col pt-6 ">
-        
+
           <Button className="text-black">Follow</Button>
 
         </div>

@@ -6,7 +6,7 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 // import { getLitById } from '@/lib/queries/get-lit'
 // import Lit from '@/components/lit'
 import { getProfileByUsername } from '@/lib/queries/get-profile'
-// import { getLitsByUsername } from '@/lib/queries/get-lits-by-user'
+import { getLitsByUsername } from '@/lib/queries/get-lits-by-user'
 
 export default async function Page({ params }: { params: { username: string } }) {
 
@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { username: string } })
  const supabase = createSupabaseServer()
 
  await prefetchQuery(queryClient, getProfileByUsername(supabase, params.username))
-// // await prefetchQuery(queryClient, getLitsByUsername(supabase, params.username))
+await prefetchQuery(queryClient, getLitsByUsername(supabase, params.username))
 
 
   return (

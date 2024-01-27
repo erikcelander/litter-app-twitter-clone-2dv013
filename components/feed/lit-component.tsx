@@ -9,7 +9,7 @@ export default function LitComponent({ lit }: { lit: any }) {
     <Link className='hover:cursor-pointer' href={`/profile/${lit?.username}`}>
     <div className="flex flex-col items-center">
       <Avatar className="h-10 w-10">
-        <AvatarImage alt={`@${lit?.username}`} src={lit?.avatar_url || "/default-avatar.jpg"} />
+        <AvatarImage alt={`@${lit?.username}`} src={lit?.avatar_url} />
         <AvatarFallback>{lit?.full_name ? lit?.full_name.charAt(0) : "U"}</AvatarFallback>
       </Avatar>
       <div className="grid gap-0.5 text-xs mt-2">
