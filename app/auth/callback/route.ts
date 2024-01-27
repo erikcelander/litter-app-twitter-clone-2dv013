@@ -1,24 +1,3 @@
-// import { cookies } from 'next/headers'
-// import { NextResponse } from 'next/server'
-// import { type CookieOptions, createServerClient,  } from '@supabase/ssr'
-// import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-// import { NextRequest } from 'next/server';
-// import { Database } from '@/lib/types/supabase';
-
-// export async function GET(request: NextRequest) {
-//   const requestUrl = new URL(request.url);
-//   const isAuth
-//   const code = requestUrl.searchParams.get('code');
-
-//   if (code) {
-//       const supabase = createRouteHandlerClient<Database>({ cookies });
-//       await supabase.auth.exchangeCodeForSession(code);
-//   }
-//     return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}`)
-
-//   // return the user to an error page with instructions
-//  // return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/auth/auth-code-error`)
-// }
 
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
