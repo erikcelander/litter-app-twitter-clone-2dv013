@@ -86,7 +86,7 @@ export function CreateLit({ user }: { user: User }) {
               <FormLabel>What's happening?</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder={`Share your thoughts (as long as it's in 42 characters or less)...`}
+                  placeholder={`Share your thoughts `}
                   className='resize-none  p-2 text-black'
                   {...form.register('content')}
                 />
