@@ -8,10 +8,10 @@ import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import { toast } from '@/components/ui/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
-import { useQueryClient } from '@tanstack/react-query'
 import { User } from '@supabase/supabase-js'
+import { PostLitButton } from './post-lit-button'
 
 const LitFormSchema = z.object({
   content: z
@@ -44,6 +44,8 @@ export function CreateLit({ user }: { user: User }) {
   const fullName = user.email === 'test@test.com' ? 'Test Testsson' : user.user_metadata?.full_name;
   const avatarUrl = user.user_metadata?.avatar_url
 
+  const toast = useToast()
+
 
   const PostLit = async (formData: z.infer<typeof LitFormSchema>) => {
     try {
@@ -69,10 +71,7 @@ export function CreateLit({ user }: { user: User }) {
       form.reset();
     } catch (error: any) {
       console.log(error)
-      toast({
-        title: 'Error',
-        description: error.message,
-      });
+
     }
   }
 
@@ -100,9 +99,16 @@ export function CreateLit({ user }: { user: User }) {
           </div>
         </div>
         <div className='flex justify-end mt-2 mb-2 '>
+          {/* <Button onClick={() => toast()
+          } className='bg-[#F6AE28] text-black'>
+            Bro
+          </Button> */}
+
+          <PostLitButton />
+{/* 
           <Button type='submit' className='bg-[#F6AE28] text-black'>
             Post
-          </Button>
+          </Button> */}
         </div  >
       </form>
     </Form>

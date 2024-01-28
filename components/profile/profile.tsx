@@ -11,7 +11,7 @@ const Profile =  ({  profileUsername, currentUserID }: { profileUsername: string
   const supabase = createSupabaseBrowser()
   const { data: profile } = useQuery(getProfileByUsername(supabase, profileUsername))
 
- 
+ // ge username hela vägen ner till unfollow/follow knapp för dynamiska toasts
 
   return (
     <div>

@@ -2,6 +2,7 @@ import { GeistSans } from 'geist/font/sans'
 import './globals.css'
 import { Nav } from '@/components/nav/nav'
 import { ReactQueryClientProvider } from '@/components/query-provider'
+import { Toaster } from '@/components/ui/toaster'
 
 // Use environment variable for the URL
 const url = process.env.NEXT_PUBLIC_LITTER_URL || 'somethingwentwrong'
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </ReactQueryClientProvider>
+        <Toaster/>
       </body>
     </html>
   )
