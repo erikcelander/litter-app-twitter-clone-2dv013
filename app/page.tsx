@@ -32,37 +32,28 @@ export default async function Index() {
 
 
   return (
-    <div className='flex flex-col justify-center items-center bg-[#1a1a1a]' style={{ width: '600px' }} >
-
-      <div style={{ width: '400px' }} >
+    <div className='flex flex-col justify-center items-center bg-[#1a1a1a]' style={{ width: '600px' }}>
+      <div style={{ width: '400px' }}>
         {user && <CreateLit user={user} />}
-
       </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <div className='flex items-center justify-center '>
-          {user?.id ? <Tabs defaultValue="following" >
-            <TabsList className='mx-auto'>
-              <TabsTrigger className='w-60' value="following">following</TabsTrigger>
-              <TabsTrigger className='w-60' value="all">all lits</TabsTrigger>
-            </TabsList>
-            <TabsContent value="following">
-              <FollowingFeed currentUserID={user!.id} />
-
-            </TabsContent>
-            <TabsContent value="all">
-              <HomeFeed />
-
-            </TabsContent>
-          </Tabs> :
-            <HomeFeed />
-
-          }
-
-
+          {user?.id ? (
+            <Tabs defaultValue="following">
+              <TabsList className='mx-auto'>
+                <TabsTrigger className='w-60' value="following">Following</TabsTrigger>
+                <TabsTrigger className='w-60' value="all">All Lits</TabsTrigger>
+              </TabsList>
+              <TabsContent value="following">
+                <FollowingFeed currentUserID={user.id} />
+              </TabsContent>
+              <TabsContent value="all">
+                <HomeFeed currentUserID={user.id} />
+              </TabsContent>
+            </Tabs>
+          ) : <HomeFeed  currentUserID='' />}
         </div>
-
       </HydrationBoundary>
     </div>
-  )
+  );
 }
-// style={{width: '600px'}}
