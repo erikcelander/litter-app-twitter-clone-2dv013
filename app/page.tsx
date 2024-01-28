@@ -4,6 +4,9 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { getLits } from '@/lib/queries/qet-lits'
 import HomeFeed from '@/components/home/home-feed'
+import FollowingFeed from '@/components/home/following-feed'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getLitsByFollowing } from '@/lib/queries/get-lits-by-following'
 
 export default async function Index() {
   const supabase = createSupabaseServer()
@@ -18,13 +21,48 @@ export default async function Index() {
     queryFn: getLits,
   })
 
+  if (user) {
+
+    await queryClient.prefetchQuery({
+      queryKey: [`litsByFollowing-${user!.id}`, user!.id],
+      queryFn: () => getLitsByFollowing(user?.id as string),
+    });
+
+  }
+
+
   return (
-    <div>
-      {user && <CreateLit user={user} />}
+    <div className='flex flex-col justify-center items-center bg-[#1a1a1a]' style={{ width: '600px' }} >
+
+      <div style={{ width: '400px' }} >
+        {user && <CreateLit user={user} />}
+
+      </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        {/* <Home /> */}
-        <HomeFeed />
+        <div className='flex items-center justify-center '>
+          {user?.id ? <Tabs defaultValue="following" >
+            <TabsList className='mx-auto'>
+              <TabsTrigger className='w-60' value="following">following</TabsTrigger>
+              <TabsTrigger className='w-60' value="all">all lits</TabsTrigger>
+            </TabsList>
+            <TabsContent value="following">
+              <FollowingFeed currentUserID={user!.id} />
+
+            </TabsContent>
+            <TabsContent value="all">
+              <HomeFeed />
+
+            </TabsContent>
+          </Tabs> :
+            <HomeFeed />
+
+          }
+
+
+        </div>
+
       </HydrationBoundary>
     </div>
   )
 }
+// style={{width: '600px'}}

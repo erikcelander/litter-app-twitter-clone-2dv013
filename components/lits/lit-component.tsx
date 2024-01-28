@@ -5,11 +5,11 @@ import { Lit } from "@/lib/types";
 
 export default function LitComponent({ lit }: { lit: Lit }) {
   return (
-    <div className="flex gap-4 p-4  text-white rounded-lg max-w-md mx-auto">
+    <div className="flex gap-4 p-4  text-white  max-w-md mx-auto">
     <Link className='hover:cursor-pointer' href={`/profile/${lit?.username}`}>
     <div className="flex flex-col items-center">
       <Avatar className="h-10 w-10">
-        <AvatarImage alt={`@${lit?.username}`} src={lit?.avatar_url} />
+        <AvatarImage alt={`@${lit?.username}`} src={lit?.avatar_url!} />
         <AvatarFallback>{lit?.full_name ? lit?.full_name.charAt(0) : "U"}</AvatarFallback>
       </Avatar>
       <div className="grid gap-0.5 text-xs mt-2">

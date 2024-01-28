@@ -7,6 +7,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getLits } from '@/lib/queries/qet-lits';
 import { Lit } from '@/lib/types';
 import { QueryData } from '@/lib/types';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 
 
 
@@ -56,10 +58,11 @@ export default function HomeFeed() {
 
   return (
     <>
-      <div>
+      <div style={{width: '100%'}} className='bg-[#1a1a1a] pt-5'>
         {lits?.map((lit: any) => (
           <LitComponent key={lit.id} lit={lit} />
         ))}
+
       </div>
     </>
   );
