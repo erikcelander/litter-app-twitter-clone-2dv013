@@ -1,12 +1,12 @@
 'use client'
-import React, { use, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createSupabaseBrowser } from '@/lib/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
-import LitComponent from '../lits/lit-component';
+import {LitComponent} from '../lits/lit-component';
 import { useQuery } from '@tanstack/react-query';
 import { getLitsByFollowing } from '@/lib/queries/get-lits-by-following';
-import { Lit, QueryData } from '@/lib/types';
-import { Button } from '../ui/button';
+import { Lit } from '@/lib/types';
+import { LoadingSpinner } from '../ui/spinner';
 
 export default function FollowingFeed({ currentUserID }: { currentUserID: string }) {
   const supabase = createSupabaseBrowser();
@@ -65,7 +65,8 @@ export default function FollowingFeed({ currentUserID }: { currentUserID: string
     };
   }, [supabase, queryClient, currentUserID]);
 
-  if (isLoading) return <div>Loading...</div>;
+
+  if (isLoading) return <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}><LoadingSpinner className={''} /></div>
   if (error) return <div>Error: {error.message}</div>;
 
   return (

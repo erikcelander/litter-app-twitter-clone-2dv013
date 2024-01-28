@@ -2,13 +2,12 @@
 import React, { useEffect } from 'react';
 import { createSupabaseBrowser } from '@/lib/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
-import LitComponent from '../lits/lit-component';
+import {LitComponent} from '../lits/lit-component';
 import { useQuery } from '@tanstack/react-query';
 import { getLits } from '@/lib/queries/qet-lits';
 import { Lit } from '@/lib/types';
 import { QueryData } from '@/lib/types';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import { LoadingSpinner } from '../ui/spinner';
 
 
 
@@ -52,13 +51,12 @@ export default function HomeFeed() {
   }, [supabase, queryClient]);
 
 
-
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}><LoadingSpinner className={''} /></div>
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
-      <div style={{width: '100%'}} className='bg-[#1a1a1a] pt-5'>
+      <div style={{ width: '100%' }} className='bg-[#1a1a1a] pt-5'>
         {lits?.map((lit: any) => (
           <LitComponent key={lit.id} lit={lit} />
         ))}

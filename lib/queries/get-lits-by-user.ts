@@ -1,9 +1,5 @@
-import { TypedSupabaseClient } from '@/lib/types/supabase'
-
 import { createSupabaseBrowser } from '../supabase/client';
  
-
-
 export async function getLitsByUsername(username: string): Promise<any> {
   const supabase = createSupabaseBrowser();
 

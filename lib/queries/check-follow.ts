@@ -2,7 +2,14 @@ import { createSupabaseBrowser } from "../supabase/client";
 
 
 export const checkIfUserFollows = async (currentUserID: string, username: string) => {
+    console.log('id: ',currentUserID);
+    if (!currentUserID ) return false;
+
+    if (currentUserID.length === 0) return false;
+    
     const supabase = createSupabaseBrowser();
+
+    
 
     try {
         const { data: userProfile, error: profileError } = await supabase

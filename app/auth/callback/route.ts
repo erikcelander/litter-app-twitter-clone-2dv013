@@ -1,18 +1,10 @@
-
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
+
 export async function GET(request: Request) {
-  // const requestUrl = new URL(request.url);
-  // const isAuth = cookies().get("supabase-auth-token");
-
-  // if (isAuth) {
-  // 	return NextResponse.redirect(requestUrl.origin);
-  // }
-
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
-  // const next = searchParams.get("next") ?? "/";
 
   if (code) {
     const cookieStore = cookies()

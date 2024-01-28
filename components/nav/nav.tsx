@@ -1,10 +1,8 @@
-//import { ModeToggle } from './mode-toggle'
 import Image from 'next/image'
 import litter from '@/public/litter.svg'
 import Link from 'next/link'
-import Login from '@/components/nav/login'
-import Logout from '@/components/nav/logout'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import { Login } from '@/components/nav/login'
+import { Logout } from '@/components/nav/logout'
 import { createSupabaseServer } from '@/lib/supabase/server'
 
 export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
@@ -23,7 +21,7 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
     >
       <div className='flex-initial pr-1'>
         <Link className='flex flex-row text-center cursor-pointer' href='/'>
-          <Image src={litter} alt='Litter Logo' width={35} height={35} />
+          <Image src={litter} alt='Litter Logo' style={{width: '40px', height: 'auto'}} />
           <h2 className='text-center text-3xl pl-4 items-center text-primary pt-1'>litter</h2>
         </Link>
       </div>

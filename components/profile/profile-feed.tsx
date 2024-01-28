@@ -2,11 +2,12 @@
 import React, { useEffect } from 'react';
 import { createSupabaseBrowser } from '@/lib/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
-import LitComponent from '../lits/lit-component';
+import {LitComponent} from '../lits/lit-component';
 import { useQuery } from '@tanstack/react-query';
 import { Lit } from '@/lib/types';
 import { getLitsByUsername } from '@/lib/queries/get-lits-by-user';
 import { QueryData } from '@/lib/types';
+import { LoadingSpinner } from '../ui/spinner';
 
 export default function ProfileFeed({ username }: { username: string }) {
   const supabase = createSupabaseBrowser();
@@ -51,7 +52,7 @@ export default function ProfileFeed({ username }: { username: string }) {
   }, [supabase, queryClient]);
 
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className='flex justify-center items-center mt-5' style={{width: '100%'}}><LoadingSpinner className={''} /></div>
   if (error) return <div>Error: {error.message}</div>;
 
   return (

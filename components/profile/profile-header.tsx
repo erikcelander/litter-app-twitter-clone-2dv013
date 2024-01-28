@@ -1,8 +1,6 @@
 'use client'
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import { FollowButton } from "./follow";
-import { createSupabaseBrowser } from "@/lib/supabase/client";
 import { UnfollowButton } from "./unfollow";
 import { useQuery } from "@tanstack/react-query";
 import { checkIfUserFollows } from "@/lib/queries/check-follow";
@@ -19,13 +17,18 @@ export interface UserProfile {
 
 
 export function ProfileHeader({ profile, currentUserID }: { profile: UserProfile, currentUserID: string }) {
-    const { data: ifFollowing, error, isLoading } = useQuery({
+  let follows = false
+
+  if (currentUserID && currentUserID.length === 36) {
+    const { data: ifFollowing } = useQuery({
       queryKey: ['followStatus', currentUserID, profile.username],
       queryFn: () => checkIfUserFollows(currentUserID, profile.username || '')
     })
 
+    if (ifFollowing) follows = ifFollowing
+  }
 
-    console.log(ifFollowing)
+
 
 
   const fullName = `${profile.first_name} ${profile.last_name}`;
@@ -62,7 +65,7 @@ export function ProfileHeader({ profile, currentUserID }: { profile: UserProfile
 
           {
             currentUserID && profile.id && currentUserID !== profile.id && (
-              ifFollowing
+              follows
                 ? <UnfollowButton profileUserID={profile.id} currentUserID={currentUserID} />
                 : <FollowButton profileUserID={profile.id} currentUserID={currentUserID} />
             )

@@ -1,11 +1,8 @@
 'use client'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
@@ -99,16 +96,7 @@ export function CreateLit({ user }: { user: User }) {
           </div>
         </div>
         <div className='flex justify-end mt-2 mb-2 '>
-          {/* <Button onClick={() => toast()
-          } className='bg-[#F6AE28] text-black'>
-            Bro
-          </Button> */}
-
           <PostLitButton />
-{/* 
-          <Button type='submit' className='bg-[#F6AE28] text-black'>
-            Post
-          </Button> */}
         </div  >
       </form>
     </Form>

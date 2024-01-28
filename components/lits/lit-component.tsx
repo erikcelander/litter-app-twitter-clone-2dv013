@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator"
 import Link from 'next/link';
 import { Lit } from "@/lib/types";
 
-export default function LitComponent({ lit }: { lit: Lit }) {
+export const  LitComponent = ({ lit }: { lit: Lit }) => {
   return (
     <div className="flex gap-4 p-4  text-white  max-w-md mx-auto">
     <Link className='hover:cursor-pointer' href={`/profile/${lit?.username}`}>

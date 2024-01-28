@@ -4,7 +4,7 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { GitlabIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-export default function Logout() {
+export const Logout = () => {
   const supabase = createSupabaseBrowser()
   const router = useRouter()
 

@@ -26,11 +26,15 @@ export default async function Page({ params }: { params: { username: string } })
     queryKey: [`${profileUsername}-lits`, profileUsername],
     queryFn: () => getLitsByUsername(profileUsername),
   })
+
+  if (user) {
+    await queryClient.prefetchQuery({
+      queryKey: ['followStatus', user?.id, profileUsername],
+      queryFn: () => checkIfUserFollows(user.id, profileUsername),
+    })
+  }
  
-  await queryClient.prefetchQuery({
-    queryKey: ['followStatus', user?.id, profileUsername],
-    queryFn: () => checkIfUserFollows(user?.id || '', profileUsername),
-  })
+  
 
 
   return (

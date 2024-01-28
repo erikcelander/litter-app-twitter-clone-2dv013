@@ -3,11 +3,11 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 
 import { getLitById } from '@/lib/queries/get-lit'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import LitComponent from '@/components/lits/lit-component'
+import {LitComponent} from '@/components/lits/lit-component'
 import { Lit } from '@/lib/types'
 
 
-export default function LitWrapper({ id }: { id: string }) {
+export const LitWrapper = ({ id }: { id: string }) => {
   const supabase = createSupabaseBrowser()
   const { data: lit } = useQuery(getLitById(supabase, id))
 
