@@ -5,7 +5,6 @@ import { CookieOptions } from "@supabase/ssr"
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
-  console.log(url)
   const cookieStore = cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
