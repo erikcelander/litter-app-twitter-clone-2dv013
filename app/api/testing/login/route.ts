@@ -36,5 +36,5 @@ export async function GET(request: Request) {
   } 
     
   
-  return NextResponse.redirect(url.origin)
+  return NextResponse.redirect(process.env.NEXT_PUBLIC_LITTER_URL!)
 }
