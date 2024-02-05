@@ -33,25 +33,32 @@ export default async function Index() {
 
   return (
     <div className='flex flex-col justify-center items-center bg-[#1a1a1a]' style={{ width: '600px' }}>
-      <div style={{ width: '400px' }}>
-        {user && <CreateLit user={user} />}
-      </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <div className='flex items-center justify-center '>
           {user?.id ? (
-            <Tabs defaultValue="following">
+            <Tabs className='pt-4' defaultValue="following">
+
               <TabsList className='mx-auto'>
                 <TabsTrigger className='w-60' value="following">Following</TabsTrigger>
                 <TabsTrigger className='w-60' value="all">All Lits</TabsTrigger>
               </TabsList>
+
+              <div className='flex flex-col justify-center items-center bg-[#1a1a1a]' >
+                <div style={{ width: '400px' }}>
+                  {user && <CreateLit user={user} />}
+                </div>
+              </div>
+
               <TabsContent value="following">
                 <FollowingFeed currentUserID={user.id} />
               </TabsContent>
+
               <TabsContent value="all">
                 <HomeFeed currentUserID={user.id} />
               </TabsContent>
+
             </Tabs>
-          ) : <HomeFeed  currentUserID='' />}
+          ) : <HomeFeed currentUserID='' />}
         </div>
       </HydrationBoundary>
     </div>

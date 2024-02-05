@@ -57,7 +57,7 @@ export default function ProfileFeed({ username }: { username: string }) {
 
   return (
     <>
-      <div>
+      <div className='flex flex-col items-center'>
         {lits?.map((lit: any) => (
           <LitComponent key={lit.id} lit={lit} />
         ))}

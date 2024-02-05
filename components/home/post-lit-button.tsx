@@ -6,12 +6,8 @@ export const PostLitButton = () => {
 
     return (
         <Button onClick={() => {
-            toast({
-                title: "Success  🎉",
-                description: "Your lit has been posted!",
-                
-            })
-        }} type='submit' className='bg-[#F6AE28] rounded-3xl w-20 text-md text-black'>
+       
+        }} type='submit' className='bg-[#F6AE28] w-20 rounded-3xl text-black'>
             Post
         </Button>
     )

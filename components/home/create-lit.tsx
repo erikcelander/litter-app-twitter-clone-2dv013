@@ -41,8 +41,6 @@ export function CreateLit({ user }: { user: User }) {
   const fullName = user.email === 'test@test.com' ? 'Test Testsson' : user.user_metadata?.full_name;
   const avatarUrl = user.user_metadata?.avatar_url
 
-  const toast = useToast()
-
 
   const PostLit = async (formData: z.infer<typeof LitFormSchema>) => {
     try {
@@ -63,7 +61,7 @@ export function CreateLit({ user }: { user: User }) {
       const { error } = await supabase.from('lits').insert([lit])
 
       if (error) throw error
-
+      
 
       form.reset();
     } catch (error: any) {

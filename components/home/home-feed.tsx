@@ -74,7 +74,7 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div style={{ width: '100%' }} className='bg-[#1a1a1a] pt-5'>
+    <div style={{ width: '100%' }} className='bg-[#1a1a1a] '>
       {lits?.map((lit: Lit) => (
         <LitComponent key={lit.id} lit={lit} />
       ))}
