@@ -15,7 +15,7 @@ export default function ProfileFeed({ username }: { username: string }) {
   const profile = username
 
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
-    const res = await fetch(`/api/lits/?profile=${profile}&page=${pageParam}&size=${pageSize}`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits/?profile=${profile}&page=${pageParam}&size=${pageSize}`)
     return res.json()
   }
 
