@@ -1,20 +1,17 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react';
-import { createSupabaseBrowser } from '@/lib/supabase/client';
-import { useInfiniteQuery, useQueryClient, InfiniteData } from '@tanstack/react-query';
-import { LitComponent } from '../lits/lit-component';
-import { Lit, QueryData } from '@/lib/types';
-import { LoadingSpinner } from '../ui/spinner';
+import React, { useEffect, useRef } from 'react'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { useInfiniteQuery, useQueryClient, InfiniteData } from '@tanstack/react-query'
+import { LitComponent } from '../lits/lit-component'
+import { Lit } from '@/lib/types'
+import { LoadingSpinner } from '../ui/spinner'
 
 
 export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
-  const supabase = createSupabaseBrowser();
-  const queryClient = useQueryClient();
-  const pageSize = 10;
-
-  // const { data: res, error, isLoading } = useQuery({ queryKey: ['lits'], queryFn: getLits });
-  // let lits = res?.data;
+  const supabase = createSupabaseBrowser()
+  const queryClient = useQueryClient()
+  const pageSize = 10
 
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits/home/?page=${pageParam}&size=${pageSize}`)
@@ -33,29 +30,29 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
     queryKey: [`lits`],
     queryFn: fetchLits,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.nextCursor !== null ? (lastPage.nextCursor / pageSize) : undefined;
+      return lastPage.nextCursor !== null ? (lastPage.nextCursor / pageSize) : undefined
     },
     initialPageParam: 0
   })
 
-  const loadMoreRef = useRef(null);
+  const loadMoreRef = useRef(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+          fetchNextPage()
         }
       },
       {
         rootMargin: '200px',
       }
-    );
+    )
     if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
+      observer.observe(loadMoreRef.current)
     }
-    return () => observer.disconnect();
-  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
+    return () => observer.disconnect()
+  }, [hasNextPage, fetchNextPage, isFetchingNextPage])
 
 
   useEffect(() => {
@@ -65,6 +62,7 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
         schema: "public",
         table: "lits",
       }, (payload) => {
+
         if (payload.new) {
           const lit = {
             id: payload.new.id,
@@ -74,10 +72,11 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
             avatar_url: payload.new.avatar_url,
             content: payload.new.content,
             created_at: payload.new.created_at,
-          } as Lit;
+          } as Lit
 
           queryClient.setQueryData<InfiniteData<Array<Lit>>>([`lits`], (prevLits: any) => {
-            const updatedFirstPageData = [lit, ...prevLits.pages[0].data];
+
+            const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
             updatedFirstPageData.pop()
 
 
@@ -88,38 +87,15 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
             return {
               ...prevLits,
               pages: updatedPages,
-            };
-          });
-
-
-          // supabase
-          //   .from('follows')
-          //   .select('follower_id')
-          //   .eq('follower_id', lit.user_id)
-          //   .eq('followed_id', currentUserID)
-          //   .single()
-          //   .then(({ data }) => {
-
-          //     if (data?.follower_id.length === 36) {
-          //       queryClient.setQueryData<Lit[]>([`litsByFollowing-${currentUserID}`, currentUserID], (prevLits) => {
-          //         if (prevLits) {
-          //           return [lit, ...prevLits]
-          //         } else {
-          //           return [lit]
-          //         }
-          //       })
-          //     }
-          //   }
-
-
-            // )
+            }
+          })
         }
-      }).subscribe();
+      }).subscribe()
 
     return () => {
-      channel.unsubscribe();
-    };
-  }, [supabase, queryClient]);
+      channel.unsubscribe()
+    }
+  }, [supabase, queryClient])
 
   return status === 'pending' ? (
     <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}><LoadingSpinner className={''} /></div>
@@ -145,5 +121,5 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
         </div>
       )}
     </>
-  );
+  )
 }

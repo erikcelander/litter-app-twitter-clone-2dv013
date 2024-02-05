@@ -29,10 +29,8 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!error) {
-      console.log(process.env.NEXT_PUBLIC_LITTER_URL)
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/`)
 
-      // return NextResponse.redirect(requestUrl.origin + next);
     } else {
       console.log('error: ', error)
     }
@@ -40,7 +38,6 @@ export async function GET(request: Request) {
     console.log('no code?')
   }
 
-  // return the user to an error page with instructions
-  // return NextResponse.redirect(requestUrl.origin + "/auth/error");
+
   return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/auth/auth-code-error`)
 }

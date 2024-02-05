@@ -1,41 +1,40 @@
-import { createSupabaseBrowser } from "../supabase/client";
+import { createSupabaseBrowser } from "../supabase/client"
 
 
 export const checkIfUserFollows = async (currentUserID: string, username: string) => {
-    console.log('id: ',currentUserID);
-    if (!currentUserID ) return false;
+    if (!currentUserID) return false
 
-    if (currentUserID.length === 0) return false;
-    
-    const supabase = createSupabaseBrowser();
+    if (currentUserID.length === 0) return false
 
-    
+    const supabase = createSupabaseBrowser()
+
+
 
     try {
         const { data: userProfile, error: profileError } = await supabase
             .from('profiles')
             .select('id')
             .eq('username', username)
-            .single();
+            .single()
 
-        if (profileError) throw profileError;
-        if (!userProfile) return false; 
+        if (profileError) throw profileError
+        if (!userProfile) return false
 
-        const profileUserID = userProfile.id;
+        const profileUserID = userProfile.id
 
         const { data, error } = await supabase
             .from('follows')
             .select('follower_id')
             .eq('follower_id', currentUserID)
             .eq('followed_id', profileUserID)
-            .maybeSingle();
+            .maybeSingle()
 
-        if (error) throw error;
+        if (error) throw error
 
-        return !!data;
+        return !!data
     } catch (error) {
-        console.error(error);
+        console.error(error)
         // Handle the error appropriately
-        throw error;
+        throw error
     }
-};
+}
