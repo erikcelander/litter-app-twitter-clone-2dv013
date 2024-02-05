@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server"
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 import { CookieOptions } from "@supabase/ssr"
 import { createSupabaseServer } from "@/lib/supabase/server"
+import { NextResponse } from "next/server"
 
 export async function GET(request: Request) {
   const supabase = createSupabaseServer()
@@ -30,9 +30,7 @@ export async function GET(request: Request) {
 
   const nextCursor = hasNextPage ? startIndex + size : null;
 
-
-  console.log('nextCursor', nextCursor)
-  return Response.json({
+  return NextResponse.json({
     data: data,
     nextCursor: nextCursor ? nextCursor : null
   })
