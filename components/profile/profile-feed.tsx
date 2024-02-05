@@ -1,20 +1,59 @@
 'use client'
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createSupabaseBrowser } from '@/lib/supabase/client';
-import { useQueryClient } from '@tanstack/react-query';
-import {LitComponent} from '../lits/lit-component';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { LitComponent } from '../lits/lit-component';
 import { Lit } from '@/lib/types';
-import { getLitsByUsername } from '@/lib/queries/get-lits-by-user';
-import { QueryData } from '@/lib/types';
 import { LoadingSpinner } from '../ui/spinner';
+import { InfiniteData } from '@tanstack/react-query';
+
 
 export default function ProfileFeed({ username }: { username: string }) {
   const supabase = createSupabaseBrowser();
   const queryClient = useQueryClient();
+  const pageSize = 10;
+  const profile = username
 
-  const { data: res, error, isLoading } = useQuery({ queryKey: [`${username}-lits`, username], queryFn: () => getLitsByUsername(username) })
-  let lits = res.data
+  const fetchLits = async ({ pageParam }: { pageParam: any }) => {
+    const res = await fetch(`/api/lits/?profile=${profile}&page=${pageParam}&size=${pageSize}`)
+    return res.json()
+  }
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: [`${username}-lits`, username],
+    queryFn: fetchLits,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.nextCursor !== null ? (lastPage.nextCursor / pageSize) : undefined;
+    },
+    initialPageParam: 0
+  })
+
+  const loadMoreRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      {
+        rootMargin: '200px',
+      }
+    );
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+    return () => observer.disconnect();
+  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
 
 
   useEffect(() => {
@@ -24,7 +63,7 @@ export default function ProfileFeed({ username }: { username: string }) {
         event: "INSERT",
         schema: "public",
         table: "lits",
-        filter: `username=eq.${username}`, 
+        filter: `username=eq.${username}`,
       }, (payload) => {
 
 
@@ -38,10 +77,23 @@ export default function ProfileFeed({ username }: { username: string }) {
           created_at: payload.new.created_at,
         } as Lit
 
-        queryClient.setQueryData<QueryData>([`${username}-lits`, username], (prevLits: QueryData | undefined) => {
-          const oldData = prevLits?.data || [];
-          return { data: [lit, ...oldData] };
+        queryClient.setQueryData<InfiniteData<Array<Lit>>>([`${username}-lits`, username], (prevLits: any) => {
+          if (!prevLits) return prevLits;
+
+          const updatedFirstPageData = [lit, ...prevLits.pages[0].data];
+          updatedFirstPageData.pop()
+
+          const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
+            pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+          )
+
+          return {
+            ...prevLits,
+            pages: updatedPages,
+          };
         });
+
+
 
       })
       .subscribe();
@@ -52,16 +104,30 @@ export default function ProfileFeed({ username }: { username: string }) {
   }, [supabase, queryClient]);
 
 
-  if (isLoading) return <div className='flex justify-center items-center mt-5' style={{width: '100%'}}><LoadingSpinner className={''} /></div>
-  if (error) return <div>Error: {error.message}</div>;
 
-  return (
+  return status === 'pending' ? (
+    <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}><LoadingSpinner className={''} /></div>
+  ) : status === 'error' ? (
+    <p>Error: {error.message}</p>
+  ) : (
     <>
       <div className='flex flex-col items-center'>
-        {lits?.map((lit: any) => (
-          <LitComponent key={lit.id} lit={lit} />
+        {data?.pages?.map((group, i) => (
+          <React.Fragment key={i}>
+            {group.data.map((lit: Lit) => (
+              <LitComponent key={lit.id} lit={lit} />
+            ))}
+          </React.Fragment>
         ))}
+
+        <div ref={loadMoreRef} style={{ height: "20px" }}></div>
+
       </div>
+      {isFetching && !isFetchingNextPage && (
+        <div className='flex justify-center items-center mt-5'>
+          <LoadingSpinner className='' />
+        </div>
+      )}
     </>
   );
 }
