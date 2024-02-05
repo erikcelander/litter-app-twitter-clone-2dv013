@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { username: string } })
   const supabase = createSupabaseServer()
   const { data } = await supabase.auth.getUser()
   const user: User | null = data.user ? data.user : null;
-  
+
   const profileUsername = params.username
 
   await prefetchQuery(queryClient, getProfileByUsername(supabase, profileUsername))
@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: { username: string } })
     queryKey: [`${profileUsername}-followCounts`, profileUsername],
     queryFn: () => getFollowCounts(profileUsername),
   })
- 
+
 
   return (
     <div>

@@ -1,19 +1,62 @@
 'use client'
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createSupabaseBrowser } from '@/lib/supabase/client';
-import { useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient, InfiniteData } from '@tanstack/react-query';
 import { LitComponent } from '../lits/lit-component';
-import { useQuery } from '@tanstack/react-query';
-import { getLits } from '@/lib/queries/qet-lits';
 import { Lit, QueryData } from '@/lib/types';
 import { LoadingSpinner } from '../ui/spinner';
 
-export default function HomeFeed({ currentUserID }: { currentUserID: string }) {  const supabase = createSupabaseBrowser();
-  const queryClient = useQueryClient();
 
-  const { data: res, error, isLoading } = useQuery({ queryKey: ['lits'], queryFn: getLits });
-  let lits = res?.data;
+export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
+  const supabase = createSupabaseBrowser();
+  const queryClient = useQueryClient();
+  const pageSize = 10;
+
+  // const { data: res, error, isLoading } = useQuery({ queryKey: ['lits'], queryFn: getLits });
+  // let lits = res?.data;
+
+  const fetchLits = async ({ pageParam }: { pageParam: any }) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits/home/?page=${pageParam}&size=${pageSize}`)
+    return res.json()
+  }
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: [`lits`],
+    queryFn: fetchLits,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.nextCursor !== null ? (lastPage.nextCursor / pageSize) : undefined;
+    },
+    initialPageParam: 0
+  })
+
+  const loadMoreRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      {
+        rootMargin: '200px',
+      }
+    );
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+    return () => observer.disconnect();
+  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
+
 
   useEffect(() => {
     const channel = supabase.channel("realtime-lits")
@@ -21,9 +64,9 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
         event: "INSERT",
         schema: "public",
         table: "lits",
-      },  (payload) => {
+      }, (payload) => {
         if (payload.new) {
-          const newLit = {
+          const lit = {
             id: payload.new.id,
             user_id: payload.new.user_id,
             username: payload.new.username,
@@ -33,35 +76,43 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
             created_at: payload.new.created_at,
           } as Lit;
 
-          const isLitAlreadyPresent = (existingLits: any, lit: any) => existingLits.some((l: { id: any; }) => l.id === lit.id);
+          queryClient.setQueryData<InfiniteData<Array<Lit>>>([`lits`], (prevLits: any) => {
+            const updatedFirstPageData = [lit, ...prevLits.pages[0].data];
+            updatedFirstPageData.pop()
 
-          queryClient.setQueryData<QueryData>(['lits'], (prevLits: QueryData | undefined) => {
-            const oldData = prevLits?.data || [];
-            return isLitAlreadyPresent(oldData, newLit) ? prevLits : { data: [newLit, ...oldData] };
+
+            const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
+              pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+            )
+
+            return {
+              ...prevLits,
+              pages: updatedPages,
+            };
           });
 
 
-          supabase
-          .from('follows')
-          .select('follower_id')
-          .eq('follower_id', newLit.user_id)
-          .eq('followed_id', currentUserID)
-          .single()
-          .then(({ data }) => {
-          
-            if (data?.follower_id.length === 36) {
-              queryClient.setQueryData<Lit[]>([`litsByFollowing-${currentUserID}`, currentUserID], (prevLits) => {
-                if (prevLits) {
-                  return [newLit, ...prevLits]
-                } else {
-                  return [newLit]
-                }
-              })
-            }
-          }
+          // supabase
+          //   .from('follows')
+          //   .select('follower_id')
+          //   .eq('follower_id', lit.user_id)
+          //   .eq('followed_id', currentUserID)
+          //   .single()
+          //   .then(({ data }) => {
+
+          //     if (data?.follower_id.length === 36) {
+          //       queryClient.setQueryData<Lit[]>([`litsByFollowing-${currentUserID}`, currentUserID], (prevLits) => {
+          //         if (prevLits) {
+          //           return [lit, ...prevLits]
+          //         } else {
+          //           return [lit]
+          //         }
+          //       })
+          //     }
+          //   }
 
 
-          )
+            // )
         }
       }).subscribe();
 
@@ -70,14 +121,29 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
     };
   }, [supabase, queryClient]);
 
-  if (isLoading) return <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}><LoadingSpinner className={''} /></div>;
-  if (error) return <div>Error: {error.message}</div>;
+  return status === 'pending' ? (
+    <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}><LoadingSpinner className={''} /></div>
+  ) : status === 'error' ? (
+    <p>Error: {error.message}</p>
+  ) : (
+    <>
+      <div className='flex flex-col items-center'>
+        {data?.pages?.map((group, i) => (
+          <React.Fragment key={i}>
+            {group.data.map((lit: Lit) => (
+              <LitComponent key={lit.id} lit={lit} />
+            ))}
+          </React.Fragment>
+        ))}
 
-  return (
-    <div style={{ width: '100%' }} className='bg-[#1a1a1a] '>
-      {lits?.map((lit: Lit) => (
-        <LitComponent key={lit.id} lit={lit} />
-      ))}
-    </div>
+        <div ref={loadMoreRef} style={{ height: "20px" }}></div>
+
+      </div>
+      {isFetching && !isFetchingNextPage && (
+        <div className='flex justify-center items-center mt-5'>
+          <LoadingSpinner className='' />
+        </div>
+      )}
+    </>
   );
 }

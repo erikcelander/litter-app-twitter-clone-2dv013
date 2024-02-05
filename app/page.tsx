@@ -16,10 +16,10 @@ export default async function Index() {
 
   const queryClient = new QueryClient()
 
-  await queryClient.prefetchQuery({
-    queryKey: ['lits'],
-    queryFn: getLits,
-  })
+  // await queryClient.prefetchQuery({
+  //   queryKey: ['lits'],
+  //   queryFn: getLits,
+  // })
 
   if (user) {
 
