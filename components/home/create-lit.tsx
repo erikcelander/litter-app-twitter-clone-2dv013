@@ -42,7 +42,7 @@ export function CreateLit({ user }: { user: User }) {
   const avatarUrl = user.user_metadata?.avatar_url
 
 
-  const PostLit = async (formData: z.infer<typeof LitFormSchema>) => {
+  const postLit = async (formData: z.infer<typeof LitFormSchema>) => {
     try {
       if (formData.content.length > 42) {
         throw new Error('Lit content exceeds 42 characters')
@@ -73,7 +73,7 @@ export function CreateLit({ user }: { user: User }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(PostLit)} className='w-full '>
+      <form onSubmit={form.handleSubmit(postLit)} className='w-full '>
         <div className='flex space-x-3 pt-5'>
           <Avatar>
             <AvatarImage alt='User avatar' src={avatarUrl} />
@@ -90,7 +90,7 @@ export function CreateLit({ user }: { user: User }) {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault()
-                      form.handleSubmit(PostLit)()
+                      form.handleSubmit(postLit)()
                     }
                   }}
                 />

@@ -17,7 +17,7 @@ export const LitWrapper = ({ id, session }: { id: string, session: any }) => {
 
 
   return (
-    <div className='pt-16'>
+    <div className='pt-4'>
       {lit && <LitComponent session={session} lit={lit as Lit} />}
     </div>
   )
