@@ -9,7 +9,7 @@ import { LoadingSpinner } from '../ui/spinner'
 import { InfiniteData } from '@tanstack/react-query'
 
 
-export default function FollowingFeed({ currentUserID }: { currentUserID: string }) {
+export default function FollowingFeed({ currentUserID, session }: { currentUserID: string, session: any }) {
   const supabase = createSupabaseBrowser()
   const queryClient = useQueryClient()
   const pageSize = 10
@@ -152,7 +152,7 @@ export default function FollowingFeed({ currentUserID }: { currentUserID: string
         {data?.pages?.map((group, i) => (
           <React.Fragment key={i}>
             {group.data.map((lit: Lit) => (
-              <LitComponent key={lit.id} lit={lit} />
+              <LitComponent session={session} key={lit.id} lit={lit} />
             ))}
           </React.Fragment>
         ))}

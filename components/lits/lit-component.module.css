@@ -1,0 +1,10 @@
+.icon:hover {
+  color: #f6ae28;
+  cursor: pointer;
+  /* This sets the color of the icons on hover */
+}
+
+.icon {
+  transition: color 0.2s;
+
+}

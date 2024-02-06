@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 
 @layer base {
   :root {
@@ -26,7 +26,7 @@
     --ring: 39 92% 56%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
@@ -50,11 +50,23 @@
   }
 }
 
- 
+.icon-container:hover .icon {
+  color: #f6ae28;
+  /* This sets the color of the icons on hover */
+}
+
+.icon {
+  transition: color 0.2s;
+  /* Smooth transition for color change */
+}
+
+
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

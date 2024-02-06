@@ -1,17 +1,17 @@
 'use client'
-import React, { useEffect, useRef } from 'react';
-import { createSupabaseBrowser } from '@/lib/supabase/client';
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import { LitComponent } from '../lits/lit-component';
-import { Lit } from '@/lib/types';
-import { LoadingSpinner } from '../ui/spinner';
-import { InfiniteData } from '@tanstack/react-query';
+import React, { useEffect, useRef } from 'react'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { LitComponent } from '../lits/lit-component'
+import { Lit } from '@/lib/types'
+import { LoadingSpinner } from '../ui/spinner'
+import { InfiniteData } from '@tanstack/react-query'
 
 
-export default function ProfileFeed({ username }: { username: string }) {
-  const supabase = createSupabaseBrowser();
-  const queryClient = useQueryClient();
-  const pageSize = 10;
+export default function ProfileFeed({ username, session }: { username: string, session: any }) {
+  const supabase = createSupabaseBrowser()
+  const queryClient = useQueryClient()
+  const pageSize = 10
   const profile = username
 
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
@@ -31,29 +31,29 @@ export default function ProfileFeed({ username }: { username: string }) {
     queryKey: [`${username}-lits`, username],
     queryFn: fetchLits,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.nextCursor !== null ? (lastPage.nextCursor / pageSize) : undefined;
+      return lastPage.nextCursor !== null ? (lastPage.nextCursor / pageSize) : undefined
     },
     initialPageParam: 0
   })
 
-  const loadMoreRef = useRef(null);
+  const loadMoreRef = useRef(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+          fetchNextPage()
         }
       },
       {
         rootMargin: '200px',
       }
-    );
+    )
     if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
+      observer.observe(loadMoreRef.current)
     }
-    return () => observer.disconnect();
-  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
+    return () => observer.disconnect()
+  }, [hasNextPage, fetchNextPage, isFetchingNextPage])
 
 
   useEffect(() => {
@@ -78,9 +78,9 @@ export default function ProfileFeed({ username }: { username: string }) {
         } as Lit
 
         queryClient.setQueryData<InfiniteData<Array<Lit>>>([`${username}-lits`, username], (prevLits: any) => {
-          if (!prevLits) return prevLits;
+          if (!prevLits) return prevLits
 
-          const updatedFirstPageData = [lit, ...prevLits.pages[0].data];
+          const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
           updatedFirstPageData.pop()
 
           const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
@@ -90,18 +90,18 @@ export default function ProfileFeed({ username }: { username: string }) {
           return {
             ...prevLits,
             pages: updatedPages,
-          };
-        });
+          }
+        })
 
 
 
       })
-      .subscribe();
+      .subscribe()
 
     return () => {
-      channel.unsubscribe();
-    };
-  }, [supabase, queryClient]);
+      channel.unsubscribe()
+    }
+  }, [supabase, queryClient])
 
 
 
@@ -115,7 +115,7 @@ export default function ProfileFeed({ username }: { username: string }) {
         {data?.pages?.map((group, i) => (
           <React.Fragment key={i}>
             {group.data.map((lit: Lit) => (
-              <LitComponent key={lit.id} lit={lit} />
+              <LitComponent session={session} key={lit.id} lit={lit} />
             ))}
           </React.Fragment>
         ))}
@@ -129,5 +129,5 @@ export default function ProfileFeed({ username }: { username: string }) {
         </div>
       )}
     </>
-  );
+  )
 }

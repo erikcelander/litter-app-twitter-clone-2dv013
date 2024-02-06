@@ -12,7 +12,6 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
   } = await supabase.auth.getSession()
 
   if (session) console.log(session.user.email + ' is authenticated')
-  if (!session) console.log('no session')
 
   return (
     <div
@@ -21,7 +20,7 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
     >
       <div className='flex-initial pr-1'>
         <Link className='flex flex-row text-center cursor-pointer' href='/'>
-          <Image src={litter} alt='Litter Logo' style={{width: '40px', height: 'auto'}} />
+          <Image src={litter} alt='Litter Logo' style={{ width: '40px', height: 'auto' }} />
           <h2 className='text-center text-3xl pl-4 items-center text-primary pt-1'>litter</h2>
         </Link>
       </div>

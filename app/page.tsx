@@ -10,6 +10,8 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser()
 
+  const { data: session } = await supabase.auth.getSession()
+
   return (
     <div className='flex flex-col justify-center items-center bg-[#1a1a1a]' style={{ width: '600px' }}>
       <div className='flex items-center justify-center '>
@@ -28,15 +30,15 @@ export default async function Index() {
             </div>
 
             <TabsContent value="following">
-              <FollowingFeed currentUserID={user.id} />
+              <FollowingFeed currentUserID={user.id} session={session} />
             </TabsContent>
 
             <TabsContent value="all">
-              <HomeFeed currentUserID={user.id} />
+              <HomeFeed currentUserID={user.id} session={session} />
             </TabsContent>
 
           </Tabs>
-        ) : <HomeFeed currentUserID='' />}
+        ) : <HomeFeed currentUserID='' session={session} />}
       </div>
     </div>
   )

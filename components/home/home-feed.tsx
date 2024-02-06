@@ -8,8 +8,9 @@ import { Lit } from '@/lib/types'
 import { LoadingSpinner } from '../ui/spinner'
 
 
-export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
+export default function HomeFeed({ currentUserID, session }: { currentUserID: string, session: any }) {
   const supabase = createSupabaseBrowser()
+
   const queryClient = useQueryClient()
   const pageSize = 10
 
@@ -143,7 +144,7 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
         {data?.pages?.map((group, i) => (
           <React.Fragment key={i}>
             {group.data.map((lit: Lit) => (
-              <LitComponent key={lit.id} lit={lit} />
+              <LitComponent session={session} key={lit.id} lit={lit} />
             ))}
           </React.Fragment>
         ))}

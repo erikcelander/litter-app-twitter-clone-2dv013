@@ -6,17 +6,19 @@ import { Toaster } from '@/components/ui/toaster'
 import { Suspense } from 'react'
 import { LoadingSpinner } from '@/components/ui/spinner'
 
-// Use environment variable for the URL
 const url = process.env.NEXT_PUBLIC_LITTER_URL || 'somethingwentwrong'
 
 export const metadata = {
   metadataBase: new URL(url),
-  title: 'Litter',
-  description: 'Your purr-fect source of daily, pawsome mews',
+  title: 'litter',
+  description: 'Your purr-fect source of daily, pawsome mews'
 }
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en' className={GeistSans.className} suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body className='bg-foreground text-background  relative'>
         <ReactQueryClientProvider>
 
@@ -26,12 +28,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div
               className='bg-[#1a1a1a] '
               style={{ width: '600px', minHeight: 'calc(100vh - 64px)' }}>
-              <Suspense fallback={<LoadingSpinner className='mx-auto mt-24' />}>
+              {/* <Suspense fallback={<LoadingSpinner className='mx-auto mt-24' />}> */}
 
-                <main className='flex flex-col items-center justify-center ml-auto mr-auto'>
-                  {children}
-                </main>
-              </Suspense>
+              <main className='flex flex-col items-center justify-center ml-auto mr-auto'>
+                {children}
+              </main>
+              {/* </Suspense> */}
 
             </div>
           </div>

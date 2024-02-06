@@ -12,7 +12,8 @@ export default async function Page({ params }: { params: { username: string } })
   const queryClient = new QueryClient()
   const supabase = createSupabaseServer()
   const { data } = await supabase.auth.getUser()
-  const user: User | null = data.user ? data.user : null;
+  const { data: session } = await supabase.auth.getSession()
+  const user: User | null = data.user ? data.user : null
 
   const profileUsername = params.username
 
@@ -34,7 +35,7 @@ export default async function Page({ params }: { params: { username: string } })
   return (
     <div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Profile profileUsername={profileUsername} currentUserID={user ? user.id : ''} />
+        <Profile session={session} profileUsername={profileUsername} currentUserID={user ? user.id : ''} />
       </HydrationBoundary>
     </div>
   )
