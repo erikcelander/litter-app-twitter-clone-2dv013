@@ -19,7 +19,6 @@ const formattedDate = (date: string | number | Date) => format(new Date(date), '
 
 
 export const LitComponent = ({ lit, session }: { lit: Lit, session: any }) => {
-  console.log(session)
 
 
   return (

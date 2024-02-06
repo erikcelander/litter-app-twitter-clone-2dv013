@@ -101,8 +101,6 @@ export default function HomeFeed({ currentUserID, session }: { currentUserID: st
               .then(({ data }): void => {
                 if (data?.follower_id.length === 36) {
                   queryClient.setQueryData<InfiniteData<Array<Lit>>>([`litsByFollowing-${currentUserID}`, currentUserID], (prevLits: any) => {
-                    console.log('prevlits i follow ', prevLits)
-
                     if (!prevLits) return prevLits
 
                     const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
@@ -120,10 +118,6 @@ export default function HomeFeed({ currentUserID, session }: { currentUserID: st
                 }
               })
           }
-
-
-
-
 
 
         }

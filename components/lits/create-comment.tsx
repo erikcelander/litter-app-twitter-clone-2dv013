@@ -62,7 +62,7 @@ export function CreateComment({ user, litId }: { user: User, litId: string }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(postComment)} className='w-full '>
+      <form onSubmit={form.handleSubmit(postComment)} className='w-full pb-4'>
         <div className='flex space-x-3 ml-2'>
           <Avatar className='mt-10'>
             <AvatarImage alt='User avatar' src={avatarUrl} />

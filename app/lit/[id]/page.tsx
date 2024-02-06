@@ -5,6 +5,7 @@ import { getLitById } from '@/lib/queries/get-lit'
 import { LitWrapper } from '@/components/lits/lit-wrapper'
 import { CreateComment } from '@/components/lits/create-comment'
 import { User } from '@supabase/supabase-js'
+import CommentFeed from '@/components/lits/comment-feed'
 
 export default async function Page({ params }: { params: { id: string } }) {
 
@@ -17,13 +18,12 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { user } = data as { user: User }
 
 
-  console.log(user)
-
   return (
     <div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <LitWrapper id={params.id} session={session.session} />
         {user && <CreateComment litId={params.id} user={user} />}
+        <CommentFeed litId={params.id} session={session.session} />
       </HydrationBoundary>
     </div>
   )
