@@ -3,6 +3,8 @@ import './globals.css'
 import { Nav } from '@/components/nav/nav'
 import { ReactQueryClientProvider } from '@/components/query-provider'
 import { Toaster } from '@/components/ui/toaster'
+import { Suspense } from 'react'
+import { LoadingSpinner } from '@/components/ui/spinner'
 
 // Use environment variable for the URL
 const url = process.env.NEXT_PUBLIC_LITTER_URL || 'somethingwentwrong'
@@ -24,15 +26,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div
               className='bg-[#1a1a1a] '
               style={{ width: '600px', minHeight: 'calc(100vh - 64px)' }}>
+              <Suspense fallback={<LoadingSpinner className='mx-auto mt-24' />}>
 
-              <main className='flex flex-col items-center justify-center ml-auto mr-auto'>
-                {children}
-              </main>
+                <main className='flex flex-col items-center justify-center ml-auto mr-auto'>
+                  {children}
+                </main>
+              </Suspense>
 
             </div>
           </div>
+
         </ReactQueryClientProvider>
-        <Toaster/>
+        <Toaster />
       </body>
     </html>
   )

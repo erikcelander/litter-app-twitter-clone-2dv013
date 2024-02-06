@@ -31,21 +31,21 @@ export type LitData = {
 
 
 export function CreateLit({ user }: { user: User }) {
-  const supabase = createSupabaseBrowser();
+  const supabase = createSupabaseBrowser()
 
   const form = useForm<z.infer<typeof LitFormSchema>>({
     resolver: zodResolver(LitFormSchema),
   })
 
   const username = user.email?.split('@')[0]
-  const fullName = user.email === 'test@test.com' ? 'Test Testsson' : user.user_metadata?.full_name;
+  const fullName = user.email === 'test@test.com' ? 'Test Testsson' : user.user_metadata?.full_name
   const avatarUrl = user.user_metadata?.avatar_url
 
 
   const PostLit = async (formData: z.infer<typeof LitFormSchema>) => {
     try {
       if (formData.content.length > 42) {
-        throw new Error('Lit content exceeds 42 characters');
+        throw new Error('Lit content exceeds 42 characters')
       }
 
 
@@ -61,9 +61,9 @@ export function CreateLit({ user }: { user: User }) {
       const { error } = await supabase.from('lits').insert([lit])
 
       if (error) throw error
-      
 
-      form.reset();
+
+      form.reset()
     } catch (error: any) {
       console.log(error)
 
@@ -84,9 +84,15 @@ export function CreateLit({ user }: { user: User }) {
               <FormLabel>What's happening?</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder={`Share your thoughts `}
-                  className='resize-none  p-2 text-black'
+                  placeholder="Share your thoughts"
+                  className="resize-none p-2 text-black"
                   {...form.register('content')}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault()
+                      form.handleSubmit(PostLit)()
+                    }
+                  }}
                 />
               </FormControl>
               <FormMessage />

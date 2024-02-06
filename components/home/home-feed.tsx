@@ -89,6 +89,42 @@ export default function HomeFeed({ currentUserID }: { currentUserID: string }) {
               pages: updatedPages,
             }
           })
+
+          if (lit.user_id !== currentUserID) {
+            supabase
+              .from('follows')
+              .select('follower_id')
+              .eq('follower_id', currentUserID)
+              .eq('followed_id', lit.user_id)
+              .single()
+              .then(({ data }): void => {
+                if (data?.follower_id.length === 36) {
+                  queryClient.setQueryData<InfiniteData<Array<Lit>>>([`litsByFollowing-${currentUserID}`, currentUserID], (prevLits: any) => {
+                    console.log('prevlits i follow ', prevLits)
+
+                    if (!prevLits) return prevLits
+
+                    const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
+                    updatedFirstPageData.pop()
+
+                    const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
+                      pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+                    )
+
+                    return {
+                      ...prevLits,
+                      pages: updatedPages,
+                    }
+                  })
+                }
+              })
+          }
+
+
+
+
+
+
         }
       }).subscribe()
 

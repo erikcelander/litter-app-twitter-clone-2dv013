@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
   const startIndex = page * size
 
   if (!currentUserID) {
+    console.log('currentUserID is required')
     return new NextResponse(JSON.stringify({ error: 'currentUserID is required' }), { status: 400 })
   }
 

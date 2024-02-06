@@ -76,6 +76,28 @@ export default function FollowingFeed({ currentUserID }: { currentUserID: string
             created_at: payload.new.created_at,
           } as Lit
 
+
+
+          queryClient.setQueryData<InfiniteData<Array<Lit>>>([`lits`], (prevLits: any) => {
+            if (!prevLits) return prevLits
+
+
+            const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
+            updatedFirstPageData.pop()
+
+
+            const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
+              pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+            )
+
+            return {
+              ...prevLits,
+              pages: updatedPages,
+            }
+          })
+
+
+
           if (lit.user_id !== id) {
             supabase
               .from('follows')
@@ -103,6 +125,10 @@ export default function FollowingFeed({ currentUserID }: { currentUserID: string
                       }
                     }
                   })
+
+
+
+
                 }
               })
           }
