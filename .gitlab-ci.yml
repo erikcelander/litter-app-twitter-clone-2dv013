@@ -61,9 +61,9 @@ staging:
 deploy:
   stage: deploy
   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
-  environment:
-    name: staging
-    url: $LITTER_STAGING_URL
+  # environment:
+  #   name: staging
+  #   url: $LITTER_ST_URL
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
