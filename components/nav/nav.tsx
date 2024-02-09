@@ -20,12 +20,12 @@ export async function Nav({ className, ...props }: React.HTMLAttributes<HTMLElem
     >
       <div className='flex-initial pr-1'>
         <Link className='flex flex-row text-center cursor-pointer' href='/'>
-          <Image src={litter} alt='Litter Logo' style={{ width: '40px', height: 'auto' }} />
+          <Image className='w-[2.5rem] h-auto' src={litter} alt='Litter Logo' />
           <h2 className='text-center text-3xl pl-4 items-center text-primary pt-1'>litter</h2>
         </Link>
       </div>
 
-      <div className='flex-initial pl-40'>{session ? <Logout /> : <Login />}</div>
+      <div className='flex-initial'>{session ? <Logout /> : <Login />}</div>
     </div>
   )
 }

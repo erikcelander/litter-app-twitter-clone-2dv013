@@ -46,22 +46,16 @@ export function ProfileHeader({
   const fullName = `${profile.first_name} ${profile.last_name}`
 
   return (
-    <div
-      className='p-4 rounded-lg w-full mx-auto flex flex-row items-center justify-center'
-      style={{ height: '200px', width: '600px' }}
-    >
-      <div
-        className='flex flex-col flex-grow items-center justify-center w-full'
-        style={{ height: '200px' }}
-      >
-        <div className='' style={{ height: '80px', width: '80px' }}>
-          <Avatar className='' style={{ height: '80px', width: '80px' }}>
+    <div className='p-4 rounded-lg mx-auto flex h-[13rem] w-[37rem] flex-row items-center justify-center'>
+      <div className='flex flex-col h-[13rem] flex-grow items-center justify-center w-full'>
+        <div className='h-[5rem] w-[5rem]'>
+          <Avatar className='h-[5rem] w-[5rem]'>
             <AvatarImage
-              style={{ height: '80px', width: '80px' }}
+              className='h-[5rem] w-[5rem]'
               alt={`@${profile.username}`}
               src={profile.avatar_url!}
             />
-            <AvatarFallback style={{ height: '80px', width: '80px', fontSize: '32px' }}>
+            <AvatarFallback className='h-[5rem] w-[5rem] text-[2rem]'>
               {fullName ? fullName.charAt(0) : 'U'}
             </AvatarFallback>
           </Avatar>
@@ -73,10 +67,7 @@ export function ProfileHeader({
         </div>
       </div>
 
-      <div
-        className='flex flex-col flex-grow items-center justify-center w-full  text-gray-400'
-        style={{ height: '200px' }}
-      >
+      <div className='flex flex-col flex-grow items-center justify-center w-full h-[13rem]  text-gray-400'>
         <div className='flex flex-grow items-center justify-center flex-col pt-6 '>
           {currentUserID &&
             profile.id &&
@@ -89,7 +80,7 @@ export function ProfileHeader({
         </div>
         <div className='text-center flex flex-col justify-between  p-6 pt-0'>
           <div className=''>
-            <span className='text-gray-500  text-sm '>
+            <span className='text-gray-500 text-sm '>
               {' '}
               Joined{' '}
               {profile.created_at ? new Date(profile.created_at).toLocaleDateString('en-GB') : ''}

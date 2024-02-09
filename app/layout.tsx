@@ -22,10 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Nav />
 
           <div className='flex flex-col flex-grow justify-center items-center '>
-            <div
-              className='bg-[#1a1a1a] '
-              style={{ width: '600px', minHeight: 'calc(100vh - 64px)' }}
-            >
+            <div className='w-full sm:w-[37rem] min-h-custom bg-[#1a1a1a]'>
               <main className='flex flex-col items-center justify-center ml-auto mr-auto'>
                 {children}
               </main>

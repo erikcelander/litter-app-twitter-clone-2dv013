@@ -15,7 +15,7 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
     <div
       className={`p-2 pt-4 pb-4 text-white max-w-xl mx-auto ${styles.comment} border-t border-t-background/10`}
     >
-      <div className='flex flex-row min-w-xl' style={{ width: '470px' }}>
+      <div className='flex flex-row min-w-xl w-[30rem]'>
         <Link className='hover:cursor-pointer' href={`/profile/${comment?.username}`}>
           <Avatar className='h-8 w-8 mt-auto mb-auto'>
             <AvatarImage alt={`@${comment?.username}`} src={comment?.avatar_url!} />
@@ -26,7 +26,7 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
         </Link>
 
         <div className='flex flex-col justify-center'>
-          <div className='ml-5 flex flex-row justify-between' style={{ width: '420px' }}>
+          <div className='ml-5 flex flex-row justify-between w-[26rem]'>
             <Link
               className='hover:cursor-pointer flex flex-row'
               href={`/profile/${comment?.username}`}

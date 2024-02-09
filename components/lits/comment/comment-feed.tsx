@@ -71,6 +71,8 @@ export default function CommentFeed({ litId, session }: { litId: string; session
               avatar_url: payload.new.avatar_url,
               content: payload.new.content,
               created_at: payload.new.created_at,
+              like_count: payload.new.like_count,
+              parent_lit_id: payload.new.parent_lit_id,
             } as Comment
 
             queryClient.setQueryData<InfiniteData<Array<Comment>>>(

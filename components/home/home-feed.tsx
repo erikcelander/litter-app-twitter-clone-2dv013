@@ -75,6 +75,7 @@ export default function HomeFeed({
               avatar_url: payload.new.avatar_url,
               content: payload.new.content,
               created_at: payload.new.created_at,
+              comment_count: payload.new.comment_count,
             } as Lit
 
             queryClient.setQueryData<InfiniteData<Array<Lit>>>([`lits`], (prevLits: any) => {
@@ -132,14 +133,14 @@ export default function HomeFeed({
   }, [supabase, queryClient])
 
   return status === 'pending' ? (
-    <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}>
+    <div className='flex justify-center items-center mt-5 w-full'>
       <LoadingSpinner className={''} />
     </div>
   ) : status === 'error' ? (
     <p>Error: {error.message}</p>
   ) : (
-    <>
-      <div className='flex flex-col items-center'>
+    <div className='w-full'>
+      <div className='flex flex-col items-center w-full'>
         {data?.pages?.map((group, i) => (
           <React.Fragment key={i}>
             {group.data.map((lit: Lit) => (
@@ -155,6 +156,6 @@ export default function HomeFeed({
           <LoadingSpinner className='' />
         </div>
       )}
-    </>
+    </div>
   )
 }

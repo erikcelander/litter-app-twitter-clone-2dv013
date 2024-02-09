@@ -62,8 +62,7 @@ export const LikeComponent = ({ userId, id }: { userId: string | undefined; id: 
         {likeData?.likeCount ?? 0}
       </span>{' '}
       <PawPrint
-        className={`${styles.icon} ${likeData?.isLiked ? styles.liked : ''} mr-2`}
-        style={{ width: '18px', height: 'auto' }}
+        className={`${styles.icon} ${likeData?.isLiked ? styles.liked : ''} pt-0.5 mr-2 w-[18px] h-auto`}
         onClick={() => toggleLike.mutate()}
       />
     </div>

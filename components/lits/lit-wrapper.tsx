@@ -13,7 +13,7 @@ export const LitWrapper = ({ id, session }: { id: string; session: any }) => {
 
   if (isLoading)
     return (
-      <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}>
+      <div className='flex justify-center items-center mt-5 w-full'>
         <LoadingSpinner className={''} />
       </div>
     )

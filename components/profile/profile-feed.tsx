@@ -69,6 +69,7 @@ export default function ProfileFeed({ username, session }: { username: string; s
             avatar_url: payload.new.avatar_url,
             content: payload.new.content,
             created_at: payload.new.created_at,
+            comment_count: payload.new.comment_count,
           } as Lit
 
           queryClient.setQueryData<InfiniteData<Array<Lit>>>(
@@ -99,14 +100,14 @@ export default function ProfileFeed({ username, session }: { username: string; s
   }, [supabase, queryClient])
 
   return status === 'pending' ? (
-    <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}>
+    <div className='flex justify-center items-center w-full mt-5'>
       <LoadingSpinner className={''} />
     </div>
   ) : status === 'error' ? (
     <p>Error: {error.message}</p>
   ) : (
-    <>
-      <div className='flex flex-col items-center'>
+    <div className='w-full'>
+      <div className='flex flex-col w-full items-center'>
         {data?.pages?.map((group, i) => (
           <React.Fragment key={i}>
             {group.data.map((lit: Lit) => (
@@ -122,6 +123,6 @@ export default function ProfileFeed({ username, session }: { username: string; s
           <LoadingSpinner className='' />
         </div>
       )}
-    </>
+    </div>
   )
 }

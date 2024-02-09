@@ -17,24 +17,21 @@ export default async function Index() {
   }
 
   return (
-    <div
-      className='flex flex-col justify-center items-center bg-[#1a1a1a]'
-      style={{ width: '600px' }}
-    >
-      <div className='flex items-center justify-center '>
+    <div className='flex flex-col justify-center items-center w-full bg-[#1a1a1a]'>
+      <div className='flex items-center justify-center w-full '>
         {user?.id ? (
-          <Tabs className='pt-4' defaultValue='all'>
-            <TabsList className='mx-auto'>
-              <TabsTrigger className='w-60' value='following'>
+          <Tabs className='pt-4 w-full' defaultValue='all'>
+            <TabsList className='mx-auto flex justify-center w-3/4'>
+              <TabsTrigger className='w-full' value='following'>
                 Following
               </TabsTrigger>
-              <TabsTrigger className='w-60' value='all'>
+              <TabsTrigger className='w-full' value='all'>
                 All Lits
               </TabsTrigger>
             </TabsList>
 
             <div className='flex flex-col justify-center items-center bg-[#1a1a1a]'>
-              <div style={{ width: '400px' }}>{user && <CreateLit user={user} />}</div>
+              <div className='w-[25rem]'>{user && <CreateLit user={user} />}</div>
             </div>
 
             <TabsContent value='following'>
