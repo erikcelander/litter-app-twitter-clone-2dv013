@@ -6,7 +6,7 @@ metadata:
   name: litter
 spec:
   ports:
-    - name: "litter-port"
+    - name: 'litter-port'
       port: 8888
       targetPort: litter-http
   selector:
@@ -30,38 +30,38 @@ spec:
         deployment.name: litter
     spec:
       containers:
-      - name: litter
-        image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application/litter-application:production-0.2.0
-        env:
-        - name: PORT
-          value: "3000"
-        - name: NEXT_PUBLIC_SUPABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: supabase-url
-              key: NEXT_PUBLIC_SUPABASE_URL
-        - name: NEXT_PUBLIC_SUPABASE_ANON_KEY
-          valueFrom:
-            secretKeyRef:
-              name: supabase-anon-key
-              key: NEXT_PUBLIC_SUPABASE_ANON_KEY
-        - name: NEXT_PUBLIC_LITTER_URL
-          valueFrom:
-            secretKeyRef:
-              name: litter-url
-              key: NEXT_PUBLIC_LITTER_URL
-        - name: NEXT_PUBLIC_TEST_EMAIL
-          valueFrom:
-            secretKeyRef:
-              name: test-email
-              key: NEXT_PUBLIC_TEST_EMAIL
-        - name: NEXT_PUBLIC_TEST_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: test-password
-              key: NEXT_PUBLIC_TEST_PASSWORD
-        ports:
-          - containerPort: 3000
-            name: litter-http
+        - name: litter
+          image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application:production-0.5.0
+          env:
+            - name: PORT
+              value: '3000'
+            - name: NEXT_PUBLIC_SUPABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-url
+                  key: NEXT_PUBLIC_SUPABASE_URL
+            - name: NEXT_PUBLIC_SUPABASE_ANON_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-anon-key
+                  key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+            - name: NEXT_PUBLIC_LITTER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: litter-url
+                  key: NEXT_PUBLIC_LITTER_URL
+            - name: NEXT_PUBLIC_TEST_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: test-email
+                  key: NEXT_PUBLIC_TEST_EMAIL
+            - name: NEXT_PUBLIC_TEST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test-password
+                  key: NEXT_PUBLIC_TEST_PASSWORD
+          ports:
+            - containerPort: 3000
+              name: litter-http
       imagePullSecrets:
-      - name: regcred
+        - name: regcred
