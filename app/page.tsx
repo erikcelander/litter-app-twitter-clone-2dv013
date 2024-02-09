@@ -4,7 +4,6 @@ import HomeFeed from '@/components/home/home-feed'
 import FollowingFeed from '@/components/home/following-feed'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { User } from '@supabase/supabase-js'
-import { useQueryClient } from '@tanstack/react-query'
 
 export default async function Index() {
   const supabase = createSupabaseServer()

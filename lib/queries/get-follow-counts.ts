@@ -1,40 +1,37 @@
-
-import { createSupabaseBrowser } from "../supabase/client";
+import { createSupabaseBrowser } from '../supabase/client'
 export const getFollowCounts = async (username: string) => {
-  const supabase = createSupabaseBrowser();
+  const supabase = createSupabaseBrowser()
 
   const { data: userProfile, error: profileError } = await supabase
     .from('profiles')
     .select('id')
     .eq('username', username)
-    .single();
+    .single()
 
-  if (profileError) throw profileError;
-  if (!userProfile) return false;
+  if (profileError) throw profileError
+  if (!userProfile) return false
 
-  const profileUserID = userProfile.id;
+  const profileUserID = userProfile.id
 
   console.log('profileUserID: ', profileUserID)
 
   const { data: followersData, error: followersError } = await supabase
     .from('follows')
     .select('*', { count: 'exact' })
-    .eq('followed_id', profileUserID);
-
+    .eq('followed_id', profileUserID)
 
   const { data: followingData, error: followingError } = await supabase
     .from('follows')
     .select('*', { count: 'exact' })
-    .eq('follower_id', profileUserID);
+    .eq('follower_id', profileUserID)
 
   if (followersError || followingError) {
-    console.error('Error fetching follow counts:', followersError || followingError);
-    return { followers: 0, following: 0 };
+    console.error('Error fetching follow counts:', followersError || followingError)
+    return { followers: 0, following: 0 }
   }
-
 
   return {
     followers: followersData.length,
     following: followingData.length,
-  };
-};
+  }
+}

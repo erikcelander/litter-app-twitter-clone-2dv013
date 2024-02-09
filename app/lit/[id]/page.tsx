@@ -12,13 +12,12 @@ export default async function Page({ params }: { params: { id: string } }) {
   const supabase = createSupabaseServer()
 
   await prefetchQuery(queryClient, getLitById(supabase, params.id))
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const { data } = await supabase.auth.getSession()
   let user: User | undefined
+  const session = data?.session
 
-  if (session?.user !== null) {
-    user = session?.user
+  if (data?.session?.user) {
+    user = data.session.user
   }
 
   return (

@@ -19,8 +19,6 @@ export default function HomeFeed({
   const queryClient = useQueryClient()
   const pageSize = 10
 
-  queryClient.invalidateQueries({ queryKey: ['likesData'] })
-
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits/home/?page=${pageParam}&size=${pageSize}`

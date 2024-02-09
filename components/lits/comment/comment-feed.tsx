@@ -8,33 +8,28 @@ import { Comment } from '@/lib/types'
 import { LoadingSpinner } from '../../ui/spinner'
 import { InfiniteData } from '@tanstack/react-query'
 
-export default function CommentFeed({ litId, session }: { litId: string, session: any }) {
+export default function CommentFeed({ litId, session }: { litId: string; session: any }) {
   const supabase = createSupabaseBrowser()
   const queryClient = useQueryClient()
   const pageSize = 10
   const id = litId
 
-  const fetchComments = async ({ pageParam = 0 }: { pageParam?: number, litId: string }) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/comments/?id=${id}&page=${pageParam}&size=${pageSize}`)
+  const fetchComments = async ({ pageParam = 0 }: { pageParam?: number; litId: string }) => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_LITTER_URL}/api/comments/?id=${id}&page=${pageParam}&size=${pageSize}`
+    )
     return res.json()
   }
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
-    queryKey: [`comments-${litId}`, litId],
-    queryFn: ({ pageParam }) => fetchComments({ pageParam, litId }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.nextCursor !== null ? lastPage.nextCursor : undefined
-    },
-    initialPageParam: 0
-  })
+  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: [`comments-${litId}`, litId],
+      queryFn: ({ pageParam }) => fetchComments({ pageParam, litId }),
+      getNextPageParam: (lastPage) => {
+        return lastPage.nextCursor !== null ? lastPage.nextCursor : undefined
+      },
+      initialPageParam: 0,
+    })
 
   const loadMoreRef = useRef(null)
 
@@ -56,41 +51,50 @@ export default function CommentFeed({ litId, session }: { litId: string, session
   }, [hasNextPage, fetchNextPage, isFetchingNextPage])
 
   useEffect(() => {
-    const channel = supabase.channel(`realtime-comments:${litId}`)
-      .on("postgres_changes", {
-        event: "INSERT",
-        schema: "public",
-        table: "comments",
-        filter: `parent_lit_id=eq.${litId}`
-      }, (payload) => {
-        if (payload.new && payload.new.parent_lit_id === litId) {
-          const comment = {
-            id: payload.new.id,
-            user_id: payload.new.user_id,
-            username: payload.new.username,
-            full_name: payload.new.full_name,
-            avatar_url: payload.new.avatar_url,
-            content: payload.new.content,
-            created_at: payload.new.created_at,
-          } as Comment
+    const channel = supabase
+      .channel(`realtime-comments:${litId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'comments',
+          filter: `parent_lit_id=eq.${litId}`,
+        },
+        (payload) => {
+          if (payload.new && payload.new.parent_lit_id === litId) {
+            const comment = {
+              id: payload.new.id,
+              user_id: payload.new.user_id,
+              username: payload.new.username,
+              full_name: payload.new.full_name,
+              avatar_url: payload.new.avatar_url,
+              content: payload.new.content,
+              created_at: payload.new.created_at,
+            } as Comment
 
-          queryClient.setQueryData<InfiniteData<Array<Comment>>>([`comments-${litId}`, litId], (prevComments: any) => {
-            if (!prevComments) return prevComments
+            queryClient.setQueryData<InfiniteData<Array<Comment>>>(
+              [`comments-${litId}`, litId],
+              (prevComments: any) => {
+                if (!prevComments) return prevComments
 
-            const updatedFirstPageData = [comment, ...prevComments.pages[0].data]
-            // updatedFirstPageData.pop()
+                const updatedFirstPageData = [comment, ...prevComments.pages[0].data]
+                // updatedFirstPageData.pop()
 
-            const updatedPages = prevComments.pages.map((page: any, pageIndex: number) =>
-              pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+                const updatedPages = prevComments.pages.map((page: any, pageIndex: number) =>
+                  pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+                )
+
+                return {
+                  ...prevComments,
+                  pages: updatedPages,
+                }
+              }
             )
-
-            return {
-              ...prevComments,
-              pages: updatedPages,
-            }
-          })
+          }
         }
-      }).subscribe()
+      )
+      .subscribe()
 
     return () => {
       channel.unsubscribe()
@@ -98,23 +102,22 @@ export default function CommentFeed({ litId, session }: { litId: string, session
   }, [supabase, queryClient, litId])
 
   return status === 'pending' ? (
-    <div className='flex justify-center items-center mt-5'><LoadingSpinner className='' /></div>
+    <div className='flex justify-center items-center mt-5'>
+      <LoadingSpinner className='' />
+    </div>
   ) : status === 'error' ? (
     <p>Error: {error.message}</p>
   ) : (
     <>
       <div className='flex flex-col items-center pt-4 '>
         {data?.pages?.map((group, i) => (
-
           <React.Fragment key={i}>
             {group?.data?.map((comment: Comment) => (
               <CommentComponent session={session} key={comment.id} comment={comment} />
             ))}
           </React.Fragment>
-
-
         ))}
-        <div ref={loadMoreRef} style={{ height: "20px" }}></div>
+        <div ref={loadMoreRef} style={{ height: '20px' }}></div>
       </div>
       {isFetching && !isFetchingNextPage && (
         <div className='flex justify-center items-center mt-5'>

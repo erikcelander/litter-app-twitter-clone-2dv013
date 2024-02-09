@@ -20,8 +20,6 @@ export default function FollowingFeed({
   const pageSize = 10
   const id = currentUserID
 
-  queryClient.invalidateQueries({ queryKey: ['likesData'] })
-
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits/following/?id=${id}&page=${pageParam}&size=${pageSize}`

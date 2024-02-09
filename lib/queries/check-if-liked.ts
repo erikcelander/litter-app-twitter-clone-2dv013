@@ -1,4 +1,4 @@
-import { createSupabaseBrowser } from "../supabase/client"
+import { createSupabaseBrowser } from '../supabase/client'
 
 export const checkIfLiked = async (userId: string, litId: string) => {
   if (!userId || userId.length === 0) return false
@@ -14,14 +14,13 @@ export const checkIfLiked = async (userId: string, litId: string) => {
       .eq('target_id', litId)
 
     if (error) {
-      console.error("Supabase error:", error.message)
-      return false // Return false in case of an error
+      console.error('Supabase error:', error.message)
+      return false
     }
     return data.length > 0
 
     return !!data
   } catch (error) {
-    // console.error(error)
     return false
   }
 }

@@ -1,5 +1,5 @@
-import { createSupabaseServer } from "@/lib/supabase/server"
-import { NextResponse } from "next/server"
+import { createSupabaseServer } from '@/lib/supabase/server'
+import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
   const supabase = createSupabaseServer()
@@ -13,13 +13,11 @@ export async function GET(request: Request) {
     .eq('parent_lit_id', litId)
     .order('created_at', { ascending: false })
 
-
   if (error) {
     return NextResponse.json({ error: error.message })
   }
 
   console.log('count i api', count)
-
 
   return NextResponse.json({
     count: count || 0,

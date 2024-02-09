@@ -22,13 +22,12 @@ const LitFormSchema = z.object({
 })
 
 export type LitData = {
-  user_id: string,
-  username: string,
-  full_name: string,
-  avatar_url: string,
-  content: string,
+  user_id: string
+  username: string
+  full_name: string
+  avatar_url: string
+  content: string
 }
-
 
 export function CreateLit({ user }: { user: User }) {
   const supabase = createSupabaseBrowser()
@@ -41,13 +40,11 @@ export function CreateLit({ user }: { user: User }) {
   const fullName = user.email === 'test@test.com' ? 'Test Testsson' : user.user_metadata?.full_name
   const avatarUrl = user.user_metadata?.avatar_url
 
-
   const postLit = async (formData: z.infer<typeof LitFormSchema>) => {
     try {
       if (formData.content.length > 42) {
         throw new Error('Lit content exceeds 42 characters')
       }
-
 
       const lit = {
         user_id: user.id,
@@ -57,19 +54,15 @@ export function CreateLit({ user }: { user: User }) {
         content: formData.content,
       } as LitData
 
-
       const { error } = await supabase.from('lits').insert([lit])
 
       if (error) throw error
 
-
       form.reset()
     } catch (error: any) {
       console.log(error)
-
     }
   }
-
 
   return (
     <Form {...form}>
@@ -84,8 +77,8 @@ export function CreateLit({ user }: { user: User }) {
               <FormLabel>What's happening?</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Share your thoughts"
-                  className="resize-none p-2 text-black"
+                  placeholder='Share your thoughts'
+                  className='resize-none p-2 text-black'
                   {...form.register('content')}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -101,7 +94,7 @@ export function CreateLit({ user }: { user: User }) {
         </div>
         <div className='flex justify-end mt-2 mb-2 '>
           <PostLitButton />
-        </div  >
+        </div>
       </form>
     </Form>
   )

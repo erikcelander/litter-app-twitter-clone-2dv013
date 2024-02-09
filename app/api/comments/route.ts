@@ -1,5 +1,5 @@
-import { createSupabaseServer } from "@/lib/supabase/server"
-import { NextResponse } from "next/server"
+import { createSupabaseServer } from '@/lib/supabase/server'
+import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
   const supabase = createSupabaseServer()

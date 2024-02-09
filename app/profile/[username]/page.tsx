@@ -7,11 +7,12 @@ import { User } from '@supabase/supabase-js'
 import { checkIfUserFollows } from '@/lib/queries/check-follow'
 import { getFollowCounts } from '@/lib/queries/get-follow-counts'
 
-
 export default async function Page({ params }: { params: { username: string } }) {
   const queryClient = new QueryClient()
   const supabase = createSupabaseServer()
-  const { data: { session } } = await supabase.auth.getSession()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
   let user: User | undefined
 
   if (session?.user !== null) {
@@ -34,11 +35,14 @@ export default async function Page({ params }: { params: { username: string } })
     queryFn: () => getFollowCounts(profileUsername),
   })
 
-
   return (
     <div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Profile session={session} profileUsername={profileUsername} currentUserID={user ? user.id : ''} />
+        <Profile
+          session={session}
+          profileUsername={profileUsername}
+          currentUserID={user ? user.id : ''}
+        />
       </HydrationBoundary>
     </div>
   )

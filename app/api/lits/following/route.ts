@@ -26,13 +26,17 @@ export async function GET(request: NextRequest) {
     return new NextResponse(JSON.stringify({ error: followsError?.message }), { status: 500 })
   }
 
-  const followedIds = follows.map(follow => follow.followed_id)
+  const followedIds = follows.map((follow) => follow.followed_id)
 
   if (followedIds.length === 0) {
     return NextResponse.json({ data: [], nextCursor: null })
   }
 
-  const { data: lits, error: litsError, count } = await supabase
+  const {
+    data: lits,
+    error: litsError,
+    count,
+  } = await supabase
     .from('lits')
     .select('*', { count: 'exact' })
     .in('user_id', followedIds)

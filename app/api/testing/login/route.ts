@@ -1,12 +1,11 @@
-import { NextResponse } from "next/server"
-import { createServerClient } from "@supabase/ssr"
-import { cookies } from "next/headers"
-import { CookieOptions } from "@supabase/ssr"
+import { NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { CookieOptions } from '@supabase/ssr'
 
 export async function GET(request: Request) {
-  const url = new URL(request.url)
   const cookieStore = cookies()
-  
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -22,7 +21,8 @@ export async function GET(request: Request) {
         //   cookieStore.set({ name, value: '', ...options })
         // },
       },
-    })
+    }
+  )
 
   const email = process.env.NEXT_PUBLIC_TEST_EMAIL as string
   const password = process.env.NEXT_PUBLIC_TEST_PASSWORD as string
@@ -34,8 +34,7 @@ export async function GET(request: Request) {
 
   if (error) {
     console.error('Failed to login', error.message)
-  } 
-    
-  
+  }
+
   return NextResponse.redirect(process.env.NEXT_PUBLIC_LITTER_URL!)
 }

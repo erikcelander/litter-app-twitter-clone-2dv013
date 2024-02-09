@@ -30,14 +30,12 @@ export async function GET(request: Request) {
 
     if (!error) {
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/`)
-
     } else {
       console.log('error: ', error)
     }
   } else {
     console.log('no code?')
   }
-
 
   return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LITTER_URL}/auth/auth-code-error`)
 }

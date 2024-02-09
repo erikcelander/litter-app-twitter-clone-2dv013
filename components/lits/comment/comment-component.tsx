@@ -5,29 +5,12 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import styles from './comment-component.module.css'
 import { formatDistanceToNow, format } from 'date-fns'
 import { LikeComponent } from '../like/like-component'
-import { useQuery } from '@tanstack/react-query'
-import { checkIfLiked } from '@/lib/queries/check-if-liked'
 
 const timeAgo = (date: string | number | Date) =>
   formatDistanceToNow(new Date(date), { addSuffix: true })
 const formattedDate = (date: string | number | Date) => format(new Date(date), 'HH:mm dd/MM/yyyy')
 
 export const CommentComponent = ({ comment, session }: { comment: Comment; session: any }) => {
-  let liked = false
-
-  if (session !== null && session !== undefined) {
-    const {
-      data: isLiked,
-      isLoading,
-      isError,
-    } = useQuery({
-      queryKey: [`likeStatus-${comment.id}-${session.user.id}`, comment.id, session.user.id],
-      queryFn: () => checkIfLiked(session.user.id, comment.id),
-      enabled: !!session.user.id && !!comment.id,
-    })
-    liked = isLiked!
-  }
-
   return (
     <div
       className={`p-2 pt-4 pb-4 text-white max-w-xl mx-auto ${styles.comment} border-t border-t-background/10`}
@@ -74,7 +57,7 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
             <Link className='hover:cursor-pointer flex-grow' href={`/comment/${comment?.id}`}>
               <p className='flex-grow'>{comment?.content || 'No content available.'}</p>
             </Link>
-            {session.user.id && <LikeComponent id={comment.id} userId={session.user.id} />}
+            {session?.user?.id && <LikeComponent id={comment.id} userId={session?.user?.id} />}
           </div>
         </div>
       </div>

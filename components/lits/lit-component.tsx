@@ -70,23 +70,21 @@ export const LitComponent = ({ lit, session }: { lit: Lit; session: any }) => {
             </Link>
 
             <div>
-              {session && (
-                <div className='flex flex-row mr-6 mt-1 text-sm gap-4'>
-                  {session.user.id && <LikeComponent id={lit.id} userId={session.user.id} />}
+              <div className='flex flex-row mr-6 mt-1 text-sm gap-4'>
+                {session?.user?.id && <LikeComponent id={lit.id} userId={session.user.id} />}
 
-                  <Link className='hover:cursor-pointer ' href={`/lit/${lit?.id}`}>
-                    <div className='flex flex-row'>
-                      <span className='text-xs pt-1 text-gray-400' style={{ marginRight: '4px' }}>
-                        {lit.comment_count ? lit.comment_count : 0}
-                      </span>
-                      <MessageCircle
-                        className={`${styles.icon}`}
-                        style={{ width: '18px', height: 'auto' }}
-                      />
-                    </div>
-                  </Link>
-                </div>
-              )}
+                <Link className='hover:cursor-pointer ' href={`/lit/${lit?.id}`}>
+                  <div className='flex flex-row'>
+                    <span className='text-xs pt-1 text-gray-400' style={{ marginRight: '4px' }}>
+                      {lit.comment_count ? lit.comment_count : 0}
+                    </span>
+                    <MessageCircle
+                      className={`${styles.icon}`}
+                      style={{ width: '18px', height: 'auto' }}
+                    />
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

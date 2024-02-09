@@ -6,8 +6,15 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import ProfileFeed from './profile-feed'
 import { ProfileHeader, UserProfile } from './profile-header'
 
-
-const Profile = ({ profileUsername, currentUserID, session }: { profileUsername: string, currentUserID: string, session: any }) => {
+const Profile = ({
+  profileUsername,
+  currentUserID,
+  session,
+}: {
+  profileUsername: string
+  currentUserID: string
+  session: any
+}) => {
   const supabase = createSupabaseBrowser()
   const { data: profile } = useQuery(getProfileByUsername(supabase, profileUsername))
 
