@@ -18,26 +18,3 @@ export const createSupabaseBrowser = () => {
 		key,
 	);
 }
-
-
-// function getSupabaseBrowserClient() {
-//   if (client) {
-//     return client
-//   }
-
-// 	const url = process.env.NEXT_PUBLIC_SUPABASE_URL! as string
-//   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! as string
-
-//   client = createBrowserClient<Database>(
-//     url,
-//     key
-//   )
-
-//   return client
-// }
-
-// function createSupabaseBrowser() {
-//   return useMemo(getSupabaseBrowserClient, [])
-// }
-
-// export default createSupabaseBrowser

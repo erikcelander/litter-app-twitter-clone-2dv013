@@ -79,7 +79,7 @@ export default function HomeFeed({
 
             queryClient.setQueryData<InfiniteData<Array<Lit>>>([`lits`], (prevLits: any) => {
               const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
-              updatedFirstPageData.pop()
+              if (updatedFirstPageData.length > pageSize) updatedFirstPageData.pop()
 
               const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
                 pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
