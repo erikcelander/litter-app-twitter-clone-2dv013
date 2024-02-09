@@ -20,7 +20,7 @@ export const LitWrapper = ({ id, session }: { id: string; session: any }) => {
   if (isError) return <div>Something went wrong. </div>
 
   return (
-    <div className='pt-8 pb-2 border-b-background/80'>
+    <div className='p-4 w-full pb-2 border-b-background/80'>
       {lit && <LitComponent session={session} lit={lit as Lit} />}
     </div>
   )

@@ -67,9 +67,12 @@ export function CreateComment({ user, litId }: { user: User; litId: string }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(postComment)} className='w-full pb-4'>
+      <form
+        onSubmit={form.handleSubmit(postComment)}
+        className='w-full flex flex-col justify-center items-center pb-4'
+      >
         <div className='flex space-x-3 ml-2'>
-          <Avatar className='mt-10'>
+          <Avatar className='mt-10 mr-2'>
             <AvatarImage alt='User avatar' src={avatarUrl} />
             <AvatarFallback>{fullName ? fullName.charAt(0) : 'U'}</AvatarFallback>
           </Avatar>
@@ -80,7 +83,7 @@ export function CreateComment({ user, litId }: { user: User; litId: string }) {
               <FormControl>
                 <Textarea
                   placeholder={`What's on your mind, ${fullName?.split(' ')[0]}?`}
-                  className='resize-none w-80  text-black'
+                  className='resize-none w-80 h-14  text-black'
                   {...form.register('content')}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {

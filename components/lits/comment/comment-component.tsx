@@ -16,8 +16,8 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
       className={`p-2 pt-4 pb-4 text-white max-w-xl mx-auto ${styles.comment} border-t border-t-background/10`}
     >
       <div className='flex flex-row min-w-xl w-[30rem]'>
-        <Link className='hover:cursor-pointer' href={`/profile/${comment?.username}`}>
-          <Avatar className='h-8 w-8 mt-auto mb-auto'>
+        <Link className='hover:cursor-pointer flex' href={`/profile/${comment?.username}`}>
+          <Avatar className='h-8 w-8 mt-auto mb-auto '>
             <AvatarImage alt={`@${comment?.username}`} src={comment?.avatar_url!} />
             <AvatarFallback>
               {comment?.full_name ? comment?.full_name.charAt(0) : 'U'}

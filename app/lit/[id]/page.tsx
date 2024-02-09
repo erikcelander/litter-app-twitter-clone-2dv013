@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div>
+    <div className='w-full flex flex-col justify-center items-center'>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <LitWrapper id={params.id} session={session} />
         {user && <CreateComment litId={params.id} user={user} />}
