@@ -1,30 +1,28 @@
 stages:
-  # - build
+  - build
   - build_staging
   - staging
   # - e2e_test
-  # - deploy
+  - deploy
 
-# build:
-#   stage: build
-#   image:
-#     name: gcr.io/kaniko-project/executor:v1.9.0-debug
-#     entrypoint: [""]
-#   script:
-#     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
-#     - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}/litter-application:production-${PROJECT_VERSION}"
-#   only:
-#     - main
-
-build_staging:
-  stage: build_staging    
+build:
+  stage: build
   image:
-      name: gcr.io/kaniko-project/executor:v1.9.0-debug
-      entrypoint: [""]
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: ['']
   script:
     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
-    # - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}:latest"
-   # - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}:staging-${PROJECT_VERSION}"
+    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}/litter-application:production-${PROJECT_VERSION}" --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+  only:
+    - main
+
+build_staging:
+  stage: build_staging
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: ['']
+  script:
+    - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
     - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}:staging-${PROJECT_VERSION}" --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   only:
@@ -33,10 +31,9 @@ build_staging:
 staging:
   stage: staging
   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
-  # environment:
-  #   name: staging
-  #   url: $LITTER_STAGING_URL
-
+  environment:
+    name: staging
+    url: $LITTER_STAGING_URL
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl config get-contexts
@@ -45,12 +42,11 @@ staging:
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --namespace=staging --dry-run=client -o yaml | kubectl apply -f -
     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
     - skaffold deploy --profile staging --images ${CI_REGISTRY_IMAGE}:staging-${PROJECT_VERSION}
-    # - skaffold deploy --profile staging --images ${CI_REGISTRY_IMAGE}:latest
     - kubectl get deployments -n staging
     - kubectl get pods -n staging
     - kubectl get services -n staging
   only:
-    - staging # This job will only run on the staging branch
+    - staging
 
 # e2e_test:
 #   when: manual
@@ -62,19 +58,19 @@ staging:
 #   only:
 #     - staging
 
-# deploy:
-#   stage: deploy
-#   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
-#   environment:
-#     name: staging
-#     url: $LITTER_STAGING_URL
-#   script:
-#     - kubectl config use-context $K8S_CONTEXT
-#     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
-#     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
-#     - skaffold deploy --profile production --images ${CI_REGISTRY_IMAGE}/litter-application:production-${PROJECT_VERSION}
-#     - kubectl get deployments
-#     - kubectl get pods
-#     - kubectl get services
-#   only:
-#     - main # This job will only run on the main branch
+deploy:
+  stage: deploy
+  image: gcr.io/k8s-skaffold/skaffold:v2.8.0
+  environment:
+    name: staging
+    url: $LITTER_STAGING_URL
+  script:
+    - kubectl config use-context $K8S_CONTEXT
+    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
+    - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
+    - skaffold deploy --profile production --images ${CI_REGISTRY_IMAGE}:production-${PROJECT_VERSION}
+    - kubectl get deployments
+    - kubectl get pods
+    - kubectl get services
+  only:
+    - main
