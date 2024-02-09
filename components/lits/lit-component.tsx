@@ -7,18 +7,29 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { MessageCircle, PawPrint } from "lucide-react"
+import { MessageCircle } from "lucide-react"
 import styles from './lit-component.module.css'
 import { formatDistanceToNow, format } from 'date-fns'
+import { useQuery } from "@tanstack/react-query"
+import { LikeComponent } from "./like/like-component"
+import { checkIfLiked } from "@/lib/queries/check-if-liked"
 
 
 const timeAgo = (date: string | number | Date) => formatDistanceToNow(new Date(date), { addSuffix: true })
 const formattedDate = (date: string | number | Date) => format(new Date(date), 'HH:mm dd/MM/yyyy')
 
 
-
-
 export const LitComponent = ({ lit, session }: { lit: Lit, session: any }) => {
+  let liked = false
+
+  if (session !== null && session !== undefined) {
+    const { data: isLiked, isLoading, isError } = useQuery({
+      queryKey: [`likeStatus-${lit.id}-${session.user.id}`, lit.id, session.user.id],
+      queryFn: () => checkIfLiked(session.user.id, lit.id),
+      enabled: !!session.user.id && !!lit.id,
+    })
+    liked = isLiked!
+  }
 
 
   return (
@@ -65,15 +76,13 @@ export const LitComponent = ({ lit, session }: { lit: Lit, session: any }) => {
               {
                 session &&
                 <div className="flex flex-row mr-6 mt-1 text-sm gap-4">
-                  <div className="flex flex-row  ">
-                    <span className="text-xs pt-1 mr-1 text-gray-400">10</span>
-                    <PawPrint className={`${styles.icon} mr-2`} style={{ width: '18px', height: 'auto' }} />
 
-                  </div>
+                  {session.user.id && <LikeComponent isLiked={liked || false} litId={lit.id} likes={lit.like_count} userId={session.user.id} />}
+
                   <Link className='hover:cursor-pointer ' href={`/lit/${lit?.id}`}>
 
                     <div className="flex flex-row">
-                      <span className="text-xs pt-1 text-gray-400 mr-1">10</span>
+                      <span className="text-xs pt-1 text-gray-400 mr-1">{lit.comment_count}</span>
                       <MessageCircle className={`${styles.icon}`} style={{ width: '18px', height: 'auto' }} />
                     </div>
                   </Link>

@@ -5,7 +5,7 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
 import { CommentComponent } from './comment-component'
 import { Comment } from '@/lib/types'
-import { LoadingSpinner } from '../ui/spinner'
+import { LoadingSpinner } from '../../ui/spinner'
 import { InfiniteData } from '@tanstack/react-query'
 
 export default function CommentFeed({ litId, session }: { litId: string, session: any }) {

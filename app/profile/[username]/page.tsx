@@ -11,18 +11,21 @@ import { getFollowCounts } from '@/lib/queries/get-follow-counts'
 export default async function Page({ params }: { params: { username: string } }) {
   const queryClient = new QueryClient()
   const supabase = createSupabaseServer()
-  const { data } = await supabase.auth.getUser()
-  const { data: session } = await supabase.auth.getSession()
-  const user: User | null = data.user ? data.user : null
+  const { data: { session } } = await supabase.auth.getSession()
+  let user: User | undefined
+
+  if (session?.user !== null) {
+    user = session?.user
+  }
 
   const profileUsername = params.username
 
   await prefetchQuery(queryClient, getProfileByUsername(supabase, profileUsername))
 
-  if (user) {
+  if (user?.id) {
     await queryClient.prefetchQuery({
       queryKey: ['followStatus', user?.id, profileUsername],
-      queryFn: () => checkIfUserFollows(user.id, profileUsername),
+      queryFn: () => checkIfUserFollows(user?.id ?? '', profileUsername),
     })
   }
 

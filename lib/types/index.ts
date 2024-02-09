@@ -5,7 +5,9 @@ export type Lit = {
   avatar_url: string | null
   content: string,
   created_at: string,
-  id: string
+  id: string,
+  comment_count: number,
+  like_count: number,
 }
 
 export type Comment = {

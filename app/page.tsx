@@ -3,14 +3,16 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 import HomeFeed from '@/components/home/home-feed'
 import FollowingFeed from '@/components/home/following-feed'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { User } from '@supabase/supabase-js'
 
 export default async function Index() {
   const supabase = createSupabaseServer()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: { session } } = await supabase.auth.getSession()
+  let user: User | undefined
 
-  const { data: session } = await supabase.auth.getSession()
+  if (session?.user !== null) {
+    user = session?.user
+  }
 
   return (
     <div className='flex flex-col justify-center items-center bg-[#1a1a1a]' style={{ width: '600px' }}>
