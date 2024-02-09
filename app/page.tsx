@@ -23,7 +23,7 @@ export default async function Index() {
     >
       <div className='flex items-center justify-center '>
         {user?.id ? (
-          <Tabs className='pt-4' defaultValue='following'>
+          <Tabs className='pt-4' defaultValue='all'>
             <TabsList className='mx-auto'>
               <TabsTrigger className='w-60' value='following'>
                 Following
