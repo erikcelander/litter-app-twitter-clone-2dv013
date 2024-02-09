@@ -57,7 +57,7 @@ export const LikeComponent = ({ userId, id }: { userId: string | undefined; id: 
   return (
     <div className='flex flex-row'>
       <span
-        className={`text-xs pt-1 mr-1 ${likeData?.isLiked ? 'text-yellow-600' : 'text-gray-400'}`}
+        className={`text-xs pt-1 mr-1 ${likeData?.isLiked ? 'text-yellow-500' : 'text-gray-400'}`}
       >
         {likeData?.likeCount ?? 0}
       </span>{' '}
