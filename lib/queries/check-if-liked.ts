@@ -1,8 +1,8 @@
 import { createSupabaseBrowser } from '../supabase/client'
 
-export const checkIfLiked = async (userId: string, litId: string) => {
+export const checkIfLiked = async (userId: string, targetId: string) => {
   if (!userId || userId.length === 0) return false
-  if (!litId || litId.length === 0) return false
+  if (!targetId || targetId.length === 0) return false
 
   const supabase = createSupabaseBrowser()
 
@@ -11,15 +11,13 @@ export const checkIfLiked = async (userId: string, litId: string) => {
       .from('likes')
       .select('id')
       .eq('user_id', userId)
-      .eq('target_id', litId)
+      .eq('target_id', targetId)
 
     if (error) {
       console.error('Supabase error:', error.message)
       return false
     }
     return data.length > 0
-
-    return !!data
   } catch (error) {
     return false
   }

@@ -17,8 +17,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: error.message })
   }
 
-  console.log('count i api', count)
-
   return NextResponse.json({
     count: count || 0,
   })

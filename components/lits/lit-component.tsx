@@ -8,6 +8,7 @@ import { formatDistanceToNow, format } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
 import { LikeComponent } from './like/like-component'
 import { checkIfLiked } from '@/lib/queries/check-if-liked'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
 
 const timeAgo = (date: string | number | Date) =>
   formatDistanceToNow(new Date(date), { addSuffix: true })
@@ -17,17 +18,27 @@ export const LitComponent = ({ lit, session }: { lit: Lit; session: any }) => {
   let liked = false
 
   if (session !== null && session !== undefined) {
-    const {
-      data: isLiked,
-      isLoading,
-      isError,
-    } = useQuery({
+    const { data: isLiked } = useQuery({
       queryKey: [`likeStatus-${lit.id}-${session.user.id}`, lit.id, session.user.id],
       queryFn: () => checkIfLiked(session.user.id, lit.id),
       enabled: !!session.user.id && !!lit.id,
     })
     liked = isLiked!
   }
+
+  const { data: commentCount } = useQuery({
+    queryKey: [`commentCount-${lit.id}`, lit.id],
+    queryFn: async () => {
+      const supabase = createSupabaseBrowser()
+
+      const { count } = await supabase
+        .from('comments')
+        .select('*', { count: 'exact' })
+        .eq('parent_lit_id', lit.id)
+
+      return count
+    },
+  })
 
   return (
     <div className=' p-2 pt-4 pb-4 text-white  max-w-xl mx-auto'>
@@ -76,8 +87,9 @@ export const LitComponent = ({ lit, session }: { lit: Lit; session: any }) => {
                 <Link className='hover:cursor-pointer ' href={`/lit/${lit?.id}`}>
                   <div className='flex flex-row'>
                     <span className='text-xs pt-1 text-gray-400' style={{ marginRight: '4px' }}>
-                      {lit.comment_count ? lit.comment_count : 0}
+                      {commentCount ? commentCount : lit.comment_count}
                     </span>
+
                     <MessageCircle
                       className={`${styles.icon}`}
                       style={{ width: '18px', height: 'auto' }}

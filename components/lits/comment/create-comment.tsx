@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { User } from '@supabase/supabase-js'
 import { PostLitButton } from '@/components/home/post-lit-button'
+import { useQueryClient } from '@tanstack/react-query'
 
 const CommentFormSchema = z.object({
   content: z
@@ -31,6 +32,7 @@ export type CommentData = {
 
 export function CreateComment({ user, litId }: { user: User; litId: string }) {
   const supabase = createSupabaseBrowser()
+  const queryClient = useQueryClient()
 
   const form = useForm<z.infer<typeof CommentFormSchema>>({
     resolver: zodResolver(CommentFormSchema),
@@ -57,6 +59,8 @@ export function CreateComment({ user, litId }: { user: User; litId: string }) {
       console.error(error)
       return
     }
+
+    queryClient.invalidateQueries({ queryKey: [`commentCount-${litId}`, litId] })
 
     form.reset()
   }
