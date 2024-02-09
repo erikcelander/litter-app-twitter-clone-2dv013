@@ -13,8 +13,6 @@ export const getFollowCounts = async (username: string) => {
 
   const profileUserID = userProfile.id
 
-  console.log('profileUserID: ', profileUserID)
-
   const { data: followersData, error: followersError } = await supabase
     .from('follows')
     .select('*', { count: 'exact' })
