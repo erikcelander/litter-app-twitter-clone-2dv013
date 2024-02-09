@@ -7,34 +7,36 @@ import { LitComponent } from '../lits/lit-component'
 import { Lit } from '@/lib/types'
 import { LoadingSpinner } from '../ui/spinner'
 
-
-export default function HomeFeed({ currentUserID, session }: { currentUserID: string, session: any }) {
+export default function HomeFeed({
+  currentUserID,
+  session,
+}: {
+  currentUserID: string
+  session: any
+}) {
   const supabase = createSupabaseBrowser()
 
   const queryClient = useQueryClient()
   const pageSize = 10
 
+  queryClient.invalidateQueries({ queryKey: ['likesData'] })
+
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits/home/?page=${pageParam}&size=${pageSize}`)
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_LITTER_URL}/api/lits/home/?page=${pageParam}&size=${pageSize}`
+    )
     return res.json()
   }
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
-    queryKey: [`lits`],
-    queryFn: fetchLits,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.nextCursor !== null ? (lastPage.nextCursor / pageSize) : undefined
-    },
-    initialPageParam: 0
-  })
+  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: [`lits`],
+      queryFn: fetchLits,
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.nextCursor !== null ? lastPage.nextCursor / pageSize : undefined
+      },
+      initialPageParam: 0,
+    })
 
   const loadMoreRef = useRef(null)
 
@@ -55,73 +57,76 @@ export default function HomeFeed({ currentUserID, session }: { currentUserID: st
     return () => observer.disconnect()
   }, [hasNextPage, fetchNextPage, isFetchingNextPage])
 
-
   useEffect(() => {
-    const channel = supabase.channel("realtime-lits")
-      .on("postgres_changes", {
-        event: "INSERT",
-        schema: "public",
-        table: "lits",
-      }, (payload) => {
+    const channel = supabase
+      .channel('realtime-lits')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'lits',
+        },
+        (payload) => {
+          if (payload.new) {
+            const lit = {
+              id: payload.new.id,
+              user_id: payload.new.user_id,
+              username: payload.new.username,
+              full_name: payload.new.full_name,
+              avatar_url: payload.new.avatar_url,
+              content: payload.new.content,
+              created_at: payload.new.created_at,
+            } as Lit
 
-        if (payload.new) {
-          const lit = {
-            id: payload.new.id,
-            user_id: payload.new.user_id,
-            username: payload.new.username,
-            full_name: payload.new.full_name,
-            avatar_url: payload.new.avatar_url,
-            content: payload.new.content,
-            created_at: payload.new.created_at,
-          } as Lit
+            queryClient.setQueryData<InfiniteData<Array<Lit>>>([`lits`], (prevLits: any) => {
+              const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
+              updatedFirstPageData.pop()
 
-          queryClient.setQueryData<InfiniteData<Array<Lit>>>([`lits`], (prevLits: any) => {
+              const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
+                pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+              )
 
-            const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
-            updatedFirstPageData.pop()
+              return {
+                ...prevLits,
+                pages: updatedPages,
+              }
+            })
 
+            if (lit.user_id !== currentUserID) {
+              supabase
+                .from('follows')
+                .select('follower_id')
+                .eq('follower_id', currentUserID)
+                .eq('followed_id', lit.user_id)
+                .single()
+                .then(({ data }): void => {
+                  if (data?.follower_id.length === 36) {
+                    queryClient.setQueryData<InfiniteData<Array<Lit>>>(
+                      [`litsByFollowing-${currentUserID}`, currentUserID],
+                      (prevLits: any) => {
+                        if (!prevLits) return prevLits
 
-            const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
-              pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
-            )
+                        const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
+                        updatedFirstPageData.pop()
 
-            return {
-              ...prevLits,
-              pages: updatedPages,
-            }
-          })
+                        const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
+                          pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+                        )
 
-          if (lit.user_id !== currentUserID) {
-            supabase
-              .from('follows')
-              .select('follower_id')
-              .eq('follower_id', currentUserID)
-              .eq('followed_id', lit.user_id)
-              .single()
-              .then(({ data }): void => {
-                if (data?.follower_id.length === 36) {
-                  queryClient.setQueryData<InfiniteData<Array<Lit>>>([`litsByFollowing-${currentUserID}`, currentUserID], (prevLits: any) => {
-                    if (!prevLits) return prevLits
-
-                    const updatedFirstPageData = [lit, ...prevLits.pages[0].data]
-                    updatedFirstPageData.pop()
-
-                    const updatedPages = prevLits.pages.map((page: any, pageIndex: any) =>
-                      pageIndex === 0 ? { ...page, data: updatedFirstPageData } : page
+                        return {
+                          ...prevLits,
+                          pages: updatedPages,
+                        }
+                      }
                     )
-
-                    return {
-                      ...prevLits,
-                      pages: updatedPages,
-                    }
-                  })
-                }
-              })
+                  }
+                })
+            }
           }
-
-
         }
-      }).subscribe()
+      )
+      .subscribe()
 
     return () => {
       channel.unsubscribe()
@@ -129,7 +134,9 @@ export default function HomeFeed({ currentUserID, session }: { currentUserID: st
   }, [supabase, queryClient])
 
   return status === 'pending' ? (
-    <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}><LoadingSpinner className={''} /></div>
+    <div className='flex justify-center items-center mt-5' style={{ width: '100%' }}>
+      <LoadingSpinner className={''} />
+    </div>
   ) : status === 'error' ? (
     <p>Error: {error.message}</p>
   ) : (
@@ -143,8 +150,7 @@ export default function HomeFeed({ currentUserID, session }: { currentUserID: st
           </React.Fragment>
         ))}
 
-        <div ref={loadMoreRef} style={{ height: "20px" }}></div>
-
+        <div ref={loadMoreRef} style={{ height: '20px' }}></div>
       </div>
       {isFetching && !isFetchingNextPage && (
         <div className='flex justify-center items-center mt-5'>
