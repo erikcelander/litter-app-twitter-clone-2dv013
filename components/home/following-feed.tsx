@@ -7,6 +7,7 @@ import { LitComponent } from '../lits/lit-component'
 import { Lit } from '@/lib/types'
 import { LoadingSpinner } from '../ui/spinner'
 import { InfiniteData } from '@tanstack/react-query'
+import { SkeletonFeed } from '../skeleton/skeleton-feed'
 
 export default function FollowingFeed({
   currentUserID,
@@ -136,8 +137,8 @@ export default function FollowingFeed({
   }, [supabase, queryClient, id])
 
   return status === 'pending' ? (
-    <div className='flex justify-center items-center mt-5 w-full'>
-      <LoadingSpinner className={''} />
+    <div className='flex justify-center items-center w-full'>
+      <SkeletonFeed />
     </div>
   ) : status === 'error' ? (
     <p>Error: {error.message}</p>
@@ -152,7 +153,7 @@ export default function FollowingFeed({
           </React.Fragment>
         ))}
 
-        <div ref={loadMoreRef} style={{ height: '20px' }}></div>
+        <div ref={loadMoreRef} style={{ height: '1px' }}></div>
       </div>
       {isFetching && !isFetchingNextPage && (
         <div className='flex justify-center items-center mt-5'>

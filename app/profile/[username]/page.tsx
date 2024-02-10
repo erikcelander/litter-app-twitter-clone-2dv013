@@ -6,6 +6,7 @@ import { getProfileByUsername } from '@/lib/queries/get-profile'
 import { User } from '@supabase/supabase-js'
 import { checkIfUserFollows } from '@/lib/queries/check-follow'
 import { getFollowCounts } from '@/lib/queries/get-follow-counts'
+import { Suspense } from 'react'
 
 export default async function Page({ params }: { params: { username: string } }) {
   const queryClient = new QueryClient()

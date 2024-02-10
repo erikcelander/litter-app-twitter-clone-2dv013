@@ -104,7 +104,7 @@ export default function CommentFeed({ litId, session }: { litId: string; session
   }, [supabase, queryClient, litId])
 
   return status === 'pending' ? (
-    <div className='flex justify-center items-center mt-5'>
+    <div className='flex justify-center items-center mt-16'>
       <LoadingSpinner className='' />
     </div>
   ) : status === 'error' ? (

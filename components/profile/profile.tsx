@@ -5,6 +5,9 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import ProfileFeed from './profile-feed'
 import { ProfileHeader, UserProfile } from './profile-header'
+import { Suspense } from 'react'
+import { ProfileHeaderSkeleton } from '../skeleton/profile-header-skeleton'
+import { SkeletonFeed } from '../skeleton/skeleton-feed'
 
 const Profile = ({
   profileUsername,
@@ -20,8 +23,12 @@ const Profile = ({
 
   return (
     <div>
-      <ProfileHeader profile={profile as UserProfile} currentUserID={currentUserID} />
-      <ProfileFeed session={session} username={profileUsername} />
+      <Suspense fallback={<ProfileHeaderSkeleton />}>
+        <ProfileHeader profile={profile as UserProfile} currentUserID={currentUserID} />
+      </Suspense>
+      <Suspense fallback={<SkeletonFeed />}>
+        <ProfileFeed session={session} username={profileUsername} />
+      </Suspense>
     </div>
   )
 }

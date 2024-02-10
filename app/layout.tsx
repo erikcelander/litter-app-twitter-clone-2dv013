@@ -3,6 +3,8 @@ import './globals.css'
 import { Nav } from '@/components/nav/nav'
 import { ReactQueryClientProvider } from '@/components/query-provider'
 import { Toaster } from '@/components/ui/toaster'
+import { Suspense } from 'react'
+import { SkeletonFeed } from '@/components/skeleton/skeleton-feed'
 
 const url = process.env.NEXT_PUBLIC_LITTER_URL || 'somethingwentwrong'
 
@@ -20,7 +22,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className='bg-foreground text-background  relative'>
         <ReactQueryClientProvider>
           <Nav />
-
           <div className='flex flex-col flex-grow justify-center items-center '>
             <div className='w-full sm:w-[37rem] min-h-custom bg-[#1a1a1a]'>
               <main className='flex flex-col items-center justify-center ml-auto mr-auto'>

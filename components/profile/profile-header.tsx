@@ -46,7 +46,7 @@ export function ProfileHeader({
   const fullName = `${profile.first_name} ${profile.last_name}`
 
   return (
-    <div className='p-4 rounded-lg mx-auto flex h-[13rem] w-[37rem] flex-row items-center justify-center'>
+    <div className='p-4 pb-0 rounded-lg mx-auto flex h-[13rem] w-[37rem] flex-row items-center justify-center'>
       <div className='flex flex-col h-[13rem] flex-grow items-center justify-center w-full'>
         <div className='h-[5rem] w-[5rem]'>
           <Avatar className='h-[5rem] w-[5rem]'>

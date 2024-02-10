@@ -6,6 +6,7 @@ import { useInfiniteQuery, useQueryClient, InfiniteData } from '@tanstack/react-
 import { LitComponent } from '../lits/lit-component'
 import { Lit } from '@/lib/types'
 import { LoadingSpinner } from '../ui/spinner'
+import { SkeletonFeed } from '../skeleton/skeleton-feed'
 
 export default function HomeFeed({
   currentUserID,
@@ -132,13 +133,14 @@ export default function HomeFeed({
     }
   }, [supabase, queryClient])
 
-  return status === 'pending' ? (
-    <div className='flex justify-center items-center mt-5 w-full'>
-      <LoadingSpinner className={''} />
-    </div>
-  ) : status === 'error' ? (
-    <p>Error: {error.message}</p>
-  ) : (
+  // status === 'pending' ? (
+  //   <div className='flex justify-center items-center mt-5 w-full'>
+  //     <SkeletonFeed />
+  //   </div>
+  // ) : status === 'error' ? (
+  //   <p>Error: {error.message}</p>
+  // ) :
+  return (
     <div className='w-full'>
       <div className='flex flex-col items-center w-full'>
         {data?.pages?.map((group, i) => (
@@ -149,11 +151,14 @@ export default function HomeFeed({
           </React.Fragment>
         ))}
 
-        <div ref={loadMoreRef} style={{ height: '20px' }}></div>
+        <div ref={loadMoreRef} style={{ height: '1px' }}></div>
       </div>
       {isFetching && !isFetchingNextPage && (
-        <div className='flex justify-center items-center mt-5'>
-          <LoadingSpinner className='' />
+        // <div className='flex justify-center items-center mt-5'>
+        //   <LoadingSpinner className='' />
+        // </div>
+        <div className='flex justify-center items-center  w-full'>
+          <SkeletonFeed />
         </div>
       )}
     </div>

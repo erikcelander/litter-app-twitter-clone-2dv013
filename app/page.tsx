@@ -4,6 +4,9 @@ import HomeFeed from '@/components/home/home-feed'
 import FollowingFeed from '@/components/home/following-feed'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { User } from '@supabase/supabase-js'
+import { Suspense } from 'react'
+import { SkeletonFeed } from '@/components/skeleton/skeleton-feed'
+import { CreateLitSkeleton } from '@/components/skeleton/create-lit-skeleton'
 
 export default async function Index() {
   const supabase = createSupabaseServer()
@@ -30,20 +33,28 @@ export default async function Index() {
               </TabsTrigger>
             </TabsList>
 
-            <div className='flex flex-col justify-center items-center bg-[#1a1a1a]'>
-              <div className='w-[25rem]'>{user && <CreateLit user={user} />}</div>
-            </div>
+            <Suspense fallback={<CreateLitSkeleton />}>
+              <div className='flex flex-col justify-center items-center bg-[#1a1a1a]'>
+                <div className='w-[25rem]'>{user && <CreateLit user={user} />}</div>
+              </div>
+            </Suspense>
 
             <TabsContent value='following'>
-              <FollowingFeed currentUserID={user.id} session={session} />
+              <Suspense fallback={<SkeletonFeed />}>
+                <FollowingFeed currentUserID={user.id} session={session} />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value='all'>
-              <HomeFeed currentUserID={user.id} session={session} />
+              <Suspense fallback={<SkeletonFeed />}>
+                <HomeFeed currentUserID={user.id} session={session} />
+              </Suspense>
             </TabsContent>
           </Tabs>
         ) : (
-          <HomeFeed currentUserID='' session={session} />
+          <Suspense fallback={<SkeletonFeed />}>
+            <HomeFeed currentUserID={''} session={session} />
+          </Suspense>
         )}
       </div>
     </div>
