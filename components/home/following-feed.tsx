@@ -5,7 +5,6 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
 import { LitComponent } from '../lits/lit-component'
 import { Lit } from '@/lib/types'
-import { LoadingSpinner } from '../ui/spinner'
 import { InfiniteData } from '@tanstack/react-query'
 import { SkeletonFeed } from '../skeleton/skeleton-feed'
 
@@ -136,13 +135,7 @@ export default function FollowingFeed({
     }
   }, [supabase, queryClient, id])
 
-  return status === 'pending' ? (
-    <div className='flex justify-center items-center w-full'>
-      <SkeletonFeed />
-    </div>
-  ) : status === 'error' ? (
-    <p>Error: {error.message}</p>
-  ) : (
+  return (
     <div className='w-full'>
       <div className='flex flex-col w-full items-center'>
         {data?.pages?.map((group, i) => (
@@ -156,8 +149,8 @@ export default function FollowingFeed({
         <div ref={loadMoreRef} style={{ height: '1px' }}></div>
       </div>
       {isFetching && !isFetchingNextPage && (
-        <div className='flex justify-center items-center mt-5'>
-          <LoadingSpinner className='' />
+        <div className='flex justify-center items-center  w-full'>
+          <SkeletonFeed />
         </div>
       )}
     </div>

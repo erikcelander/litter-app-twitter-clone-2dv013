@@ -100,14 +100,6 @@ export default function ProfileFeed({ username, session }: { username: string; s
     }
   }, [supabase, queryClient])
 
-  // status === 'pending' ? (
-  //   <div className='flex justify-center items-center w-full mt-5'>
-  //     <LoadingSpinner className={''} />
-  //   </div>
-  // ) : status === 'error' ? (
-  //   <p>Error: {error.message}</p>
-  // ) :
-
   return (
     <div className='w-full'>
       <div className='flex flex-col w-full items-center'>
