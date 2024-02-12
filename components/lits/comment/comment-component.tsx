@@ -15,7 +15,7 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
     <div
       className={`p-2 pt-4 pb-4 text-white max-w-xl mx-auto ${styles.comment} border-t border-t-background/10`}
     >
-      <div className='flex flex-row min-w-xl w-[30rem]'>
+      <div className='flex flex-row min-w-xl w-full'>
         <Link className='hover:cursor-pointer flex' href={`/profile/${comment?.username}`}>
           <Avatar className='h-8 w-8 mt-auto mb-auto '>
             <AvatarImage alt={`@${comment?.username}`} src={comment?.avatar_url!} />
@@ -31,10 +31,10 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
               className='hover:cursor-pointer flex flex-row'
               href={`/profile/${comment?.username}`}
             >
-              <div className='hover:underline text-primary/100 text-lg'>
+              <div className='hover:underline text-primary/100 text-base'>
                 {comment?.full_name || 'Unknown User'}
               </div>
-              <div className='hover:underline text-primary/40 text-base mt-0.5 ml-2'>
+              <div className='hover:underline text-primary/40 text-sm mt-0.5 ml-2'>
                 @{comment?.username || 'unknown'}
               </div>
             </Link>
@@ -42,7 +42,7 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <span className='mr-5 text-xs text-gray-500'>
+                  <span className=' text-xs text-gray-500'>
                     {comment.created_at ? timeAgo(comment.created_at) : 'Unknown time'}
                   </span>
                 </TooltipTrigger>
@@ -54,9 +54,8 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
           </div>
 
           <div className='flex ml-5 justify-between text-sm pl-0 flex-1'>
-            <Link className='hover:cursor-pointer flex-grow' href={`/comment/${comment?.id}`}>
-              <p className='flex-grow'>{comment?.content || 'No content available.'}</p>
-            </Link>
+            <p className='flex-grow'>{comment?.content || 'No content available.'}</p>
+
             {session?.user?.id && <LikeComponent id={comment.id} userId={session?.user?.id} />}
           </div>
         </div>

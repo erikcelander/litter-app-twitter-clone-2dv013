@@ -76,6 +76,7 @@ export function CreateLit({ user }: { user: User }) {
               <FormLabel>What's happening?</FormLabel>
               <FormControl>
                 <Textarea
+                  data-cy='lit-textarea'
                   placeholder='Share your thoughts'
                   className='resize-none p-2 text-black'
                   {...form.register('content')}

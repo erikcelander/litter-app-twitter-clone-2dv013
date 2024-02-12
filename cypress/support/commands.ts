@@ -46,13 +46,11 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('loginStaging', () => {
-  cy.visit(Cypress.env('staging_url') + Cypress.env('login_path'))
-  cy.get('.animate-in > .inline-flex').click()
-  cy.wait(3000)
+  cy.visit(Cypress.env('prod_url') + Cypress.env('login_path'))
+  cy.wait(1500)
 })
 
 Cypress.Commands.add('login', () => {
   cy.visit(Cypress.env('dev_url') + Cypress.env('login_path'))
-  cy.get('.animate-in > .inline-flex').click()
-  cy.wait(3000)
+  cy.wait(1500)
 })

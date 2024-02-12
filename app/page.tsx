@@ -25,10 +25,10 @@ export default async function Index() {
         {user?.id ? (
           <Tabs className='pt-4 w-full' defaultValue='all'>
             <TabsList className='mx-auto flex justify-center w-3/4'>
-              <TabsTrigger className='w-full' value='following'>
+              <TabsTrigger data-cy='following-feed' className='w-full' value='following'>
                 Following
               </TabsTrigger>
-              <TabsTrigger className='w-full' value='all'>
+              <TabsTrigger data-cy='home-feed' className='w-full' value='all'>
                 All Lits
               </TabsTrigger>
             </TabsList>
