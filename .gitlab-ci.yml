@@ -55,8 +55,8 @@ e2e_test:
   script:
     - npm install
     - npm run cypress:run
-  # only:
-  #   - staging
+  only:
+    - staging
 
 deploy:
   stage: deploy
