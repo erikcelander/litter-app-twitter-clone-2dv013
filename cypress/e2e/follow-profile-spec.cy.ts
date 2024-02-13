@@ -4,7 +4,7 @@ describe('follow spec', () => {
 
     cy.wait(2500)
 
-    cy.visit(Cypress.env('dev_url') + '/profile/ek223ur')
+    cy.visit(Cypress.env('prod_url') + '/profile/ek223ur')
 
     cy.wait(2500)
 

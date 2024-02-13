@@ -2,8 +2,8 @@ stages:
   - build
   - build_staging
   - staging
-  # - e2e_test
   - deploy
+  - e2e_test
 
 build:
   stage: build
@@ -48,22 +48,22 @@ staging:
   only:
     - staging
 
-# e2e_test:
-#   when: manual
-#   stage: e2e_test
-#   image: cypress/browsers:latest
-#   script:
-#     - npm install
-#     - npm run cypress:run
-#   only:
-#     - staging
+e2e_test:
+  when: manual
+  stage: e2e_test
+  image: cypress/browsers:latest
+  script:
+    - npm install
+    - npm run cypress:run
+  # only:
+  #   - staging
 
 deploy:
   stage: deploy
   image: gcr.io/k8s-skaffold/skaffold:v2.8.0
-  # environment:
-  #   name: staging
-  #   url: $LITTER_ST_URL
+  environment:
+    name: prod
+    url: $LITTER__URL
   script:
     - kubectl config use-context $K8S_CONTEXT
     - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
