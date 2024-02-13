@@ -51,6 +51,6 @@ Cypress.Commands.add('loginStaging', () => {
 })
 
 Cypress.Commands.add('login', () => {
-  cy.visit(Cypress.env('prod_url') + Cypress.env('login_path'))
+  cy.visit(Cypress.env('staging_url') + Cypress.env('login_path'))
   cy.wait(1500)
 })

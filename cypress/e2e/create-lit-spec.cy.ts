@@ -1,10 +1,10 @@
-describe('template spec', () => {
+describe('create lit spec', () => {
   it('passes', () => {
     cy.login()
 
     cy.wait(1500)
 
-    cy.get('[data-cy=lit-textarea]').type('This is a test lit XXX')
+    cy.get('[data-cy=lit-textarea]').type('This is a test lit')
 
     cy.get('.justify-end > .inline-flex').click({ force: true })
 

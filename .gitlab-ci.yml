@@ -2,8 +2,8 @@ stages:
   - build
   - build_staging
   - staging
-  - deploy
   - e2e_test
+  - deploy
 
 build:
   stage: build
