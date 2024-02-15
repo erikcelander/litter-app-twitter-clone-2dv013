@@ -6,7 +6,7 @@ describe('create lit spec', () => {
 
     cy.get('[data-cy=lit-textarea]').type('Created by the test suite')
 
-    cy.get('.justify-end > .inline-flex').click({ force: true })
+    cy.get('div.mt-1 > .inline-flex').click({ force: true })
 
     cy.wait(1500)
 
