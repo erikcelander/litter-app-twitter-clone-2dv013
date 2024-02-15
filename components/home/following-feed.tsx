@@ -17,7 +17,7 @@ export default function FollowingFeed({
 }) {
   const supabase = createReadReplicaSupabaseBrowser()
   const queryClient = useQueryClient()
-  const pageSize = 15
+  const pageSize = 10
   const id = currentUserID
 
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {

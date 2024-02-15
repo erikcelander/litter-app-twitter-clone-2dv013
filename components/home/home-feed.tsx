@@ -17,7 +17,7 @@ export default function HomeFeed({
   const supabase = createReadReplicaSupabaseBrowser()
 
   const queryClient = useQueryClient()
-  const pageSize = 15
+  const pageSize = 10
 
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
     const res = await fetch(

@@ -11,7 +11,7 @@ import { InfiniteData } from '@tanstack/react-query'
 export default function CommentFeed({ litId, session }: { litId: string; session: any }) {
   const supabase = createReadReplicaSupabaseBrowser()
   const queryClient = useQueryClient()
-  const pageSize = 15
+  const pageSize = 10
   const id = litId
 
   const fetchComments = async ({ pageParam = 0 }: { pageParam?: number; litId: string }) => {
