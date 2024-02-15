@@ -55,6 +55,7 @@ export default function HomeFeed({
     return () => observer.disconnect()
   }, [hasNextPage, fetchNextPage, isFetchingNextPage])
 
+
   useEffect(() => {
     const channel = supabase
       .channel('realtime-lits')
@@ -145,7 +146,7 @@ export default function HomeFeed({
 
         <div ref={loadMoreRef} style={{ height: '1px' }}></div>
       </div>
-      {isFetching && !isFetchingNextPage && (
+      {isFetching && !isFetchingNextPage && data?.pages === undefined && (
         <div className='flex justify-center items-center  w-full'>
           <SkeletonFeed />
         </div>

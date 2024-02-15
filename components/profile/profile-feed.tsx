@@ -112,7 +112,7 @@ export default function ProfileFeed({ username, session }: { username: string; s
 
         <div ref={loadMoreRef} style={{ height: '1px' }}></div>
       </div>
-      {isFetching && !isFetchingNextPage && (
+      {isFetching && !isFetchingNextPage && data?.pages === undefined && (
         <div className='flex justify-center items-center  w-full'>
           <SkeletonFeed />
         </div>

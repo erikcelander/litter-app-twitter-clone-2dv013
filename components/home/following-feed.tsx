@@ -17,7 +17,7 @@ export default function FollowingFeed({
 }) {
   const supabase = createReadReplicaSupabaseBrowser()
   const queryClient = useQueryClient()
-  const pageSize = 10
+  const pageSize = 15
   const id = currentUserID
 
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
@@ -55,6 +55,8 @@ export default function FollowingFeed({
     }
     return () => observer.disconnect()
   }, [hasNextPage, fetchNextPage, isFetchingNextPage])
+
+  console.log(data?.pages)
 
   useEffect(() => {
     const channel = supabase
@@ -148,7 +150,7 @@ export default function FollowingFeed({
 
         <div ref={loadMoreRef} style={{ height: '1px' }}></div>
       </div>
-      {isFetching && !isFetchingNextPage && (
+      {isFetching && !isFetchingNextPage && data?.pages === undefined && (
         <div className='flex justify-center items-center  w-full'>
           <SkeletonFeed />
         </div>
