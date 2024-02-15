@@ -10,7 +10,7 @@ import { SkeletonFeed } from '../skeleton/skeleton-feed'
 export default function ProfileFeed({ username, session }: { username: string; session: any }) {
   const supabase = createReadReplicaSupabaseBrowser()
   const queryClient = useQueryClient()
-  const pageSize = 10
+  const pageSize = 15
   const profile = username
 
   const fetchLits = async ({ pageParam }: { pageParam: any }) => {
