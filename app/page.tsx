@@ -33,13 +33,11 @@ export default async function Index() {
               </TabsTrigger>
             </TabsList>
 
-            {user &&
-              <Suspense fallback={<CreateLitSkeleton />}>
-                <div className='flex flex-col justify-center items-center bg-[#1a1a1a]'>
-                  <div className='w-[25rem]'>{user && <CreateLit user={user} />}</div>
-                </div>
-              </Suspense>
-            }
+
+            <div className='flex flex-col justify-center items-center bg-[#1a1a1a]'>
+              <div className='w-[25rem]'>{user && <CreateLit user={user} />}</div>
+            </div>
+
 
             <TabsContent value='following'>
               <Suspense fallback={<SkeletonFeed />}>
