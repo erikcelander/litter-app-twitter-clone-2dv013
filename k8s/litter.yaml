@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: litter
-        image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application:production-0.5.0
+        image: gitlab.lnu.se:5050/2dv013/student/team-2023-01-burmese/litter-application:production-0.5.8
         env:
         - name: PORT
           value: "3000"

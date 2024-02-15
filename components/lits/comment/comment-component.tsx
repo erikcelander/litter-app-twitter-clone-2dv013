@@ -57,6 +57,7 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
             <p className='flex-grow'>{comment?.content || 'No content available.'}</p>
 
             {session?.user?.id ? <LikeComponent session={session} id={comment.id} /> : <> <LikeComponent session={false} id={comment.id} /></>}
+
           </div>
         </div>
       </div>
