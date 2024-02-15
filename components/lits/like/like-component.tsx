@@ -11,7 +11,9 @@ type LikeData = {
   isLiked: boolean
 }
 
-export const LikeComponent = ({ userId, id }: { userId: string | undefined; id: string }) => {
+export const LikeComponent = ({ session, id }: { session: any; id: string }) => {
+  let userId = session?.user?.id
+
   const queryClient = useQueryClient()
 
   const { data: likeData, isLoading } = useQuery<LikeData>({
@@ -34,6 +36,21 @@ export const LikeComponent = ({ userId, id }: { userId: string | undefined; id: 
       }
     },
   })
+
+  if (!session) {
+    return (
+      <div className='flex flex-row'>
+        <span className={`text-xs pt-1 mr-1 text-gray-400`} >
+          {likeData?.likeCount ?? 0}
+        </span>{' '}
+        <PawPrint
+          className={`${styles.icon} pt-0.5 mr-2 w-[18px] h-auto`}
+        />
+      </div>
+    )
+  }
+
+
   const toggleLike = useMutation({
     mutationFn: async () => {
       if (likeData?.isLiked) {

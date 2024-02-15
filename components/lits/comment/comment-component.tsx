@@ -56,7 +56,7 @@ export const CommentComponent = ({ comment, session }: { comment: Comment; sessi
           <div className='flex ml-5 justify-between text-sm pl-0 flex-1'>
             <p className='flex-grow'>{comment?.content || 'No content available.'}</p>
 
-            {session?.user?.id && <LikeComponent id={comment.id} userId={session?.user?.id} />}
+            {session?.user?.id ? <LikeComponent session={session} id={comment.id} /> : <> <LikeComponent session={false} id={comment.id} /></>}
           </div>
         </div>
       </div>

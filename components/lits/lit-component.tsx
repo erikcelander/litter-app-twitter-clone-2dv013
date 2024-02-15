@@ -88,7 +88,7 @@ export const LitComponent = ({ lit, session }: { lit: Lit; session: any }) => {
 
             <div>
               <div className='flex flex-row  mt-1 text-sm gap-2'>
-                {session?.user?.id && <LikeComponent id={lit.id} userId={session.user.id} />}
+                {session?.user?.id ? <LikeComponent session={session} id={lit.id} /> : <> <LikeComponent session={false} id={lit.id} /></>}
 
                 <Link className='hover:cursor-pointer ' href={`/lit/${lit?.id}`}>
                   <div className='flex flex-row'>
