@@ -12,7 +12,7 @@ build:
     entrypoint: ['']
   script:
     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
-    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}:production-${PROJECT_VERSION}" --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.production" --destination "${CI_REGISTRY_IMAGE}:production-${PROJECT_VERSION}" --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY --build-arg NEXT_PUBLIC_READ_REPLICA_SUPABASE_URL=$NEXT_PUBLIC_READ_REPLICA_SUPABASE_URL --build-arg NEXT_PUBLIC_READ_REPLICA_SUPABASE_ANON_KEY=$NEXT_PUBLIC_READ_REPLICA_SUPABASE_ANON_KEY
   only:
     - main
 
@@ -23,7 +23,7 @@ build_staging:
     entrypoint: ['']
   script:
     - PROJECT_VERSION=$(cat ${CI_PROJECT_DIR}/package.json | grep '"version":' | sed 's/[^0-9.]//g')
-    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}:staging-${PROJECT_VERSION}" --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+    - /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile.staging" --destination "${CI_REGISTRY_IMAGE}:staging-${PROJECT_VERSION}" --build-arg NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY --build-arg NEXT_PUBLIC_READ_REPLICA_SUPABASE_URL=$NEXT_PUBLIC_READ_REPLICA_SUPABASE_URL --build-arg NEXT_PUBLIC_READ_REPLICA_SUPABASE_ANON_KEY=$NEXT_PUBLIC_READ_REPLICA_SUPABASE_ANON_KEY
 
   only:
     - staging
