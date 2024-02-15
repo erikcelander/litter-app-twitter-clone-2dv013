@@ -49,7 +49,7 @@ staging:
     - staging
 
 e2e_test:
-  when: manual
+  # when: manual
   stage: e2e_test
   image: cypress/browsers:latest
   script:

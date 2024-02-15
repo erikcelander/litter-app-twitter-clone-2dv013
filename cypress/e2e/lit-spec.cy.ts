@@ -1,6 +1,6 @@
 describe('lit spec', () => {
   it('passes', () => {
-    cy.visit(Cypress.env('staging_url') + '/lit/27904c65-abf5-466d-974a-e371bd3a30bc')
+    cy.visit(Cypress.env('staging_url') + '/lit/' + Cypress.env('lit_id'))
 
     cy.wait(1500)
 

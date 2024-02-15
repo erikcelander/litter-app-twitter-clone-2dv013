@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { User } from '@supabase/supabase-js'
 import { Suspense } from 'react'
 import { SkeletonFeed } from '@/components/skeleton/skeleton-feed'
-import { CreateLitSkeleton } from '@/components/skeleton/create-lit-skeleton'
+// import { CreateLitSkeleton } from '@/components/skeleton/create-lit-skeleton'
 
 export default async function Index() {
   const supabase = createSupabaseServer()
@@ -33,11 +33,9 @@ export default async function Index() {
               </TabsTrigger>
             </TabsList>
 
-
             <div className='flex flex-col justify-center items-center bg-[#1a1a1a]'>
               <div className='w-[25rem]'>{user && <CreateLit user={user} />}</div>
             </div>
-
 
             <TabsContent value='following'>
               <Suspense fallback={<SkeletonFeed />}>
