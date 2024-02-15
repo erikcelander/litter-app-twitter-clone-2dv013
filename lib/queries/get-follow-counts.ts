@@ -1,6 +1,6 @@
-import { createSupabaseBrowser } from '../supabase/client'
+import { createReadReplicaSupabaseBrowser } from '../supabase/client'
 export const getFollowCounts = async (username: string) => {
-  const supabase = createSupabaseBrowser()
+  const supabase = createReadReplicaSupabaseBrowser()
 
   const { data: userProfile, error: profileError } = await supabase
     .from('profiles')

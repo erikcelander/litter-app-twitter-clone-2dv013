@@ -1,15 +1,14 @@
 'use client'
 import React, { useEffect, useRef } from 'react'
-import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { createReadReplicaSupabaseBrowser } from '@/lib/supabase/client'
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { LitComponent } from '../lits/lit-component'
 import { Lit } from '@/lib/types'
-import { LoadingSpinner } from '../ui/spinner'
 import { InfiniteData } from '@tanstack/react-query'
 import { SkeletonFeed } from '../skeleton/skeleton-feed'
 
 export default function ProfileFeed({ username, session }: { username: string; session: any }) {
-  const supabase = createSupabaseBrowser()
+  const supabase = createReadReplicaSupabaseBrowser()
   const queryClient = useQueryClient()
   const pageSize = 10
   const profile = username

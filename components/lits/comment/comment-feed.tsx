@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { createReadReplicaSupabaseBrowser } from '@/lib/supabase/client'
 import { useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
 import { CommentComponent } from './comment-component'
 import { Comment } from '@/lib/types'
@@ -9,7 +9,7 @@ import { LoadingSpinner } from '../../ui/spinner'
 import { InfiniteData } from '@tanstack/react-query'
 
 export default function CommentFeed({ litId, session }: { litId: string; session: any }) {
-  const supabase = createSupabaseBrowser()
+  const supabase = createReadReplicaSupabaseBrowser()
   const queryClient = useQueryClient()
   const pageSize = 10
   const id = litId

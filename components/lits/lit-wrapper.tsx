@@ -1,5 +1,5 @@
 'use client'
-import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { createReadReplicaSupabaseBrowser } from '@/lib/supabase/client'
 
 import { getLitById } from '@/lib/queries/get-lit'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
@@ -8,7 +8,7 @@ import { Lit } from '@/lib/types'
 import { LoadingSpinner } from '../ui/spinner'
 
 export const LitWrapper = ({ id, session }: { id: string; session: any }) => {
-  const supabase = createSupabaseBrowser()
+  const supabase = createReadReplicaSupabaseBrowser()
   const { isError, isLoading, data: lit } = useQuery(getLitById(supabase, id))
 
   if (isLoading)

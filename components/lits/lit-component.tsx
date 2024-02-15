@@ -7,8 +7,7 @@ import styles from './lit-component.module.css'
 import { formatDistanceToNow, format, intlFormatDistance } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
 import { LikeComponent } from './like/like-component'
-import { checkIfLiked } from '@/lib/queries/check-if-liked'
-import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { createReadReplicaSupabaseBrowser } from '@/lib/supabase/client'
 
 const isMobile = () => (typeof window !== 'undefined' ? window.innerWidth < 640 : false)
 
@@ -26,17 +25,7 @@ const timeAgoMobile = (date: string | number | Date) => {
 const formattedDate = (date: string | number | Date) => format(new Date(date), 'HH:mm dd/MM/yyyy')
 
 export const LitComponent = ({ lit, session }: { lit: Lit; session: any }) => {
-  let liked = false
-  const supabase = createSupabaseBrowser()
-
-  if (session !== null && session !== undefined) {
-    const { data: isLiked } = useQuery({
-      queryKey: [`likeStatus-${lit.id}-${session.user.id}`, lit.id, session.user.id],
-      queryFn: () => checkIfLiked(session.user.id, lit.id),
-      enabled: !!session.user.id && !!lit.id,
-    })
-    liked = isLiked!
-  }
+  const supabase = createReadReplicaSupabaseBrowser()
 
   const { data: commentCount } = useQuery({
     queryKey: [`commentCount-${lit.id}`, lit.id],

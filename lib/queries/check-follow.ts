@@ -1,11 +1,11 @@
-import { createSupabaseBrowser } from '../supabase/client'
+import { createReadReplicaSupabaseBrowser } from '../supabase/client'
 
 export const checkIfUserFollows = async (currentUserID: string, username: string) => {
   if (!currentUserID) return false
 
   if (currentUserID.length === 0) return false
 
-  const supabase = createSupabaseBrowser()
+  const supabase = createReadReplicaSupabaseBrowser()
 
   try {
     const { data: userProfile, error: profileError } = await supabase

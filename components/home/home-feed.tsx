@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { createReadReplicaSupabaseBrowser } from '@/lib/supabase/client'
 import { useInfiniteQuery, useQueryClient, InfiniteData } from '@tanstack/react-query'
 import { LitComponent } from '../lits/lit-component'
 import { Lit } from '@/lib/types'
@@ -14,7 +14,7 @@ export default function HomeFeed({
   currentUserID: string
   session: any
 }) {
-  const supabase = createSupabaseBrowser()
+  const supabase = createReadReplicaSupabaseBrowser()
 
   const queryClient = useQueryClient()
   const pageSize = 10
