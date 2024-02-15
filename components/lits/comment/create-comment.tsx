@@ -14,10 +14,10 @@ const CommentFormSchema = z.object({
   content: z
     .string()
     .min(1, {
-      message: 'Reply cannot be empty.',
+      message: 'Comment cannot be empty.',
     })
     .max(42, {
-      message: 'Reply must not be longer than 42 characters.',
+      message: 'Comment must not be longer than 42 characters.',
     }),
 })
 
@@ -44,6 +44,10 @@ export function CreateComment({ user, litId }: { user: User; litId: string }) {
   const avatarUrl = user.user_metadata?.avatar_url
 
   const postComment = async (formData: z.infer<typeof CommentFormSchema>) => {
+    if (formData.content.length > 42) {
+      throw new Error('Lit content exceeds 42 characters')
+    }
+
     const { error } = await supabase.from('comments').insert([
       {
         user_id: user.id,
@@ -82,7 +86,7 @@ export function CreateComment({ user, litId }: { user: User; litId: string }) {
 
               <FormControl>
                 <Textarea
-                  placeholder={`What's on your mind, ${fullName?.split(' ')[0]}?`}
+                  placeholder={`Share your thoughts on this lit!`}
                   className='resize-none w-80 h-14  text-black'
                   {...form.register('content')}
                   onKeyDown={(e) => {
@@ -93,7 +97,12 @@ export function CreateComment({ user, litId }: { user: User; litId: string }) {
                   }}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage>
+                {form.formState.errors.content ? (
+                  <p className="text-red-500 text-xs mt-1 ">{form.formState.errors.content.message}</p>
+                ) : <span></span>}
+              </FormMessage>
+
             </FormItem>
             <div className='flex justify-center items-center ml-4 mt-16'>
               <PostLitButton />

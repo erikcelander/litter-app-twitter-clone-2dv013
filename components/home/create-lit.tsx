@@ -75,26 +75,43 @@ export function CreateLit({ user }: { user: User }) {
             <FormItem>
               <FormLabel>What's happening?</FormLabel>
               <FormControl>
-                <Textarea
-                  data-cy='lit-textarea'
-                  placeholder='Share your thoughts'
-                  className='resize-none p-2 text-black'
-                  {...form.register('content')}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault()
-                      form.handleSubmit(postLit)()
-                    }
-                  }}
-                />
+                <>
+                  <Textarea
+                    data-cy='lit-textarea'
+                    placeholder={`What's on your mind, ${fullName?.split(' ')[0]}?`}
+                    className='resize-none p-2 text-black'
+                    {...form.register('content')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault()
+                        form.handleSubmit(postLit)()
+                      }
+                    }}
+                  />
+
+                </>
+
+
               </FormControl>
               <FormMessage />
+              <div className='flex flex-row justify-between  w-full'>
+                <FormMessage>
+                  {form.formState.errors.content ? (
+                    <p className="text-red-500 text-xs mt-1 ">{form.formState.errors.content.message}</p>
+                  ) : <span></span>}
+                </FormMessage>
+
+
+
+                <div className='mt-1  '>
+                  <PostLitButton />
+                </div>
+              </div>
+
             </FormItem>
           </div>
         </div>
-        <div className='flex justify-end mt-2 mb-2 '>
-          <PostLitButton />
-        </div>
+
       </form>
     </Form>
   )
